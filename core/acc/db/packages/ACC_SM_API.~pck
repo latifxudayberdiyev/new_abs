@@ -1,0 +1,128 @@
+--------------------------------------------------------------------------------
+-- ACC_SM_API - Core_Api.Execute_Process_Clob / Get_Model_Clob (Sm_Kernel)
+-- tomonidan chaqiriladigan tashqi kirish nuqtasi. Hech qanday logika yo'q -
+-- faqat ACC_KERNEL'dagi mos protsedurani chaqiradi (Pf_Sm_Api / Pf_Kernel
+-- naqshiga mos).
+--------------------------------------------------------------------------------
+create or replace package Acc_Sm_Api is
+
+  Procedure Model_Account_Type
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  );
+
+  Procedure Save_Account_Type
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  );
+
+  Procedure Delete_Account_Type
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  );
+
+  Procedure Model_Account_Type_Client
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  );
+
+  Procedure Save_Account_Type_Client
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  );
+
+  Procedure Delete_Account_Type_Client
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  );
+
+end Acc_Sm_Api;
+/
+create or replace package body Acc_Sm_Api is
+
+  Procedure Model_Account_Type
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  ) is
+  begin
+    Acc_Kernel.Model_Account_Type(Io_Hash, o_Code, o_Msg, o_Ora_Msg);
+  end Model_Account_Type;
+
+  Procedure Save_Account_Type
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  ) is
+  begin
+    Acc_Kernel.Save_Account_Type(Io_Hash, o_Code, o_Msg, o_Ora_Msg);
+  end Save_Account_Type;
+
+  Procedure Delete_Account_Type
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  ) is
+  begin
+    Acc_Kernel.Delete_Account_Type(Io_Hash, o_Code, o_Msg, o_Ora_Msg);
+  end Delete_Account_Type;
+
+  Procedure Model_Account_Type_Client
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  ) is
+  begin
+    Acc_Kernel.Model_Account_Type_Client(Io_Hash, o_Code, o_Msg, o_Ora_Msg);
+  end Model_Account_Type_Client;
+
+  Procedure Save_Account_Type_Client
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  ) is
+  begin
+    Acc_Kernel.Save_Account_Type_Client(Io_Hash, o_Code, o_Msg, o_Ora_Msg);
+  end Save_Account_Type_Client;
+
+  Procedure Delete_Account_Type_Client
+  (
+    Io_Hash   in out nocopy Core.Hash_t,
+    o_Code    out number,
+    o_Msg     out varchar2,
+    o_Ora_Msg out varchar2
+  ) is
+  begin
+    Acc_Kernel.Delete_Account_Type_Client(Io_Hash, o_Code, o_Msg, o_Ora_Msg);
+  end Delete_Account_Type_Client;
+
+end Acc_Sm_Api;
+/

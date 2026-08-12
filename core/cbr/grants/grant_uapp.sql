@@ -1,0 +1,52 @@
+----------------------------------------------------------------------------------------------------
+--  Veb-ilova (UAPP) foydalanuvchisi r_*_v view'larni ko'ra olishi uchun grant + sinonim.
+----------------------------------------------------------------------------------------------------
+grant select on r_region_v to UAPP;
+grant select on r_currency_v to UAPP;
+grant select on r_district_v to UAPP;
+grant select on r_country_v to UAPP;
+grant select on r_credit_source_v to UAPP;
+grant select on r_foreign_organization_v to UAPP;
+grant select on r_bank_corr_v to UAPP;
+grant select on r_budget_accounts_v to UAPP;
+grant select on r_business_form_v to UAPP;
+grant select on r_oked_v to UAPP;
+grant select on r_subject_type_v to UAPP;
+grant select on r_subject_sexual_identity_v to UAPP;
+grant select on r_verifying_document_type_v to UAPP;
+grant select on r_bank_v to UAPP;
+grant select on r_bank_type_v to UAPP;
+grant select on r_document_v to UAPP;
+grant select on r_rez_cl_v to UAPP;
+grant select on r_tax_organization_v to UAPP;
+grant select on r_form_property_v to UAPP;
+grant select on r_organization_legal_form_v to UAPP;
+grant select on r_nation_v to UAPP;
+grant select on r_obraz_v to UAPP;
+grant select on r_coato_v to UAPP;
+grant select on r_mahalla_v to UAPP;
+
+create or replace synonym UAPP.r_region_v for CORE.r_region_v;
+create or replace synonym UAPP.r_currency_v for CORE.r_currency_v;
+create or replace synonym UAPP.r_district_v for CORE.r_district_v;
+create or replace synonym UAPP.r_country_v for CORE.r_country_v;
+create or replace synonym UAPP.r_credit_source_v for CORE.r_credit_source_v;
+create or replace synonym UAPP.r_foreign_organization_v for CORE.r_foreign_organization_v;
+create or replace synonym UAPP.r_bank_corr_v for CORE.r_bank_corr_v;
+create or replace synonym UAPP.r_budget_accounts_v for CORE.r_budget_accounts_v;
+create or replace synonym UAPP.r_business_form_v for CORE.r_business_form_v;
+create or replace synonym UAPP.r_oked_v for CORE.r_oked_v;
+create or replace synonym UAPP.r_subject_type_v for CORE.r_subject_type_v;
+create or replace synonym UAPP.r_subject_sexual_identity_v for CORE.r_subject_sexual_identity_v;
+create or replace synonym UAPP.r_verifying_document_type_v for CORE.r_verifying_document_type_v;
+create or replace synonym UAPP.r_bank_v for CORE.r_bank_v;
+create or replace synonym UAPP.r_bank_type_v for CORE.r_bank_type_v;
+create or replace synonym UAPP.r_document_v for CORE.r_document_v;
+create or replace synonym UAPP.r_rez_cl_v for CORE.r_rez_cl_v;
+create or replace synonym UAPP.r_tax_organization_v for CORE.r_tax_organization_v;
+create or replace synonym UAPP.r_form_property_v for CORE.r_form_property_v;
+create or replace synonym UAPP.r_organization_legal_form_v for CORE.r_organization_legal_form_v;
+create or replace synonym UAPP.r_nation_v for CORE.r_nation_v;
+create or replace synonym UAPP.r_obraz_v for CORE.r_obraz_v;
+create or replace synonym UAPP.r_coato_v for CORE.r_coato_v;
+create or replace synonym UAPP.r_mahalla_v for CORE.r_mahalla_v;

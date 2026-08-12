@@ -1,0 +1,284 @@
+================================================================================
+                    KUNLIK TASKLAR - 2026-07-29
+================================================================================
+Jami kunlik vaqt: 8 soat (8 task x 1 soat)
+Loyihalar: MPT (Print Management Template) + iABS (Tomcat/IntelliJ)
+Manba: 2026-07-29 kunidagi ish sessiyalari
+
+================================================================================
+TASK 1: Oracle new_abs bazasidan MPT obyektlarini eksport qilish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  CORE sxemasidan MPT_ prefiksli barcha obyektlarni DDL sifatida chiqarib,
+  boshqa sxemaga ko'chirish uchun E:\project\mpt\db\ ga yig'ish
+
+Bosqichlar va vaqt:
+  ├─ 15 minut  1. tnsnames.ora orqali new_abs (172.20.6.157) ga ulanish
+  │             instantclient_19_28\network\admin\tnsnames.ora, CORE useri
+  │             sqlplus ulanishini tekshirish
+  │
+  ├─ 20 minut  2. MPT_ prefiksli obyektlarni inventarizatsiya qilish
+  │             USER_OBJECTS bo'yicha: 8 sequence, 12 table, 4 index,
+  │             16 FK, 2 function, 3 package, 5 view, 7 trigger
+  │
+  └─ 25 minut  3. DBMS_METADATA orqali DDL generatsiya skriptini yozib ishga
+                tushirish, schema prefiksini olib tashlash, terminator qo'shish
+
+Yakuniy natija:
+  V 57 ta obyektning DDL'i chiqarildi
+  V Tashqi bog'liqliklar aniqlandi: MLT_LANGUAGES, CORE_R_MODULES,
+    CORE.MLT_UTIL paketi, CORE.HASH_T tipi
+  V start.sql da STATUS != 'VALID' tekshiruvi qo'shildi
+
+================================================================================
+TASK 2: DB obyektlarini papka-fayl strukturasiga qayta tashkil qilish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Guruhlangan fayllar (01_sequences.sql ...) o'rniga har bir obyektni
+  o'z papkasida alohida faylga ajratish va start.sql ni qayta yozish
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. Obyekt-per-fayl generatsiya skriptini yozish
+  │             sequences\mpt_print_history_s1.sql ko'rinishida
+  │             packages\Mpt_Admin_Api.pck (spec + body bitta faylda)
+  │
+  ├─ 20 minut  2. Xatolarni tuzatish: names.txt dagi CRLF (\r) obyekt
+  │             nomlarini buzgan; bash'da \\ va ${var} kengaymagan ->
+  │             forward-slash yo'llarga o'tkazish
+  │
+  └─ 15 minut  3. USER_DEPENDENCIES orqali haqiqiy bog'liqlik tartibini
+                aniqlash va start.sql ni shunga moslash
+
+Yakuniy natija:
+  V 57 ta alohida fayl 8 ta papkada
+  V Aniqlangan bog'liqlik: 5 view -> MPT_MODULE_NAME/MPT_STATE_NAME,
+    MPT_PRINT_VARIABLES_T1 trigger -> MPT_PRINT_API paketi
+  V start.sql tartibi: sequences -> tables -> indexes -> fk_constraints
+    -> functions -> packages -> views -> triggers
+  V Eski guruhli fayllar o'chirildi
+
+================================================================================
+TASK 3: settings\menu va settings\sm_register INSERT skriptlari
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  MPT modulining menyu registratsiyasi va state-machine (SM_) obyektlari
+  uchun INSERT skriptlarini to'g'ri FK ketma-ketligida saqlash
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. CORE_R_MENUS / ADM_R_MENUS dan MPT qatorlarini olish
+  │             menu\core_r_menus.sql - 6 ta INSERT (4000 -> 4001..4005)
+  │             menu\adm_r_menus.sql  - 6 ta INSERT
+  │
+  ├─ 25 minut  2. SM_ registratsiyasini ALL_CONSTRAINTS orqali tahlil qilish
+  │             SM_R_OBJECTS (2) -> SM_R_PROCESSES (8) -> SM_R_TRANZITIONS (2)
+  │             Composite FK: OBJECT_CODE + PARENT_OBJECT_CODE
+  │             Apostrofli matnlar uchun avtomatik generatsiya (qo'lda emas)
+  │
+  └─ 15 minut  3. start.sql ga 09 (menu) va 10 (sm_register) bosqichlarini
+                qo'shish, COMMIT bilan; CORE sxemasi haqida izoh yozish
+
+Yakuniy natija:
+  V 5 ta INSERT fayli to'g'ri FK tartibida
+  V start.sql 10 bosqichga kengaydi
+  V Izoh: bu jadvallar MPT emas, CORE framework sxemasiga tegishli -
+    alohida muhitda alohida ishga tushirilishi kerak
+
+================================================================================
+TASK 4: MLT registratsiyasi va NLS_LANG kodlash muammosi
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  MPT modulining ko'p tilli xabarlari va xatolik kodlarini eksport qilish;
+  eksport paytida aniqlangan kirill matn buzilishini hal qilish
+
+Bosqichlar va vaqt:
+  ├─ 15 minut  1. MLT_TEMPLATES (24 qator) va MLT_ERROR_CODES (15 qator)
+  │             dan MPT qatorlarini ajratish; MLE_HISTORY chiqarib
+  │             tashlandi (audit-log, registratsiya emas)
+  │             NVARCHAR2 ustunlar sabab ORA-12704 - concatenatsiya tuzatildi
+  │
+  ├─ 25 minut  2. Kirill matnlar '?????' bo'lib chiqishi - sabab: Windows
+  │             sqlplus.exe NLS_LANG sozlamasidan qat'i nazar buzadi.
+  │             Yechim: matnni DB ichida hex ga o'girib chiqarish va
+  │             keyin UTF-8 ga qayta tiklash
+  │
+  └─ 20 minut  3. Avval yaratilgan Mpt_Print_Api_Ut.pck ni qayta generatsiya
+                ("Alijonov -> Алижонов" test qiymatlari buzilgan edi);
+                qolgan 57 DDL fayli tekshirildi - faqat lotin matn, sog'lom
+
+Yakuniy natija:
+  V settings\mlt_register\ papkasi: mlt_templates.sql, mlt_error_codes.sql
+  V Barcha til ustunlari (RU / UZ-kirill / UZ-lotin / EN) to'g'ri
+  V Mpt_Print_Api_Ut.pck tuzatildi
+  V Manba bazasidagi bitta so'z ("бош?ариш") tegilmadi - buzilish DB ning
+    o'zida, taxmin qilib to'g'irlash noto'g'ri bo'lardi
+
+================================================================================
+TASK 5: MPT menyularining ko'rinmasligi - sabab tahlili va tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Sidebar'da MPT bo'limi umuman chiqmayotgan edi. Menyu ta'rifi to'g'ri
+  bo'lgani holda ruxsat jadvalidagi sana muammosi aniqlandi
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. CORE_R_MENUS tekshirildi - 4000-4005 hammasi STATE='A',
+  │             ierarxiya to'g'ri. Demak muammo menyu ta'rifida emas.
+  │             CORE_REL_USER_MENUS -> 4000 ga faqat USER_ID=12 ruxsatli
+  │
+  ├─ 25 minut  2. CORE.CORE_SIDEBAR.Get_User_Menu manbasi o'qildi.
+  │             Shart: sysdate between um.Date_Activate and um.Date_Deactivate
+  │             USER_ID=-1 (SUPER USER) qatorlarida DATE_DEACTIVATE =
+  │             '1999-12-31' - DATE_ACTIVATE (2026) dan OLDIN.
+  │             BETWEEN hech qachon TRUE bo'lmaydi.
+  │             Solishtirish: ishlayotgan 5000/6000 menyularda 9999-12-31
+  │
+  └─ 15 minut  3. Tuzatish (foydalanuvchi tasdig'i bilan):
+                - 4000-4005: DATE_DEACTIVATE -> 9999-12-31 (6 UPDATE)
+                - MENU_ID=4006 topildi (Глобал узгарувчилар) - u
+                  MODULE_CODE='CORE' deb yozilgan edi -> 'MPT' ga o'zgardi
+                  va sanasi tuzatildi
+
+Yakuniy natija:
+  V 7 ta MPT menyusi (4000-4006) SUPER USER uchun VALID_NOW
+  V Sidebar'da MPT bo'limi ko'rindi
+  V Lokal fayllarga ham yozildi: settings\menu\adm_rel_user_menus.sql
+    (yangi fayl) + core_r_menus.sql / adm_r_menus.sql ga 4006 qatori
+  V start.sql 09-bosqichiga adm_rel_user_menus.sql qo'shildi
+
+================================================================================
+TASK 6: MPT JSP fayllaridagi buzilgan kirill matnlarni tiklash
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Sahifalardagi rus va o'zbek-kirill sarlavhalari "mojibake" ko'rinishida
+  edi. Sabab JSP fayllarining o'zida - matn allaqachon yo'qolgan
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Diagnostika: fayl baytlari hex darajasida tekshirildi -
+  │             ef bf bd (U+FFFD replacement character). Ya'ni displey
+  │             xatosi emas, matn faylda yo'q. 10 ta MPT JSP +
+  │             global_search.jsp da bir xil holat
+  │
+  ├─ 25 minut  2. Tiklash: har bir yo'qolgan matn yonida saqlanib qolgan
+  │             o'zbek-lotin va inglizcha variant asosida RU/UZ-kirill
+  │             tarjimalar yozildi.
+  │             CP1251 da yo'q harflar almashtirildi: у->у, к->к, г->г, х->х
+  │
+  └─ 15 minut  3. Fayllarni haqiqiy WINDOWS-1251 baytlariga konvertatsiya
+                (charset deklaratsiyasiga tegilmadi - foydalanuvchi talabi).
+                Qayta dekodlab tekshirildi: "Типы шаблонов", "Код",
+                "Кем обновлено" to'g'ri chiqdi
+
+Yakuniy natija:
+  V 11 ta fayl tuzatildi
+  V Manzil muammosi ham aniqlandi: haqiqiy docBase
+    E:\tomcat9_ABS\tomcat9_ABS\webapps\ROOT (bir daraja ichkarida) -
+    tuzatishlar shu joyda qayta qo'llanildi
+  V si_template (o'lik kod) va 189-qatordagi Java kommenti tegilmadi
+
+================================================================================
+TASK 7: template_types.jsp - yetishmayotgan ustunlarni qo'shish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  "Типы шаблонов" jadvalida MPT_TEMPLATE_TYPES_V view'idagi Updated_By,
+  Updated_By_Name, Updated_Date maydonlari ko'rinmayotgan edi
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. View tekshirildi - MPT_TEMPLATE_TYPES_V da maydonlar bor
+  │             (Core.Core_Users bilan left join orqali Updated_By_Name).
+  │             Demak muammo JSP tomonda
+  │
+  ├─ 25 minut  2. Haqiqiy ishlayotgan fayl o'qildi - u eski versiya ekan:
+  │             updated_by_name maydoni umuman yo'q, t:grid da atigi
+  │             5 ta ustun (1,2,5,12,8), 7 ta emas
+  │
+  └─ 15 minut  3. Qo'shildi: si_updated_by label, t:field id=13 (updated_by),
+                id=14 (updated_by_name), gridga t:column for=9 (Дата
+                обновления) va for=14 (Кем обновлено)
+
+Yakuniy natija:
+  V 3 ta ustun jadvalda ko'rinadi
+  V Fayl CP1251 baytlarida saqlandi
+  V Tomcat JSP ni avtomatik qayta kompilyatsiya qiladi - restart shart emas
+
+================================================================================
+TASK 8: iABS - IntelliJ IDEA project va Tomcat konfiguratsiyasi
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  E:\tomcat9_ABS ni "iABS" nomi bilan toza IntelliJ loyihasi qilib
+  sozlash va 404 xatosini bartaraf etib serverni ishga tushirish
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Project konfiguratsiyasi yozildi (mavjud fayllar
+  │             o'chirilmadi):
+  │             .idea\.name -> iABS;  iABS.iml + modules.xml (web root =
+  │             tomcat9_ABS\webapps\ROOT);  misc.xml -> SDK 17;
+  │             iabs_web_lib.xml (88 jar) + tomcat_lib.xml (33 jar);
+  │             encodings.xml -> webapps\ROOT uchun windows-1251
+  │
+  ├─ 25 minut  2. 404 sababi topildi: IDEA o'zining vaqtinchalik
+  │             CATALINA_BASE ida server.xml yozib, deployOnStartup="false"
+  │             va deployIgnore="^(?!(manager)|(tomee)$).*" qo'ygan ->
+  │             ROOT umuman deploy bo'lmagan.
+  │             Yana: CATALINA_HOME = E:\tomcat9_ABS ko'rsatilgan, haqiqiysi
+  │             E:\tomcat9_ABS\tomcat9_ABS (bin/lib/conf shu yerda)
+  │
+  └─ 15 minut  3. Tuzatishlar:
+                - start_tomcat.bat: D:\jdk -> C:\Program Files\Java\jdk-17,
+                  CATALINA_HOME/BASE to'g'irlandi (eskisi .bak ga saqlandi)
+                - stop_tomcat.bat yaratildi
+                - workspace.xml: buzuq 'unnamed' artifact olib tashlandi,
+                  External Source deployment (webapps\ROOT, context '/'),
+                  On Update action -> update-resources
+
+Yakuniy natija:
+  V Tomcat 9.0.118 JDK 17 bilan ko'tarildi, SEVERE xato yo'q
+  V Log: "Deployment of web application directory ...webapps\ROOT has
+    finished in [2114] ms", "Server startup in [3316] milliseconds"
+  V http://localhost:8090/ibs/index.jsp -> HTTP 200 (13 347 bayt)
+  V IDEA Run panelida Update resources / Redeploy / Restart server
+    tugmalari qayta faollashdi
+  V JSP ish oqimi: Ctrl+S -> Ctrl+F5 (Jasper development rejimi,
+    modificationTestInterval = 4 sek)
+
+================================================================================
+================================================================================
+KUNLIK XULOSA
+================================================================================
+Umumiy vaqt: 8 soat (480 minut)
+Task soni: 8 ta
+
+Taqsimot:
+  - Oracle DB eksport va struktura       : 2 soat (Task 1-2)
+  - Registratsiya skriptlari (menu/sm/mlt): 2 soat (Task 3-4)
+  - Diagnostika va bug-fix               : 3 soat (Task 5-7)
+  - Muhit sozlash (iABS/Tomcat)          : 1 soat (Task 8)
+
+Yaratilgan struktura - E:\project\mpt\db\:
+  sequences(8) tables(12) indexes(4) fk_constraints(16) functions(2)
+  packages(3) views(5) triggers(7)
+  settings\menu(3) settings\sm_register(3) settings\mlt_register(2)
+  start.sql - 10 bosqich
+
+Jonli bazaga kiritilgan o'zgarishlar (tasdiq bilan):
+  - ADM_REL_USER_MENUS: USER_ID=-1 uchun MENU_ID=4000 qatori qo'shildi
+  - ADM_REL_USER_MENUS: 4000-4006 uchun DATE_DEACTIVATE -> 9999-12-31
+  - CORE_R_MENUS: MENU_ID=4006 uchun MODULE_CODE 'CORE' -> 'MPT'
+
+Ochiq qolgan masalalar:
+  [ ] MLT_TEMPLATES dagi "бош?ариш" - manba bazasida buzilgan, tiklanmagan
+  [ ] ADM_R_MENUS jadvalida 4006 qatori jonli bazada hali yo'q
+  [ ] template_types.jsp dagi si_template label - o'lik kod, tiklanmadi
+  [ ] CORE_R_MENUS va ADM_R_MENUS dublikat - qaysi biri haqiqiy ishlatilishi
+      aniqlanmagan
+
+================================================================================
+Fayl yaratilgan: 2026-07-29
+Saqlash joyi: E:\project\mpt\docs\jira_tasks\29_07_2026.txt
+================================================================================

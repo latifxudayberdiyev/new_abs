@@ -1,0 +1,265 @@
+================================================================================
+                    KUNLIK TASKLAR - 2026-07-30
+================================================================================
+Jami kunlik vaqt: 8 soat (8 task x 1 soat)
+Loyihalar: iABS (E:\tomcat9_ABS) — MPT (Pechat shabloni) moduli
+Manba: 2026-07-30 kunidagi ish sessiyalari
+
+================================================================================
+TASK 1: "Настройки шаблона" ekranini tahlil qilish (JSP + DB tuzilmasi)
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  print_settings.jsp / print_setting.jsp ekranining menyu ierarxiyasi va DB
+  tuzilmasi aniqlashtirildi. DB o'sha payt yetib bo'lmagani uchun lokal DDL
+  manbalari (E:\project\mpt\db\) orqali tekshirildi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. JSP fayllar va menyu ierarxiyasini o'qish
+  │             CORE_R_MENUS/ADM_R_MENUS, MODULE_CODE='MPT', 7 ta band (4000-4006),
+  │             4005 = MPT_MENU_PRINT_SETTINGS -> print_settings.jsp
+  │
+  ├─ 20 minut  2. Lokal DDL orqali DB tuzilmasini tiklash
+  │             MPT_PRINT_SETTINGS (14 ustun, PK SETTING_ID, FK CORE_R_MODULES/
+  │             MPT_TEMPLATE_TYPES), MPT_PRINT_SETTINGS_V, 12 jadval/5 view umumiy
+  │             sxema xaritasi tuzildi
+  │
+  └─ 15 minut  3. Muammolarni aniqlash va hisobot
+                product.jsp (Save_Product/Set_Product_State protsedurasi yo'q),
+                print_setting.jsp select filtrlanmagan, (MODULE_CODE,TEMPLATE_CODE)
+                UNIQUE yo'qligi topildi
+
+Yakuniy natija:
+  V Menyu va DB tuzilmasi to'liq xaritalandi
+  V 3 ta muammo aniqlandi (tuzatilmadi, faqat hisobot berildi)
+
+================================================================================
+TASK 2: Live DB (new_ABS) ga ulanish va MPT sxema inventarizatsiyasi
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  tnsnames.ora orqali jonli bazaga (172.20.6.157/new_abs, CORE/core) ulanib,
+  MPT sxemasining to'liq inventari olindi va lokal DDL bilan solishtirildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. DB ulanish
+  │             Java runner (JDK 17 + ojdbc8.jar) yozildi, jdbc:oracle:thin:
+  │             @172.20.6.157:1521/new_abs orqali muvaffaqiyatli ulanildi
+  │
+  ├─ 25 minut  2. To'liq inventar va farqni aniqlash
+  │             13 jadval, 5 view, 4 paket, 2 funksiya, 9 sekvens, 7 trigger (barchasi
+  │             VALID); live bazada MPT_TEMPLATE_TYPES_H, MODIFIED_BY/MODIFIED_ON,
+  │             MPT_CONST paketi allaqachon bor ekan (parallel sessiya qo'shgan) —
+  │             lokal fayllarda hali yo'q edi
+  │
+  └─ 15 minut  3. 3 buzuq sahifani live so'rov bilan tasdiqlash
+                template_types.jsp (ORA-00904), product.jsp (PLS-00302 + ORA-00904),
+                module.jsp (ORA-00942 / ORA-00980, MPT_CATEGORIES sinonimi INVALID)
+
+Yakuniy natija:
+  V Live DB muvaffaqiyatli inventarizatsiya qilindi, natija xotiraga yozildi
+  V 3 ta buzuq sahifa live so'rov bilan tasdiqlandi
+
+================================================================================
+TASK 3: MPT_LANGUAGES_V view yaratish va print_setting.jsp forma polyalarini dinamiklashtirish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  "Настройки шаблона" qo'shish formasidagi til fayllari polyalarini (Выберите
+  файл Русский* va h.k.) qattiq kodlash o'rniga yangi view'dan dinamik chizish
+  ishlab chiqildi, shu bilan birga PDF radiosi qo'shildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. MPT_LANGUAGES_V view yaratish
+  │             MLT_LANGUAGES_V asosida, +IS_ACTIVE/IS_REQUIRED/FILE_FIELD_NAME
+  │             ustunlari, UAPP uchun grant+synonym, 6 qator qaytarildi
+  │
+  ├─ 25 minut  2. MPT_PRINT_SETTINGS ga OPEN_AS_PDF qo'shish
+  │             OPEN_AS_PDF VARCHAR2(1) DEFAULT 'N' NOT NULL + CHECK, view va
+  │             Mpt_Admin_Api.Save_Print_Setting (i_Open_As_Pdf parametri) yangilandi,
+  │             jonli chaqiruv bilan sinab ko'rildi (keyin rollback)
+  │
+  └─ 15 minut  3. print_setting.jsp forma va Jasper tekshiruvi
+                tillar view'dan priority bo'yicha o'qib chiziladi, IS_REQUIRED='Y'
+                bo'lsa qizil * qo'yiladi, PDF radiosi qo'shildi, kompilyatsiya 0 xato
+
+Yakuniy natija:
+  V MPT_LANGUAGES_V yaratildi va VALID
+  V OPEN_AS_PDF ustuni + forma dinamik ishlaydi, 0 kompilyatsiya xatosi
+
+================================================================================
+TASK 4: DB va JSP o'zgarishlarini E:\project\mpt\ mahalliy migratsiya papkasiga saqlash
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Task 3 dagi barcha DB/JSP o'zgarishlari loyihaning lokal migratsiya
+  arxiviga (E:\project\mpt\db\, jsp\) joylashuviga qarab yozildi, parallel
+  sessiya bilan to'qnashgan joylar birlashtirildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Fayllarni tegishli papkalarga yozish
+  │             views/mpt_languages_v.sql, tables/mpt_print_settings.sql,
+  │             views/mpt_print_settings_v.sql, packages/Mpt_Admin_Api.pck
+  │
+  ├─ 20 minut  2. start.sql ni yangilash va parallel sessiya bilan birlashtirish
+  │             boshqa sessiya grants/ papkasini "har obyekt uchun alohida fayl"
+  │             konventsiyasida boshlagan edi — o'z yagona faylini shu uslubga
+  │             moslab qayta yozdi, start.sql'da 09-bosqich (GRANTS) qo'shildi
+  │
+  └─ 20 minut  3. Live DB qayta tekshiruvi va hisobot
+                MPT_LANGUAGES_V (6 qator), OPEN_AS_PDF, UAPP sinonimi — hammasi
+                joyida, MPT bo'yicha 0 kompilyatsiya xatosi tasdiqlandi
+
+Yakuniy natija:
+  V E:\project\mpt\db\ va jsp\ papkalari live bazaga mos holga keltirildi
+  V Parallel sessiya o'zgarishlari yo'qotilmasdan birlashtirildi
+
+================================================================================
+TASK 5: mpt-jsp-saqlash skill yaratish va JSP fayllar nomuvofiqligini tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Deploy (webapps\ROOT\ibs\mpt\) va manba (E:\project\mpt\jsp\ibs\mpt\)
+  nusxalarini doim sinxron va CP1251'da saqlash qoidasi skill sifatida
+  yozildi, mavjud nomuvofiqliklar tuzatildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. SKILL.md yozish
+  │             ikki nusxa bayt-bayt bir xil + CP1251 majburiyligi, iconv
+  │             CP1251<->UTF-8 jarayoni, ў/қ/ғ/ҳ almashtirish qoidasi, Jasper
+  │             kompilyatsiya tekshiruvi
+  │
+  ├─ 20 minut  2. 10 ta JSP faylni solishtirish
+  │             deploy vs manba vaqt tamg'alari bo'yicha 5 ta nomuvofiqlik
+  │             topildi (global_variable(s).jsp, template_type(s).jsp,
+  │             template_type_history.jsp — oxirgisi manbada umuman yo'q edi)
+  │
+  └─ 20 minut  3. Sinxronlash va eskirgan task'ni yopish
+                barcha 5 fayl CP1251 tasdiqlangach deploy->manba yo'nalishida
+                nusxalandi (11/11 fayl bir xil), eskirgan task chip'i bekor qilindi
+
+Yakuniy natija:
+  V mpt-jsp-saqlash skill yaratildi va ro'yxatga qo'shildi
+  V 11 ta JSP fayl ikki joyda bayt-bayt bir xil va CP1251
+
+================================================================================
+TASK 6: "Настройки шаблона" qo'shish oynasini (dialog) scrollsiz qilish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Qo'shish (Добавить) modal oynasida barcha polyalar scrollsiz sig'ishi
+  uchun forma qatlami qayta joylashtirildi va dialog o'lchami kattalashtirildi.
+
+Bosqichlar va vaqt:
+  ├─ 15 minut  1. Joy yetishmovchiligini aniqlash
+  │             6 til polyasi har biri alohida qatorda, PDF radiosi va holat
+  │             select alohida qatorlarda edi
+  │
+  ├─ 25 minut  2. Formani ixchamlashtirish
+  │             6 til polyasi 2 ustunli gridga, PDF radiosi+holat select bitta
+  │             qatorga birlashtirildi, Описание textarea 3->2 qatorga qisqartirildi,
+  │             dialog 640x640 -> 700x800
+  │
+  └─ 20 minut  3. Tekshiruv va saqlash
+                Jasper kompilyatsiya 0 xato, ikkala joyga (deploy+manba) CP1251'da
+                saqlandi
+
+Yakuniy natija:
+  V Modal balandligi ~640px -> ~700px, dialog 800px — scrollsiz sig'adi
+  V 0 kompilyatsiya xatosi
+
+================================================================================
+TASK 7: Fayl-yuklash arxitekturasi bo'yicha maslahat va "Глобальные переменные" DB tekshiruvi
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Multipart forma bilan UI ma'lumotining yo'qolib qolish muammosi tahlil
+  qilindi (kod o'zgartirilmadi, faqat maslahat berildi); alohida sessiyada
+  "Глобальные переменные" menyusiga tegishli DB obyektlari aniqlashtirildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Multipart muammosini tahlil qilish
+  │             ServletCallableStatement request.getParameter() bilan
+  │             multipart/form-data'ni o'qiy olmasligi sababi aniqlandi
+  │
+  ├─ 25 minut  2. Yechim taklifi
+  │             har til uchun yashirin iframe orqali darhol mini-yuklash + file_id
+  │             hidden field yondashuvi tavsiya qilindi (mavjud iframe konventsiyasiga mos)
+  │
+  └─ 15 minut  3. Глобальные переменные DB tekshiruvi
+                new_ABS'ga ulanib CORE.MPT_GLOBAL_VARIABLES_V, MPT_PRINT_VARIABLES,
+                MPT_VARIABLE_TYPES topildi; MPT_PRINT_VARIABLES uchun UAPP sinonimi
+                yo'qligi aniqlandi
+
+Yakuniy natija:
+  V Multipart muammosi bo'yicha texnik yechim taklif qilindi (amalga oshirilmadi)
+  V Глобальные переменные uchun tegishli DB obyektlari aniqlandi
+
+================================================================================
+TASK 8: Hujjat (mockup/TZ) va real holatni solishtirish — gap-analiz
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  CROBS_Shablon_Sozlamalari.html (UI mockup) va PECHAT_v4_FINAL.xlsx (TZ)
+  hujjatlari real DB/JSP holati bilan solishtirilib, ikki menyu ("Глобальные
+  переменные" va "Типы шаблонов") uchun bajarilgan/bajarilmagan ro'yxati tuzildi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. Глобальные переменные gap-analizi
+  │             8 ta kamchilik topildi: mockup maydonlari DB'da yo'q, export/import
+  │             yo'q, PARAMETER manba turi yo'q, VAR_TYPE'da IMAGE/TABLE/
+  │             AMOUNT_IN_WORDS yo'q, rol cheklovi yo'q, default ma'lumot yetarli
+  │             emas (4 tadan 2 tasi IS_ACTIVE=N), g_bank_code.VAR_TYPE='QR' xato
+  │
+  ├─ 20 minut  2. Типы шаблонов uchun PECHAT_v4_FINAL.xlsx tekshiruvi
+  │             hujjatning P1.1 bandi aslida MPT_TEMPLATE_GROUPS'ga tegishli ekanligi,
+  │             MPT_TEMPLATE_TYPES esa hujjatda umuman tilga olinmagan alohida
+  │             klassifikator ekanligi aniqlandi
+  │
+  └─ 15 minut  3. Natijalarni taqdim etish
+                ikkala solishtiruv jadval ko'rinishida berildi, Типы шаблонов
+                bo'yicha davom etish yo'li savol qilib qoldirildi (javob kutilmoqda)
+
+Yakuniy natija:
+  V Глобальные переменные uchun to'liq gap-analiz tayyor
+  V Типы шаблонов hujjat qamrovi aniqlandi, keyingi qadam foydalanuvchiga qoldirildi
+
+================================================================================
+KUNLIK XULOSA
+================================================================================
+Umumiy vaqt: 8 soat (480 minut)
+Task soni: 8 ta
+
+Taqsimot:
+  - MPT DB tahlili va inventarizatsiya (jonli + lokal)  : 2 soat (Task 1-2)
+  - MPT_LANGUAGES_V / OPEN_AS_PDF ishlab chiqish va saqlash : 2 soat (Task 3-4)
+  - JSP sinxronlash skill va UI (dialog) tuzatish : 2 soat (Task 5-6)
+  - Maslahat (multipart) va hujjat/real holat solishtiruvi : 2 soat (Task 7-8)
+
+Yaratilgan/o'zgargan struktura:
+  - Yangi: MPT_LANGUAGES_V (view), MPT_PRINT_SETTINGS.OPEN_AS_PDF (ustun),
+    mpt-jsp-saqlash (skill)
+  - Yangilangan: Mpt_Admin_Api.Save_Print_Setting, print_setting.jsp,
+    E:\project\mpt\db\start.sql, E:\project\mpt\ ostidagi bir necha DDL fayl
+
+Ochiq qolgan masalalar:
+  [ ] product.jsp umuman ishlamaydi (Save_Product/Set_Product_State DB'da yo'q,
+      UI'dan ham yo'l yo'q) — tuzatilmadi, faqat aniqlandi
+  [ ] module.jsp buzuq (MPT_MODULES jadvali yo'q, UAPP.MPT_CATEGORIES sinonimi
+      INVALID) — tuzatilmadi
+  [ ] print_setting.jsp da fayl yuklash hali ulanmagan — faqat polyalar chizilgan,
+      multipart arxitektura tanlovi (endpoint/javob formati) foydalanuvchidan kutilmoqda
+  [ ] "Типы шаблонов" uchun PECHAT hujjatida alohida topshiriq yo'qligi bo'yicha
+      berilgan savolga javob kelmagan
+  [ ] jdbc.properties hali eski/o'lik bazani (192.168.1.202) ko'rsatadi — ilova
+      brauzerda hali sinalmagan
+  [ ] MPT_PRINT_SETTINGS'da (MODULE_CODE,TEMPLATE_CODE) UNIQUE va
+      DEACTIVATION_DATE>ACTIVATION_DATE CHECK cheklovi yo'q
+  [ ] Глобальные переменные: rol asosidagi cheklov yo'q, PARAMETER manba turi va
+      IMAGE/TABLE/AMOUNT_IN_WORDS turlari kiritilmagan, default ma'lumot kam,
+      g_bank_code.VAR_TYPE noto'g'ri ('QR' o'rniga matn bo'lishi kerak)
+
+================================================================================
+Fayl yaratilgan: 2026-07-30
+Saqlash joyi: E:\project\mpt\docs\jira_tasks\30_07_2026.txt
+================================================================================

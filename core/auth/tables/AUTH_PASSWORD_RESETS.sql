@@ -1,0 +1,30 @@
+----------------------------------------------------------------------------------------------------
+--  AUTH_PASSWORD_RESETS  -- Одноразовые токены сброса пароля (только LOCAL).
+--  Хранится ХЭШ токена, сам токен возвращается заявителю один раз (email/sms).
+CREATE TABLE CORE.AUTH_PASSWORD_RESETS
+(
+  token_hash   VARCHAR2(64)  NOT NULL,
+  identity_id  NUMBER(9)     NOT NULL,
+  issued_on    DATE          NOT NULL,
+  expires_on   DATE          NOT NULL,
+  used         VARCHAR2(1)   DEFAULT 'N' NOT NULL,
+  used_on      DATE,
+  client_ip    VARCHAR2(45)
+)
+TABLESPACE CORE_DATA;
+
+COMMENT ON TABLE  CORE.AUTH_PASSWORD_RESETS              IS 'Одноразовые токены сброса пароля (LOCAL)';
+COMMENT ON COLUMN CORE.AUTH_PASSWORD_RESETS.token_hash   IS 'SHA-256 хэш токена сброса';
+COMMENT ON COLUMN CORE.AUTH_PASSWORD_RESETS.identity_id  IS 'CORE_USER_KEYS.IDENTITY_ID, для которого сбрасывается пароль';
+COMMENT ON COLUMN CORE.AUTH_PASSWORD_RESETS.issued_on    IS 'Дата и время выдачи токена';
+COMMENT ON COLUMN CORE.AUTH_PASSWORD_RESETS.expires_on   IS 'Дата и время истечения срока';
+COMMENT ON COLUMN CORE.AUTH_PASSWORD_RESETS.used         IS 'Признак использования (Y/N) — одноразовый';
+COMMENT ON COLUMN CORE.AUTH_PASSWORD_RESETS.used_on      IS 'Дата и время использования';
+COMMENT ON COLUMN CORE.AUTH_PASSWORD_RESETS.client_ip    IS 'IP-адрес заявителя';
+
+ALTER TABLE CORE.AUTH_PASSWORD_RESETS ADD CONSTRAINT AUTH_PASSWORD_RESETS_PK PRIMARY KEY (TOKEN_HASH) USING INDEX TABLESPACE CORE_INDEX;
+ALTER TABLE CORE.AUTH_PASSWORD_RESETS ADD CONSTRAINT AUTH_PASSWORD_RESETS_F1 FOREIGN KEY (IDENTITY_ID) REFERENCES CORE.CORE_USER_KEYS (IDENTITY_ID);
+ALTER TABLE CORE.AUTH_PASSWORD_RESETS ADD CONSTRAINT AUTH_PASSWORD_RESETS_C1 CHECK (used IN ('Y','N'));
+
+CREATE INDEX CORE.AUTH_PASSWORD_RESETS_I1 ON CORE.AUTH_PASSWORD_RESETS (EXPIRES_ON) TABLESPACE CORE_INDEX;
+CREATE INDEX CORE.AUTH_PASSWORD_RESETS_I2 ON CORE.AUTH_PASSWORD_RESETS (IDENTITY_ID) TABLESPACE CORE_INDEX;

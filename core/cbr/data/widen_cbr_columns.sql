@@ -1,0 +1,33 @@
+-- Widen cbr_* columns that were too narrow for real Central Bank data (source files 0408)
+-- Switched to CHAR semantics for safety with AL32UTF8 multi-byte (Cyrillic) data.
+alter table cbr_bank modify (name varchar2(200 char));
+alter table cbr_bank modify (adress varchar2(150 char));
+alter table cbr_bank_type modify (name varchar2(100 char));
+alter table cbr_coato modify (rus_name varchar2(150 char));
+alter table cbr_coato modify (uzb_cyr_name varchar2(150 char));
+alter table cbr_coato modify (uzb_lat_name varchar2(150 char));
+alter table cbr_country modify (name varchar2(150 char));
+alter table cbr_district modify (name varchar2(60 char));
+alter table cbr_document modify (name varchar2(80 char));
+alter table cbr_foreign_organization modify (name varchar2(250 char));
+alter table cbr_form_property modify (name varchar2(250 char));
+alter table cbr_nation modify (nation_name varchar2(40 char));
+alter table cbr_obraz modify (obraz_name varchar2(60 char));
+alter table cbr_oked modify (class_name_ru varchar2(300 char));
+alter table cbr_oked modify (class_name_uz varchar2(300 char));
+alter table cbr_oked modify (group_name_ru varchar2(300 char));
+alter table cbr_oked modify (group_name_uz varchar2(300 char));
+alter table cbr_oked modify (section_name_ru varchar2(300 char));
+alter table cbr_oked modify (section_name_uz varchar2(300 char));
+alter table cbr_oked modify (sg_name_ru varchar2(300 char));
+alter table cbr_oked modify (sg_name_uz varchar2(300 char));
+alter table cbr_rez_cl modify (name varchar2(50 char));
+alter table cbr_subject_type modify (name varchar2(100 char));
+alter table cbr_bank_type modify (short_name varchar2(50 char));
+alter table cbr_oked modify (name_ru varchar2(400 char));
+alter table cbr_oked modify (name_uz varchar2(400 char));
+alter table cbr_subject_type modify (name_uz varchar2(100 char));
+alter table cbr_subject_sexual_identity modify (name varchar2(30 char));
+alter table cbr_verifying_document_type modify (name varchar2(150 char));
+commit;
+exit;

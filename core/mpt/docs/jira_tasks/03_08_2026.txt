@@ -1,0 +1,282 @@
+================================================================================
+                    KUNLIK TASKLAR - 2026-08-03
+================================================================================
+Jami kunlik vaqt: 8 soat (8 task x 1 soat)
+Loyihalar: MPT (Pechat shabloni) moduli — iABS (E:\tomcat9_ABS)
+Manba: 2026-08-03 kunidagi ish sessiyalari
+
+================================================================================
+TASK 1: File-service yuklash kontraktini jar darajasida tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Foydalanuvchi file-service serveri turgan kompyuterda tekshiruv o'tkazib,
+  yangi kontrakt farqlarini (promt.txt) olib keldi. Shu asosda
+  file-service-client.jar qayta yozildi va sinovdan o'tkazildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Kontrakt farqlarini tasdiqlash
+  │             promt.txt asosida 3 ta farq aniqlandi: maydon nomi "files"
+  │             emas "file" (birlik), privacyType majburiy (PUBLIC/PRIVATE),
+  │             folder qiymatida "/" taqiqlangan. Har biri curl/PowerShell
+  │             bilan alohida sinovdan o'tkazildi (200 OK)
+  │
+  ├─ 25 minut  2. FileServiceClient/FileServiceClientImpl qayta yozish
+  │             JDK21 ostida upload(file, folder, privacyType) signature,
+  │             javob turi BaseResponse<FileUploadResponse> (ro'yxat emas,
+  │             yagona obyekt) qilib o'zgartirildi
+  │
+  └─ 15 minut  3. Jar almashtirish va JSP moslashtirish
+                Tomcat to'xtatilgach lib\file-service-client.jar almashtirildi
+                (zaxira: .orig-20260803-105950), print_setting_upload.jsp
+                FS_FOLDER="mpt_print_settings", FS_PRIVACY_TYPE="PUBLIC" bilan
+                yangilandi, JspC — 0 xato
+
+Yakuniy natija:
+  V Yangi kontraktga mos jar ishga tushdi, mustaqil sinovda .docx muvaffaqiyatli yuklandi
+  V print_setting_upload.jsp ikkala joyga CP1251'da saqlandi, bayt-bayt bir xil
+
+================================================================================
+TASK 2: OOXML MIME (.docx/.xlsx) 500 xatosi diagnostikasi va bartaraf etish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Haqiqiy DOCX/XLSX MIME turi bilan yuklashda server 500 qaytarishi aniqlanib,
+  vaqtinchalik yechim qo'llanildi, server tuzatilgach asl holatga qaytarildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Bug aniqlash
+  │             .docx/.xlsx + haqiqiy MIME -> 500 (-5), + octet-stream -> 200;
+  │             .pdf/.doc muammosiz. Sabab taxmini: MIME turi uzunligi (65-71
+  │             belgi) whitelist maydoniga sig'maslik
+  │
+  ├─ 20 minut  2. Vaqtinchalik yechim va xabar
+  │             jar'da part Content-Type octet-stream qilib belgilandi (izoh
+  │             bilan), file-service jamoasiga bug tafsiloti bilan xabar
+  │             yozildi va yuborildi
+  │
+  └─ 20 minut  3. Server tuzatilgach tekshirish va tozalash
+                "Serverda o'zgarish qilindi" xabaridan keyin .docx/.xlsx haqiqiy
+                MIME bilan 200 qaytishi tasdiqlandi, octet-stream chorasi
+                jar'dan olib tashlandi, qayta test: success=true
+
+Yakuniy natija:
+  V Server tomonidagi OOXML MIME bug tuzatilgani tasdiqlandi
+  V Vaqtinchalik workaround kod ichidan olib tashlandi, jar tozalandi
+
+================================================================================
+TASK 3: MPT_PRINT_SETTINGS va MPT_PRINT_SETTING_FILES ustun konvensiyasini moslashtirish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Ikkala jadvalning audit ustunlari boshqa MPT jadvallari (mpt_template_types)
+  bilan bir xil nomlash konvensiyasiga keltirildi, ortiqcha CREATED_BY ustuni
+  ikkalasidan ham olib tashlandi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. MPT_PRINT_SETTINGS: CREATED_DATE->OPER_DAY,
+  │             UPDATED_BY->MODIFIED_BY, UPDATED_DATE->MODIFIED_ON
+  │             live DB'da RENAME COLUMN, MPT_PRINT_SETTINGS_V view qayta
+  │             yaratildi, Mpt_Admin_Api.Save_Print_Setting yangilandi,
+  │             print_settings.jsp grid ustuni (t:field id="10") oper_day'ga
+  │             o'zgartirildi
+  │
+  ├─ 20 minut  2. MPT_PRINT_SETTING_FILES: UPDATED_BY->MODIFIED_BY,
+  │             UPDATED_DATE->OPER_DAY, izohlar mpt_template_types'dan
+  │             ko'chirildi, Save_Print_Setting_File prosedurasi yangilandi
+  │
+  └─ 15 minut  3. CREATED_BY ustunini ikkalasidan ham olib tashlash
+                foydalanuvchi bilan ikki marta aniqlashtirilgach (saqlash/
+                o'chirish qarori) ikkala jadvaldan DROP COLUMN CREATED_BY,
+                package va view'lar qayta kompilyatsiya qilindi, DDL fayllar
+                sinxronlandi
+
+Yakuniy natija:
+  V Ikkala jadval boshqa MPT jadvallari bilan bir xil ustun konvensiyasida
+  V user_errors — 0, view'lar VALID, JspC — 0 xato
+
+================================================================================
+TASK 4: Shablon fayllarini yuklab olish (download) funksiyasini qo'shish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Tahrirlash rejimida biriktirilgan shablon faylini serverdan yuklab olish
+  imkoniyati qo'shildi, jarayonda MinIO ichki manzili bilan bog'liq server
+  nuqsoni aylanib o'tildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. generateLink muammolarini aniqlash
+  │             generateLink PUBLIC fayllar uchun ishlamasligi (privacyType
+  │             PUBLIC->PRIVATE qilindi) va qaytgan MinIO havolasi ichki
+  │             manzilga (127.0.0.1:9000) ishora qilishi aniqlandi
+  │
+  ├─ 25 minut  2. print_setting_download.jsp yozish
+  │             file_id bo'yicha generateLink() chaqirib, MinIO havolasini xom
+  │             socket orqali (Host header almashtirish trukki bilan) o'qib,
+  │             Content-Disposition: attachment bilan brauzerga qaytaradigan
+  │             yangi JSP yaratildi
+  │
+  └─ 15 minut  3. UI ulanishi va tekshiruv
+                print_setting.jsp'ga har til uchun "Скачать" havolasi
+                qo'shildi, to'liq zanjir (generateLink->host trukki->fayl
+                baytlari) alohida Java-test bilan tasdiqlandi, JspC — 0 xato
+
+Yakuniy natija:
+  V print_setting_download.jsp ishga tushdi, fayl bayt-baytiga to'g'ri qaytadi
+  V "Скачать" havolasi tahrirlash rejimida har bir til uchun ko'rinadi
+
+================================================================================
+TASK 5: Boshqa kompyuter uchun file-service kutubxonalarini yig'ish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Fayl yuklash/yuklab olish funksiyasini boshqa Tomcat muhitida ishlatish
+  uchun kerakli barcha jar'lar alohida papkaga yig'ildi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. Faol jar'larni aniqlash
+  │             $CATALINA_HOME\lib dan faol (.disabled bo'lmagan) 13 ta jar
+  │             ajratildi: tuzatilgan file-service-client.jar, jackson-*
+  │             2.17.2, micrometer-* 1.13.4, spring-* 6.1.13/6.2.5
+  │
+  ├─ 20 minut  2. README.txt yozish
+  │             o'rnatish joyi ($CATALINA_HOME\lib, WEB-INF\lib emas),
+  │             fileservice.properties namunasi, kerakli JSP fayllar ro'yxati
+  │             va privacyType/folder eslatmalari hujjatlashtirildi
+  │
+  └─ 15 minut  3. Yetkazish va saqlash
+                zip qilib foydalanuvchiga yuborildi, so'ng E:\project\mpt\lib\
+                ga (avval bo'sh ekanligi tekshirilib) doimiy saqlandi
+
+Yakuniy natija:
+  V E:\project\mpt\lib\ da 13 jar + README.txt tayyor turibdi
+  V Boshqa kompyuterga ko'chirish uchun aniq yo'riqnoma yozilgan
+
+================================================================================
+TASK 6: Shablon sozlamalari ro'yxatiga fayl indikatori ustuni qo'shish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  "Настройки шаблона" grid'ida qaysi shablonlarga fayl biriktirilganini
+  ko'rsatuvchi ustun qo'shildi, shu bilan birga deploy va manba JSP
+  papkalarining sinxronligi tekshirildi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. MPT_PRINT_SETTINGS_V ga HAS_FILE ustuni
+  │             MPT_PRINT_SETTING_FILES'da fayl borligini tekshirib &#128206;
+  │             (paperclip HTML-entity) qaytaradigan ustun qo'shildi, live
+  │             DB'da tekshirildi (SETTING_ID=41 -> HAS_FILE to'g'ri qaytdi)
+  │
+  ├─ 20 minut  2. print_settings.jsp'ga "Файл" ustuni
+  │             grid'ga file_format'dan keyin yangi ustun qo'shildi, CP1251'da
+  │             ikkala joyga saqlandi, JspC — 0 xato; brauzerda 📎 belgisi
+  │             to'g'ri chiqishi foydalanuvchi tomonidan tasdiqlandi
+  │
+  └─ 15 minut  3. Deploy/manba papkalarini bayt-baytiga solishtirish
+                E:\tomcat9_ABS\...\ibs\mpt\ va E:\project\mpt\jsp\ibs\mpt\
+                to'liq taqqoslandi — fayllar ro'yxati va tarkibi 100% bir xil
+
+Yakuniy natija:
+  V "Файл" ustuni ishlayapti, foydalanuvchi brauzerda tasdiqladi
+  V Ikkala JSP papka to'liq sinxron ekani tasdiqlandi
+
+================================================================================
+TASK 7: "Дата активации" maydonini majburiy qilish va buzilish xatosini tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Aktivatsiya sanasi maydoni majburiy qilindi, so'ngra tahrirlash rejimida
+  shu sananing buzilib chiqishi sababi topilib tuzatildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Majburiylik qo'shish
+  │             print_setting.jsp'da "Дата активации" maydoniga r="1" va
+  │             majburiylik belgisi qo'shildi; noto'g'ri sana (99-oy/99-kun)
+  │             uchun mavjud mask="date" tekshiruvi (form.js dateValidate())
+  │             allaqachon ishlayotgani tasdiqlandi
+  │
+  ├─ 20 minut  2. Buzilish xatosini diagnostika qilish
+  │             "Изменить" bosilganda sana maydoni buzilib to'ldirilishi
+  │             xabar qilindi; sabab — Oracle JSON_OBJECT sanani ISO formatda
+  │             ("2026-08-03T00:00:00") qaytarishi, forma esa dd.mm.yyyy
+  │             kutishi ekani aniqlandi
+  │
+  └─ 20 minut  3. Formatni tuzatish
+                sana maydoni serverda dd.mm.yyyy formatiga o'girib berish
+                uchun JSP/query tomonida tuzatish kiritildi, CP1251'da
+                saqlandi
+
+Yakuniy natija:
+  V "Дата активации" bo'sh qoldirib bo'lmaydigan qilindi
+  V Sana buzilishi sababi (ISO vs dd.mm.yyyy) aniqlanib tuzatildi (brauzerda
+    yakuniy tekshiruv foydalanuvchi tomonidan hali tasdiqlanmagan)
+
+================================================================================
+TASK 8: MPT_MENU_GLOBAL_VARIABLES menyu nomi ko'rinmasligini tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  "Global o'zgaruvchilar" menyu punkti nom o'rniga "...ni MLL ga qushing!!!"
+  ogohlantirishini ko'rsatishi sababi topilib, live bazada tuzatildi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. Sababni topish
+  │             MLL_LABEL_CODES'da label_id=16 (MPT_MENU_GLOBAL_VARIABLES)
+  │             MODULE_CODE='CORE' bo'lib qolgani, CORE_R_MENUS'da esa menyu
+  │             MODULE_CODE='MPT' ekani, shuning uchun
+  │             Mll_Core_Api.Get_Label('MPT', ...) topa olmasligi aniqlandi
+  │
+  ├─ 20 minut  2. Live DB'da tuzatish
+  │             UPDATE core.mll_label_codes SET module_code='MPT' WHERE
+  │             label_id=16 AND message_code='MPT_MENU_GLOBAL_VARIABLES',
+  │             commit qilindi; Get_Label('MPT','MPT_MENU_GLOBAL_VARIABLES')
+  │             -> "Global ozgaruvchilar" tasdiqlandi
+  │
+  └─ 15 minut  3. Repo uchun DDL fayl yaratish
+                E:\project\mpt\db\settings\menu\mll_label_codes.sql yaratildi
+                (7 ta MPT menyu label'i, MERGE, label_id bo'yicha, qayta
+                ishga tushirilishi mumkin), live bazada qayta sinaldi
+
+Yakuniy natija:
+  V Menyu nomi to'g'ri chiqadi, Tomcat restart shart bo'lmadi (Mlt_Cache
+    faqat Lang_Index saqlaydi)
+  V mll_label_codes.sql repo'ga qo'shildi — boshqa muhitga ko'chirilganda
+    xato takrorlanmaydi
+
+================================================================================
+KUNLIK XULOSA
+================================================================================
+Umumiy vaqt: 8 soat (480 minut)
+Task soni: 8 ta
+
+Taqsimot:
+  - File-service jar kontrakti va OOXML bug : 2 soat (Task 1-2)
+  - DB ustun konvensiyasi (PRINT_SETTINGS/_FILES) : 1 soat (Task 3)
+  - Fayl yuklab olish (download) funksiyasi : 1 soat (Task 4)
+  - Portable deploy uchun lib yig'ish : 1 soat (Task 5)
+  - HAS_FILE indikatori va papka sinxronligi : 1 soat (Task 6)
+  - Aktivatsiya sanasi majburiylik+bug : 1 soat (Task 7)
+  - MLL menyu label tuzatish : 1 soat (Task 8)
+
+Yaratilgan/o'zgargan struktura:
+  - Yangi: print_setting_download.jsp, E:\project\mpt\lib\ (13 jar+README),
+    E:\project\mpt\db\settings\menu\mll_label_codes.sql,
+    MPT_PRINT_SETTINGS_V.HAS_FILE ustuni
+  - Yangilangan: file-service-client.jar (kontrakt+OOXML fix, zaxira bilan),
+    MPT_PRINT_SETTINGS / MPT_PRINT_SETTING_FILES (ustun nomlari, CREATED_BY
+    olib tashlandi), Mpt_Admin_Api.pck, print_setting.jsp, print_settings.jsp,
+    print_setting_upload.jsp, MLL_LABEL_CODES (live, label_id=16)
+
+Ochiq qolgan masalalar:
+  [ ] Aktivatsiya sanasi (ISO vs dd.mm.yyyy) tuzatishi brauzerda foydalanuvchi
+      tomonidan hali yakuniy tasdiqlanmagan
+  [ ] file-service-client.jar dagi kontrakt/OOXML tuzatishlari jar darajasida
+      qo'lda qilingan hot-patch — vendor tomonidan jar yana yangilansa
+      (avval ikki marta bo'lgan) qayta tekshirish kerak
+  [ ] IDEA run-config SDK hali JDK17/eski JRE bo'lishi mumkin (07-31'dan
+      qolgan ochiq masala, bugun tegilmadi)
+
+================================================================================
+Fayl yaratilgan: 2026-08-03
+Saqlash joyi: E:\project\mpt\docs\jira_tasks\03_08_2026.txt
+================================================================================

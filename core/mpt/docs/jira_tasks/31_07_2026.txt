@@ -1,0 +1,267 @@
+================================================================================
+                    KUNLIK TASKLAR - 2026-07-31
+================================================================================
+Jami kunlik vaqt: 8 soat (8 task x 1 soat)
+Loyihalar: Claude Code sozlamalari (CLAUDE.md) — iABS (E:\tomcat9_ABS) MPT (Pechat shabloni) moduli
+Manba: 2026-07-31 kunidagi ish sessiyalari
+
+================================================================================
+TASK 1: Global CLAUDE.md faylini yaratish va loyihaga xos qoidalar bilan boyitish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Foydalanuvchi bergan working-style matni asosida C:\Users\shukurov.o\.claude\CLAUDE.md
+  yaratildi, so'ng bir necha bosqichda loyihaga xos (token tejash, ma'lum yo'llar,
+  bilinuvchi bloklovchilar) bo'limlar bilan to'ldirildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Asosiy CLAUDE.md yaratish
+  │             Tech stack, working style, PL/SQL/Java/JSP qoidalari, xavfsizlik
+  │             bo'limlari bilan global fayl yozildi; memory'ga feedback turi
+  │             sifatida ham saqlandi
+  │
+  ├─ 25 minut  2. Token tejash uchun loyihaga xos qo'shimchalar
+  │             Ma'lum yo'llar (iABS Tomcat, MPT JSP dual-location, DB, jira_tasks),
+  │             qidiruv chegaralari (webapps\ROOT boshqa modullari/lib/logs skan
+  │             qilinmasin), katta PL/SQL fayl uchun grep+offset qoidasi qo'shildi
+  │
+  └─ 15 minut  3. DB access, hisobot va bloker bo'limlarini qo'shish
+                sqlplus yo'qligi -> Java runner, DDL fayllar eskirishi ->
+                all_tab_columns/all_views, hisobotni transkriptdan yozish qoidasi,
+                UAPP sinonim va Tomcat ikki ishga tushirish usuli bo'yicha
+                "Known blockers" bo'limi qo'shildi
+
+Yakuniy natija:
+  V CLAUDE.md barcha loyihalarda avtomatik yuklanadigan holga keltirildi
+  V Kelgusi sessiyalar uchun token tejovchi qoidalar va bilinuvchi bloklovchilar yozildi
+
+================================================================================
+TASK 2: Fayl yuklash uchun DB obyektlari (MPT_PRINT_SETTING_FILES)
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  "Настройки шаблона" ekranida til fayllarini saqlash uchun yangi relation jadval
+  va bog'liq PL/SQL protseduralar yaratildi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. MPT_PRINT_SETTING_FILES jadvalini yaratish
+  │             SETTING_ID+LANG_CODE bo'yicha UNIQUE, ikkala tomonga FK, sequence,
+  │             trigger, UAPP grant+synonym — E:\project\mpt\db\ ga yozildi
+  │
+  ├─ 20 minut  2. Mpt_Admin_Api paketiga o'zgartirish
+  │             Save_Print_Setting protsedurasiga o_Setting_Id OUT (RETURNING...INTO)
+  │             qo'shildi, yangi Save_Print_Setting_File (upsert) protsedurasi yozildi
+  │
+  └─ 15 minut  3. Live DB'da sinov va ro'yxatga olish
+                new_ABS'da rollback bilan haqiqiy chaqiruv qilindi (Setting_Id=7
+                qaytdi, fayl bog'lanishi yozildi), start.sql'ga to'liq ro'yxatga olindi
+
+Yakuniy natija:
+  V MPT_PRINT_SETTING_FILES va bog'liq obyektlar live DB'da VALID
+  V Save_Print_Setting/Save_Print_Setting_File jonli chaqiruv bilan tasdiqlandi
+
+================================================================================
+TASK 3: print_setting_upload.jsp va fayl yuklash JSP integratsiyasi
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Har bir til fayli tanlanganda asosiy formadan mustaqil, darhol file-service'ga
+  yuboradigan yangi endpoint va uni chaqiruvchi UI oqimi yozildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. print_setting_upload.jsp yozish
+  │             FileItem->MultipartFile ko'prik class (Spring kerak, ilova Spring
+  │             emas), FileServiceClient orqali yuklash chaqiruvi
+  │
+  ├─ 20 minut  2. print_setting.jsp ni sim tortish va konfiguratsiya
+  │             har til uchun yashirin iframe orqali darhol yuklash, WEB-INF/
+  │             fileservice.properties (hardcode admin/admin o'rniga)
+  │
+  └─ 20 minut  3. Kompilyatsiya tekshiruvi va deploy
+                Jasper+javac 0 xato, ikkala joyga (webapps\ROOT + E:\project\mpt\jsp)
+                CP1251'da deploy qilindi
+
+Yakuniy natija:
+  V print_setting_upload.jsp yangi endpoint sifatida ishga tushdi
+  V print_setting.jsp fayl tanlashda avtomatik yuklaydigan bo'ldi
+
+================================================================================
+TASK 4: Java versiya nomosligi blokerini aniqlash va JDK 21 o'rnatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  file-service-client.jar Java 21 bytecode bilan build qilingani, Tomcat esa
+  JDK17'da ishlagani aniqlanib, JDK 21 o'rnatildi va Tomcat/IDEA shunga o'tkazildi.
+
+Bosqichlar va vaqt:
+  ├─ 15 minut  1. Bloker aniqlanishi
+  │             javap orqali class version 65.0 (JDK21) vs Tomcat JDK17 (61.0
+  │             kerak) nomosligi topildi, mashinada JDK21 yo'qligi tasdiqlandi
+  │
+  ├─ 25 minut  2. JDK 21 o'rnatish
+  │             Eclipse Temurin 21.0.12+8 (adoptium.net, SHA256 tekshirilgan)
+  │             E:\Java\jdk-21 ga o'rnatildi, start_tomcat.bat/stop_tomcat.bat
+  │             JAVA_HOME yangilandi, Tomcat qayta ishga tushirildi (7.2s)
+  │
+  └─ 20 minut  3. To'liq tekshiruv va IDEA konfiguratsiyasi
+                barcha 11 ta MPT JSP JDK21 ostida 0 xato (ErrorData class nomi
+                to'qnashuvi to'liq nom bilan tuzatildi); IDEA "ibs" run-config
+                Alternative JRE sifatida eski jre-9 ishlatayotgani aniqlanib,
+                JDK21'ga o'tkazish bo'yicha aniq ketma-ketlik berildi
+
+Yakuniy natija:
+  V Tomcat JDK 21 ostida barqaror ishga tushdi, 11/11 JSP 0 xato
+  V IDEA run-config uchun JDK21'ga o'tkazish yo'riqnomasi berildi
+
+================================================================================
+TASK 5: Runtime jar konfliktlarini aniqlash va tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  JDK21'ga o'tishdan keyin ketma-ket chiqqan bir nechta NoSuchMethodError/
+  NoClassDefFoundError sabablari topilib, Tomcat lib papkasidagi dublikat/
+  yetishmayotgan jarlar tuzatildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. commons-fileupload konflikti
+  │             -1.0.jar (2003) va -1.4.jar bir vaqtda borligi ServletFileUpload.
+  │             parseRequest() NoSuchMethodError'ga sabab bo'lgani aniqlanib,
+  │             eskisi .disabled qilindi
+  │
+  ├─ 20 minut  2. FileServiceClientFactory va spring-core/web dublikati
+  │             vendor jar yangilanib class nomi FileServiceClientProperties'dan
+  │             FileServiceClientFactory'ga o'zgargani tuzatildi; spring-core/web
+  │             6.1.13 va 6.2.5 bir joyda turgani aniqlanib eskisi chetlatildi
+  │
+  └─ 20 minut  3. micrometer va jackson yetishmasligi
+                io.micrometer.observation topilmagani uchun micrometer-observation/
+                commons-1.13.4 qo'shildi; classloader izolyatsiyasi sababli umumiy
+                lib'da Jackson yo'qligi aniqlanib jackson-core/annotations/
+                databind-2.17.2 qo'shildi (checksum tekshirilgan)
+
+Yakuniy natija:
+  V Barcha jar konfliktlari (fileupload, spring, micrometer, jackson) hal qilindi
+  V Auth so'rovi (login) muvaffaqiyatli o'ta boshladi
+
+================================================================================
+TASK 6: file-service-client.jar dagi privacyType bug diagnostikasi va hot-patch
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Fayl yuklashda doimiy 400 xatosi sababini aniqlash uchun diagnostika serverlari
+  yasalib, vendor kutubxonadagi haqiqiy nuqson topildi va vaqtincha tuzatildi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. Capture/proxy server bilan raw so'rovni ushlash
+  │             vaqtincha capture serverga yo'naltirilib, privacyType maydoni
+  │             qo'shtirnoqli JSON ("PRIVATE") sifatida ketayotgani, server esa
+  │             folder kabi oddiy matn kutayotgani aniqlandi
+  │
+  ├─ 20 minut  2. Sababni tasdiqlash
+  │             foydalanuvchi taqdim etgan dekompilyatsiya qilingan
+  │             FileServiceClientImpl manbasida body.add("privacyType", privacyType)
+  │             (.name() emas) tasdiqlandi — vendor kutubxona bugi
+  │
+  └─ 15 minut  3. Hot-patch qo'llash
+                klass qayta yozilib kompilyatsiya qilindi, Tomcat to'xtatilgach
+                jar ichidagi FileServiceClientImpl.class almashtirildi (original
+                .orig-backup saqlangan), 11 JSP qayta 0 xato bilan tekshirildi
+
+Yakuniy natija:
+  V privacyType bug root-cause aniqlandi va jar darajasida vaqtincha tuzatildi
+  V O'zgarish backup bilan qaytariladigan holda qo'llandi
+
+================================================================================
+TASK 7: Backend 400 xatosi diagnostikasi va vendor jar yangilanishiga moslashish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Hot-patchdan keyin ham qolgan 400 xatosi tahlil qilindi, foydalanuvchi so'rovi
+  bilan vendor client'siz yechim sinovdan o'tkazildi, so'ng vendor tomonidan
+  jar yangilanishi aniqlanib JSP shunga moslashtirildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Qolgan 400 xatosini tahlil qilish
+  │             details=null bilan kelgan xato file-service backend'ining o'z
+  │             ichki muammosi ekanligi aniqlanib, diagnostika ma'lumotlari
+  │             (so'rov vaqti, endpoint, payload) hujjatlashtirildi
+  │
+  ├─ 20 minut  2. Vendor client'siz xom multipart sinovi
+  │             foydalanuvchi so'rovi bilan FileServiceClient ishlatilmasdan
+  │             o'zi auth qilib, xom fayl baytlarini to'g'ridan-to'g'ri yuborish
+  │             yozildi va sinovdan o'tkazildi
+  │
+  └─ 20 minut  3. Vendor jar yangilanishiga moslashish
+                jar vendor tomonidan almashtirilgani (privacyType butunlay olib
+                tashlangan, endi List<FileUploadResponse> qaytaradi) aniqlanib,
+                JSP client.upload(file, folder) yangi signature'ga moslashtirildi
+
+Yakuniy natija:
+  V Vendor jar API o'zgarishi aniqlanib JSP moslashtirildi, 0 kompilyatsiya xatosi
+  V Backend xatosi bo'yicha file-service jamoasi uchun dalil tayyorlandi
+
+================================================================================
+TASK 8: Yangi file-service manzili (172.20.6.95) autentifikatsiya/400 diagnostikasi
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  fileservice.properties'dagi manzil yangi IP'ga (172.20.6.95) o'zgargani
+  aniqlanib, yangi hostdagi autentifikatsiya va upload xatolari diagnostika
+  qilindi (kun oxirigacha yakunlanmadi).
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Manzil o'zgarishini aniqlash
+  │             172.20.6.157 o'rniga 172.20.6.95 turgani topildi, to'g'ridan-
+  │             to'g'ri so'rov bilan admin/admin kredensiali 401 Unauthorized
+  │             qaytarishi tasdiqlandi
+  │
+  ├─ 20 minut  2. Parol yangilanishi va upload xatosi
+  │             parol admin123'ga o'zgargach login o'tishi (401 yo'qoldi), lekin
+  │             upload so'rovi 400 qaytarishi tasdiqlandi
+  │
+  └─ 20 minut  3. Xavfsiz qayta diagnostika
+                kredensialni buyruq ichiga yozish/tokenni faylga saqlash xavfsizlik
+                qoidasiga ko'ra bloklandi; parolni properties fayldan o'qib,
+                tokenni saqlamaydigan qilib qayta diagnostika boshlandi (natija
+                kun oxirigacha olinmadi)
+
+Yakuniy natija:
+  V Yangi server manzili va kredensial muammosi aniqlandi
+  V Xavfsiz diagnostika usuli qo'llanildi, ammo 400 sababi kun oxirigacha ochiq qoldi
+
+================================================================================
+KUNLIK XULOSA
+================================================================================
+Umumiy vaqt: 8 soat (480 minut)
+Task soni: 8 ta
+
+Taqsimot:
+  - CLAUDE.md / ish uslubi sozlamalari : 1 soat (Task 1)
+  - MPT fayl yuklash — DB va JSP qurilishi : 2 soat (Task 2-3)
+  - JDK 21 o'tkazish va runtime jar konfliktlari : 2 soat (Task 4-5)
+  - file-service-client.jar bug diagnostikasi va moslashish : 2 soat (Task 6-7)
+  - Yangi server manzili autentifikatsiya diagnostikasi : 1 soat (Task 8)
+
+Yaratilgan/o'zgargan struktura:
+  - Yangi: MPT_PRINT_SETTING_FILES (jadval+sequence+trigger+FK), CLAUDE.md (global),
+    print_setting_upload.jsp, fileservice.properties
+  - Yangilangan: Mpt_Admin_Api.Save_Print_Setting (o_Setting_Id OUT),
+    print_setting.jsp, start_tomcat.bat/stop_tomcat.bat (JDK21),
+    E:\tomcat9_ABS\tomcat9_ABS\lib\ (commons-fileupload, spring-core/web,
+    micrometer, jackson jarlari), file-service-client.jar (privacyType hot-patch,
+    original zaxirada)
+
+Ochiq qolgan masalalar:
+  [ ] Yangi file-service manzilida (172.20.6.95) upload so'rovi hali 400 qaytaryapti
+      — sabab kun oxirigacha aniqlanmadi
+  [ ] IDEA run-config SDK (.idea/misc.xml) hali JDK17/eski JRE bo'lishi mumkin —
+      Tomcat IDEA orqali ishga tushirilsa qo'lda JDK21'ga almashtirish kerak
+  [ ] privacyType bug haqida file-service/vendor jamoasiga rasman xabar berilmagan
+      (faqat texnik dalil va diagnostika ma'lumotlari tayyorlangan)
+  [ ] file-service-client.jar dagi hot-patch vaqtinchalik — vendor tomonidan
+      rasmiy tuzatilgan versiya kelganda almashtirish kerak
+
+================================================================================
+Fayl yaratilgan: 2026-07-31
+Saqlash joyi: E:\project\mpt\docs\jira_tasks\31_07_2026.txt
+================================================================================

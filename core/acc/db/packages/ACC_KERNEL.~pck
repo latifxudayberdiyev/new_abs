@@ -1,0 +1,370 @@
+--------------------------------------------------------------------------------
+-- ACC_KERNEL - "Тип счёта" va дочерняя запись uchun barcha biznes-logika:
+-- Core.Hash_t modeli bilan ishlash, validatsiya, JSON snapshot va tarix
+-- yozuvlari. O'qish (rowtype/mavjudlik) uchun ACC_UTIL, yozish (DML) uchun
+-- ACC_DML paketini chaqiradi - o'zida xom SELECT/INSERT/UPDATE/DELETE yo'q.
+--
+-- MUHIM: kompilyatsiyadan oldin NLS_LANG=AMERICAN_AMERICA.AL32UTF8 o'rnating
+-- (kirill literallari - 'Баланс','Внебаланс' va h.k. - buzilib qolmasligi uchun).
+-- Kompilyatsiya tartibi: ACC_UTIL -> ACC_DML -> shu fayl (ACC_KERNEL) -> ACC_SM_API.
+--------------------------------------------------------------------------------
+CREATE OR REPLACE PACKAGE ACC_KERNEL IS
+
+  PROCEDURE Model_Account_Type(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                o_Code    OUT Number,
+                                o_Msg     OUT Varchar2,
+                                o_Ora_Msg OUT Varchar2);
+
+  PROCEDURE Save_Account_Type(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                               o_Code    OUT Number,
+                               o_Msg     OUT Varchar2,
+                               o_Ora_Msg OUT Varchar2);
+
+  PROCEDURE Delete_Account_Type(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                 o_Code    OUT Number,
+                                 o_Msg     OUT Varchar2,
+                                 o_Ora_Msg OUT Varchar2);
+
+  PROCEDURE Model_Account_Type_Client(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                       o_Code    OUT Number,
+                                       o_Msg     OUT Varchar2,
+                                       o_Ora_Msg OUT Varchar2);
+
+  PROCEDURE Save_Account_Type_Client(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                      o_Code    OUT Number,
+                                      o_Msg     OUT Varchar2,
+                                      o_Ora_Msg OUT Varchar2);
+
+  PROCEDURE Delete_Account_Type_Client(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                        o_Code    OUT Number,
+                                        o_Msg     OUT Varchar2,
+                                        o_Ora_Msg OUT Varchar2);
+
+END ACC_KERNEL;
+/
+
+CREATE OR REPLACE PACKAGE BODY ACC_KERNEL IS
+
+  ----------------------------------------------------------------------------
+  PROCEDURE Model_Account_Type(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                o_Code    OUT Number,
+                                o_Msg     OUT Varchar2,
+                                o_Ora_Msg OUT Varchar2) IS
+    v_Row  ACC_ACCOUNT_TYPES%Rowtype;
+    v_Data Core.Hash_t := Core.Hash_t();
+  BEGIN
+    o_Code := 0;
+
+    v_Row := Acc_Util.Select_Account_Type(Io_Hash.Get_Optional_Number('account_type_id'));
+
+    v_Data.Put('account_type_id', v_Row.ACCOUNT_TYPE_ID);
+    v_Data.Put('name', v_Row.NAME);
+    v_Data.Put('module_code', v_Row.MODULE_CODE);
+    v_Data.Put('balance_type', v_Row.BALANCE_TYPE);
+    v_Data.Put('state', v_Row.STATE);
+    v_Data.Put('unique_contract_flag', v_Row.UNIQUE_CONTRACT_FLAG);
+    v_Data.Put('is_open_flag', v_Row.IS_OPEN_FLAG);
+    v_Data.Put('incode_type', v_Row.INCODE_TYPE);
+    v_Data.Put('is_virtual', v_Row.IS_VIRTUAL);
+    v_Data.Put('object_code', v_Row.OBJECT_CODE);
+
+    Io_Hash.Put('data', v_Data);
+  EXCEPTION
+    WHEN No_Data_Found THEN
+      o_Code    := -20060;
+      o_Msg     := 'Тип счёта топилмади.';
+      o_Ora_Msg := o_Msg;
+    WHEN Others THEN
+      o_Code    := -1;
+      o_Msg     := Sqlerrm;
+      o_Ora_Msg := Sqlerrm || ' ' || Dbms_Utility.Format_Error_Backtrace;
+  END Model_Account_Type;
+
+  ----------------------------------------------------------------------------
+  PROCEDURE Save_Account_Type(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                               o_Code    OUT Number,
+                               o_Msg     OUT Varchar2,
+                               o_Ora_Msg OUT Varchar2) IS
+    v_Id               ACC_ACCOUNT_TYPES.ACCOUNT_TYPE_ID%Type;
+    v_Name             ACC_ACCOUNT_TYPES.NAME%Type;
+    v_Module_Code      ACC_ACCOUNT_TYPES.MODULE_CODE%Type;
+    v_Balance_Code     Varchar2(10);
+    v_Balance_Type     ACC_ACCOUNT_TYPES.BALANCE_TYPE%Type;
+    v_State            ACC_ACCOUNT_TYPES.STATE%Type;
+    v_Unique_Contract  ACC_ACCOUNT_TYPES.UNIQUE_CONTRACT_FLAG%Type;
+    v_Is_Open          ACC_ACCOUNT_TYPES.IS_OPEN_FLAG%Type;
+    v_Incode_Type      ACC_ACCOUNT_TYPES.INCODE_TYPE%Type;
+    v_Is_Virtual       ACC_ACCOUNT_TYPES.IS_VIRTUAL%Type;
+    v_Object_Code      ACC_ACCOUNT_TYPES.OBJECT_CODE%Type;
+    v_User             Varchar2(50);
+    v_Sm_Cache         Core.Hash_t;
+    v_Is_New           Boolean;
+    v_Action_Code      Varchar2(10);
+    v_Rows             Number;
+    v_After            Clob;
+  BEGIN
+    o_Code := 0;
+
+    v_Id              := Io_Hash.Get_Optional_Number('account_type_id');
+    v_Name             := Io_Hash.Get_Varchar2('name');
+    v_Module_Code      := Io_Hash.Get_Varchar2('module_code');
+    v_Balance_Code     := Nvl(Io_Hash.Get_Optional_Varchar2('balance_type'), 'BAL');
+    v_Balance_Type     := Case When v_Balance_Code = 'OFB' Then 'Внебаланс' Else 'Баланс' End;
+    v_State            := Nvl(Io_Hash.Get_Optional_Varchar2('state'), 'A');
+    v_Unique_Contract  := Case When Io_Hash.Get_Optional_Varchar2('unique_contract_flag') = '1' Then 'Y' Else 'N' End;
+    v_Is_Open          := Case When Io_Hash.Get_Optional_Varchar2('is_open_flag') = '1' Then 'Y' Else 'N' End;
+    v_Incode_Type      := Nvl(Io_Hash.Get_Optional_Varchar2('incode_type'), 'D');
+    v_Is_Virtual       := Case When Io_Hash.Get_Optional_Varchar2('is_virtual') = '1' Then 'Y' Else 'N' End;
+    v_Object_Code      := Io_Hash.Get_Optional_Varchar2('object_code');
+    v_User             := Nvl(Io_Hash.Get_Optional_Varchar2('user_id'), User);
+
+    If Not Acc_Util.Exists_Module(v_Module_Code) Then
+      o_Code    := -20061;
+      o_Msg     := 'Кўрсатилган модул топилмади.';
+      o_Ora_Msg := o_Msg;
+      Return;
+    End If;
+
+    If v_Id Is Not Null Then
+      v_Is_New := False;
+
+      Acc_Dml.Update_Account_Type(i_Id                   => v_Id,
+                                  i_Name                 => v_Name,
+                                  i_Module_Code          => v_Module_Code,
+                                  i_Balance_Type         => v_Balance_Type,
+                                  i_State                => v_State,
+                                  i_Unique_Contract_Flag => v_Unique_Contract,
+                                  i_Is_Open_Flag         => v_Is_Open,
+                                  i_Incode_Type          => v_Incode_Type,
+                                  i_Is_Virtual           => v_Is_Virtual,
+                                  i_Object_Code          => v_Object_Code,
+                                  i_User                 => v_User,
+                                  o_Rows_Updated         => v_Rows);
+
+      If v_Rows = 0 Then
+        o_Code    := -20060;
+        o_Msg     := 'Тип счёта топилмади.';
+        o_Ora_Msg := o_Msg;
+        Return;
+      End If;
+    Else
+      v_Is_New   := True;
+      v_Sm_Cache := Io_Hash.Get_Optional_Hash_t('sm_cache');
+      v_Id       := v_Sm_Cache.Get_Optional_Number('account_type_id');
+
+      Acc_Dml.Insert_Account_Type(i_Id                   => v_Id,
+                                  i_Name                 => v_Name,
+                                  i_Module_Code          => v_Module_Code,
+                                  i_Balance_Type         => v_Balance_Type,
+                                  i_State                => v_State,
+                                  i_Unique_Contract_Flag => v_Unique_Contract,
+                                  i_Is_Open_Flag         => v_Is_Open,
+                                  i_Incode_Type          => v_Incode_Type,
+                                  i_Is_Virtual           => v_Is_Virtual,
+                                  i_Object_Code          => v_Object_Code,
+                                  i_User                 => v_User);
+    End If;
+
+    v_Action_Code := Case When v_Is_New Then 'CREATE' Else 'UPDATE' End;
+
+    v_After := Json_Object('name' Value v_Name, 'module_code' Value v_Module_Code,
+                            'balance_type' Value v_Balance_Type, 'state' Value v_State,
+                            'unique_contract_flag' Value v_Unique_Contract,
+                            'is_open_flag' Value v_Is_Open);
+
+    Acc_Dml.Insert_Account_Type_History(i_Account_Type_Id => v_Id,
+                                        i_Action_Code     => v_Action_Code,
+                                        i_User            => v_User,
+                                        i_After_Snapshot  => v_After);
+  EXCEPTION
+    WHEN Others THEN
+      o_Code    := -1;
+      o_Msg     := Sqlerrm;
+      o_Ora_Msg := Sqlerrm || ' ' || Dbms_Utility.Format_Error_Backtrace;
+  END Save_Account_Type;
+
+  ----------------------------------------------------------------------------
+  PROCEDURE Delete_Account_Type(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                 o_Code    OUT Number,
+                                 o_Msg     OUT Varchar2,
+                                 o_Ora_Msg OUT Varchar2) IS
+    v_Id   Number;
+    v_Rows Number;
+  BEGIN
+    o_Code := 0;
+    v_Id   := Io_Hash.Get_Optional_Number('account_type_id');
+
+    Acc_Dml.Delete_Account_Type(i_Id => v_Id, o_Rows_Deleted => v_Rows);
+
+    If v_Rows = 0 Then
+      o_Code    := -20060;
+      o_Msg     := 'Тип счёта топилмади.';
+      o_Ora_Msg := o_Msg;
+    End If;
+  EXCEPTION
+    WHEN Others THEN
+      o_Code    := -1;
+      o_Msg     := Sqlerrm;
+      o_Ora_Msg := Sqlerrm || ' ' || Dbms_Utility.Format_Error_Backtrace;
+  END Delete_Account_Type;
+
+  ----------------------------------------------------------------------------
+  PROCEDURE Model_Account_Type_Client(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                       o_Code    OUT Number,
+                                       o_Msg     OUT Varchar2,
+                                       o_Ora_Msg OUT Varchar2) IS
+    v_Row  ACC_ACCOUNT_TYPE_CLIENTS%Rowtype;
+    v_Data Core.Hash_t := Core.Hash_t();
+  BEGIN
+    o_Code := 0;
+
+    v_Row := Acc_Util.Select_Account_Type_Client(Io_Hash.Get_Optional_Number('account_type_client_id'));
+
+    v_Data.Put('account_type_client_id', v_Row.ACCOUNT_TYPE_CLIENT_ID);
+    v_Data.Put('account_type_id', v_Row.ACCOUNT_TYPE_ID);
+    v_Data.Put('client_type', v_Row.CLIENT_TYPE);
+    v_Data.Put('state', v_Row.STATE);
+    v_Data.Put('code_coa', v_Row.CODE_COA);
+    v_Data.Put('currency_code', v_Row.CURRENCY_CODE);
+
+    Io_Hash.Put('data', v_Data);
+  EXCEPTION
+    WHEN No_Data_Found THEN
+      o_Code    := -20062;
+      o_Msg     := 'Дочерняя запись топилмади.';
+      o_Ora_Msg := o_Msg;
+    WHEN Others THEN
+      o_Code    := -1;
+      o_Msg     := Sqlerrm;
+      o_Ora_Msg := Sqlerrm || ' ' || Dbms_Utility.Format_Error_Backtrace;
+  END Model_Account_Type_Client;
+
+  ----------------------------------------------------------------------------
+  PROCEDURE Save_Account_Type_Client(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                      o_Code    OUT Number,
+                                      o_Msg     OUT Varchar2,
+                                      o_Ora_Msg OUT Varchar2) IS
+    v_Id            ACC_ACCOUNT_TYPE_CLIENTS.ACCOUNT_TYPE_CLIENT_ID%Type;
+    v_Parent_Id     ACC_ACCOUNT_TYPE_CLIENTS.ACCOUNT_TYPE_ID%Type;
+    v_Client_Type   ACC_ACCOUNT_TYPE_CLIENTS.CLIENT_TYPE%Type;
+    v_State         ACC_ACCOUNT_TYPE_CLIENTS.STATE%Type;
+    v_Code_Coa      ACC_ACCOUNT_TYPE_CLIENTS.CODE_COA%Type;
+    v_Currency      ACC_ACCOUNT_TYPE_CLIENTS.CURRENCY_CODE%Type;
+    v_User          Varchar2(50);
+    v_Sm_Cache      Core.Hash_t;
+    v_Is_New        Boolean;
+    v_Child_Action  Varchar2(10);
+    v_Rows          Number;
+    v_After         Clob;
+  BEGIN
+    o_Code := 0;
+
+    v_Id           := Io_Hash.Get_Optional_Number('account_type_client_id');
+    v_Parent_Id    := Io_Hash.Get_Number('account_type_id');
+    v_Client_Type  := Nvl(Io_Hash.Get_Optional_Varchar2('client_type'), 'C');
+    v_State        := Nvl(Io_Hash.Get_Optional_Varchar2('state'), 'A');
+    v_Code_Coa     := Io_Hash.Get_Varchar2('code_coa');
+    v_Currency     := Nvl(Io_Hash.Get_Optional_Varchar2('currency_code'), '*');
+    v_User         := Nvl(Io_Hash.Get_Optional_Varchar2('user_id'), User);
+
+    If Not Acc_Util.Exists_Account_Type(v_Parent_Id) Then
+      o_Code    := -20060;
+      o_Msg     := 'Тип счёта (родитель) топилмади.';
+      o_Ora_Msg := o_Msg;
+      Return;
+    End If;
+
+    If v_Id Is Not Null Then
+      v_Is_New := False;
+
+      Acc_Dml.Update_Account_Type_Client(i_Id            => v_Id,
+                                         i_Client_Type   => v_Client_Type,
+                                         i_State         => v_State,
+                                         i_Code_Coa      => v_Code_Coa,
+                                         i_Currency_Code => v_Currency,
+                                         i_User          => v_User,
+                                         o_Rows_Updated  => v_Rows);
+
+      If v_Rows = 0 Then
+        o_Code    := -20062;
+        o_Msg     := 'Дочерняя запись топилмади.';
+        o_Ora_Msg := o_Msg;
+        Return;
+      End If;
+    Else
+      v_Is_New   := True;
+      v_Sm_Cache := Io_Hash.Get_Optional_Hash_t('sm_cache');
+      v_Id       := v_Sm_Cache.Get_Optional_Number('account_type_client_id');
+
+      Acc_Dml.Insert_Account_Type_Client(i_Id              => v_Id,
+                                         i_Account_Type_Id => v_Parent_Id,
+                                         i_Client_Type     => v_Client_Type,
+                                         i_State           => v_State,
+                                         i_Code_Coa        => v_Code_Coa,
+                                         i_Currency_Code   => v_Currency,
+                                         i_User            => v_User);
+    End If;
+
+    v_Child_Action := Case When v_Is_New Then 'ADD' Else 'EDIT' End;
+
+    v_After := Json_Object('child_action' Value v_Child_Action,
+                            'account_type_client_id' Value v_Id,
+                            'client_type' Value v_Client_Type,
+                            'code_coa' Value v_Code_Coa,
+                            'currency_code' Value v_Currency,
+                            'state' Value v_State);
+
+    Acc_Dml.Insert_Account_Type_History(i_Account_Type_Id => v_Parent_Id,
+                                        i_Action_Code     => 'UPDATE',
+                                        i_User            => v_User,
+                                        i_After_Snapshot  => v_After);
+  EXCEPTION
+    WHEN Dup_Val_On_Index THEN
+      o_Code    := -20063;
+      o_Msg     := 'Ушбу тип счёт учун бундай Коды COA (Баланс код) аллақачон мавжуд.';
+      o_Ora_Msg := o_Msg;
+    WHEN Others THEN
+      o_Code    := -1;
+      o_Msg     := Sqlerrm;
+      o_Ora_Msg := Sqlerrm || ' ' || Dbms_Utility.Format_Error_Backtrace;
+  END Save_Account_Type_Client;
+
+  ----------------------------------------------------------------------------
+  PROCEDURE Delete_Account_Type_Client(Io_Hash   IN OUT NOCOPY Core.Hash_t,
+                                        o_Code    OUT Number,
+                                        o_Msg     OUT Varchar2,
+                                        o_Ora_Msg OUT Varchar2) IS
+    v_Id         Number;
+    v_Client_Row ACC_ACCOUNT_TYPE_CLIENTS%Rowtype;
+    v_Parent_Id  Number;
+    v_User       Varchar2(50);
+    v_Rows       Number;
+    v_After      Clob;
+  BEGIN
+    o_Code := 0;
+    v_Id   := Io_Hash.Get_Optional_Number('account_type_client_id');
+    v_User := Nvl(Io_Hash.Get_Optional_Varchar2('user_id'), User);
+
+    v_Client_Row := Acc_Util.Select_Account_Type_Client(v_Id);
+    v_Parent_Id  := v_Client_Row.ACCOUNT_TYPE_ID;
+
+    Acc_Dml.Delete_Account_Type_Client(i_Id => v_Id, o_Rows_Deleted => v_Rows);
+
+    v_After := Json_Object('child_action' Value 'DELETE', 'account_type_client_id' Value v_Id);
+    Acc_Dml.Insert_Account_Type_History(i_Account_Type_Id => v_Parent_Id,
+                                        i_Action_Code     => 'UPDATE',
+                                        i_User            => v_User,
+                                        i_After_Snapshot  => v_After);
+  EXCEPTION
+    WHEN No_Data_Found THEN
+      o_Code    := -20062;
+      o_Msg     := 'Дочерняя запись топилмади.';
+      o_Ora_Msg := o_Msg;
+    WHEN Others THEN
+      o_Code    := -1;
+      o_Msg     := Sqlerrm;
+      o_Ora_Msg := Sqlerrm || ' ' || Dbms_Utility.Format_Error_Backtrace;
+  END Delete_Account_Type_Client;
+
+END ACC_KERNEL;
+/

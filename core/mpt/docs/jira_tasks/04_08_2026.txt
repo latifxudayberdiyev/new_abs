@@ -1,0 +1,295 @@
+================================================================================
+                    KUNLIK TASKLAR - 2026-08-04
+================================================================================
+Jami kunlik vaqt: 8 soat (8 task x 1 soat)
+Loyihalar: MPT (Pechat shabloni) moduli — iABS (E:\tomcat9_ABS)
+Manba: 2026-08-04 kunidagi ish sessiyalari
+
+================================================================================
+TASK 1: POI asosida DOCX placeholder to'ldirish mexanizmi va sinov sahifasi
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Shablon fayli ichidagi [placeholder] larni JSON qiymatlari bilan
+  almashtiradigan mexanizm va uni sinash uchun alohida test sahifa yaratildi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. fillDocx/fillParagraph funksiyalari
+  │             Apache POI (WEB-INF\lib da mavjud, qo'shimcha jar shart
+  │             emas) orqali .docx ichidagi barcha joylardan (asosiy matn,
+  │             jadval, header, footer) [so'z] ko'rinishidagi placeholder
+  │             qidiriladi, JSON qiymati bilan almashtiriladi, topilmasa
+  │             o'zgarishsiz qoldiriladi
+  │
+  ├─ 20 minut  2. print_template_fill_test.jsp yaratildi
+  │             yuklangan shablon fayllaridan birini tanlab, JSON kiritib
+  │             "To'ldirish va yuklab olish" bosilganda to'ldirilgan .docx
+  │             darhol yuklab olinadi
+  │
+  └─ 15 minut  3. Haqiqiy placeholder'li test shablon tayyorlash
+                mavjud yuklangan fayllarda haqiqiy [placeholder] matni
+                yo'qligi aniqlanib, sinov uchun yangi shablon fayl
+                tayyorlanib foydalanuvchiga yuborildi
+
+Yakuniy natija:
+  V fillDocx mexanizmi standalone testda tasdiqlandi
+  V print_template_fill_test.jsp ikkala joyga CP1251'da saqlandi, JspC — 0 xato
+
+================================================================================
+TASK 2: Sinov sahifasini ishga tushirishdagi bug'larni tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Test sahifasi "Настройки шаблона" dagi "Тест" tugmasiga ulandi, so'ng
+  ketma-ket chiqqan sessiya va kodировка xatolari tuzatildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. "Тест" tugmasi va sessiya bug'lari
+  │             print_settings.jsp ga "Добавить"/"Изменить" yonida "Тест"
+  │             tugmasi qo'shildi (modal oynada ochiladi); t:form uchun
+  │             stored (StoredObject) bean sessionda yo'qligi va
+  │             pageContext STR_LANGUAGE atributi tushib qolgani (boshqa
+  │             MPT sahifalarida bor edi) aniqlanib qo'shildi
+  │
+  ├─ 20 minut  2. Kirillcha buzilish (mojibake) sababini topish
+  │             forma POST qilinganda vars_json qiymati Tomcat tomonidan
+  │             ISO-8859-1 deb o'qilib buzilayotgani bayt darajasida
+  │             tekshirilib tasdiqlandi (masalan 0xC0 = CP1251'dagi "А")
+  │
+  └─ 20 minut  3. request.setCharacterEncoding tuzatish
+                forma parametrlari windows-1251 sifatida qayta o'girilib
+                o'qiladigan qilindi, ikkala joyga CP1251'da saqlandi,
+                JspC — 0 xato
+
+Yakuniy natija:
+  V "Тест" tugmasi ishlayapti, sahifa to'g'ri sarlavha bilan ochiladi
+  V Kirillcha matn (masalan "Алижонов Алижон") endi to'g'ri kelyapti
+
+================================================================================
+TASK 3: Get_All_Resolved_Vars ni JSP ga ulash (JSON qo'lda emas, avtomatik)
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Sinov sahifasidagi qo'lda JSON kiritish o'rniga, JSON to'g'ridan-to'g'ri
+  Mpt_Print_Api.Get_All_Resolved_Vars orqali bazadan olinadigan qilindi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. UAPP sinonim/grant yetishmasligi
+  │             MPT_PRINT_API CORE obyekti hech qachon chaqirilmagani uchun
+  │             UAPP sinonimi/GRANT qo'shilmagan ekan (ORA-06550); mavjud
+  │             namuna (MPT_ADMIN_API) bo'yicha qo'shildi va
+  │             E:\project\mpt\db\grants\mpt_print_api.sql ga yozib,
+  │             db\start.sql 09-bosqichiga ro'yxatga olindi
+  │
+  ├─ 20 minut  2. group_code bridge yechimi
+  │             Get_All_Resolved_Vars uchun i_Group_Code kerak, lekin
+  │             MPT_PRINT_SETTINGS da "group" tushunchasi yo'q — har bir
+  │             shablon (setting_id) uchun group_code =
+  │             'mpt_setting_'||setting_id qoidasi kiritildi, setting_id=46
+  │             uchun 4 o'zgaruvchi + 5 mapping ro'yxatdan o'tkazildi
+  │
+  └─ 20 minut  3. JSP ni chaqiruvga ulash
+                qo'lda JSON matn maydoni olib tashlandi, "JSON'ni ko'rish"
+                va "To'ldirish va yuklab olish" tugmalari
+                Get_All_Resolved_Vars natijasidan foydalanadigan qilindi
+
+Yakuniy natija:
+  V Get_All_Resolved_Vars standalone testda barcha 5 placeholder'ni (shu
+    jumladan DYNAMIC manbali g_current_date) to'g'ri qaytardi
+  V JSP endi JSON'ni bazadan avtomatik oladi
+
+================================================================================
+TASK 4: pechat-service-client.jar tahlili va integratsiyasi
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Fayl ID + JSON berilsa to'ldirilgan hujjat qaytaradigan tayyor
+  pechat-service kutubxonasi topilib, eski POI+MinIO zanjiri o'rniga
+  ulandi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Jar bytecode tahlili
+  │             WEB-INF\lib\pechat-service-client.jar dekompilyatsiya
+  │             qilinib, generate(file,data) va generateWithId(id,data)
+  │             metodlari va ular chaqiradigan HTTP endpoint (POST
+  │             /api/v1/print/generate-with-id/{id}) aniqlandi
+  │
+  ├─ 20 minut  2. Ulanish parametrlarini topish va sinash
+  │             pechat-service manzili (172.20.6.157:9091) va login
+  │             (admin/admin) aniqlandi, pechatservice.properties
+  │             yaratildi; raw HTTP so'rov bilan sinaldi — 200 OK, tayyor
+  │             PDF (40054 bayt) qaytdi
+  │
+  └─ 20 minut  3. JSP ni yangi zanjirga o'tkazish
+                eski POI+MinIO-host-trukk mexanizmi olib tashlanib,
+                Get_All_Resolved_Vars -> extractPlaceholders() ->
+                pechatClient.generateWithId(fileId, json) zanjiriga
+                almashtirildi; natija turi %PDF/PK bayt-imzosi bo'yicha
+                aniqlanadi
+
+Yakuniy natija:
+  V generateWithId orqali to'g'ridan-to'g'ri to'ldirilgan PDF olindi
+  V JSP ikkala joyga CP1251'da saqlandi, JspC — 0 xato
+
+================================================================================
+TASK 5: pechat-service-client.jar Jackson classloader nizosini tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Integratsiyadan keyin fayl o'rniga bo'sh forma sahifasi (~900 bayt)
+  qaytishi aniqlanib, sababi topilib tuzatildi.
+
+Bosqichlar va vaqt:
+  ├─ 20 minut  1. Log orqali sabab qidirish
+  │             barcha "fill" so'rovlari 200 OK lekin atigi ~900 bayt
+  │             qaytarayotgani aniqlandi — demak xatolik ichkarida yutilib,
+  │             oddiy forma sahifasi qaytarilyapti
+  │
+  ├─ 20 minut  2. Sababni tasdiqlash
+  │             to'liq webapp classpath bilan standalone testda
+  │             RestClientException: No HttpMessageConverter ... topildi —
+  │             jar WEB-INF\lib dagi eski Jackson (2.6.7) bilan
+  │             to'qnashayotgani aniqlandi (file-service-client.jar da
+  │             avval bo'lgan xuddi shu muammo)
+  │
+  └─ 20 minut  3. Jarni umumiy classloaderga ko'chirish
+                pechat-service-client.jar $CATALINA_HOME\lib ga
+                ko'chirildi, standalone testda tasdiqlandi (40054 bayt),
+                Tomcat to'liq to'xtatilib qayta ishga tushirildi
+
+Yakuniy natija:
+  V Jackson nizosi bartaraf etildi, pechat-service to'g'ri javob qaytardi
+  V Sabab va yechim file-service-client.jar bilan bir xil naqsh ekani
+    hujjatlashtirildi
+
+================================================================================
+TASK 6: Sinov sahifasidagi "fayl tanlanmadi" bugini tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  "JSON'ni ko'rish" bosilgandan keyin "To'ldirish"da fayl topilmasligi
+  sababi debugger orqali aniqlanib tuzatildi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. Debugger bilan aniq xatoni tutish
+  │             java.lang.Exception "Fayl tanlanmadi" aniqlandi — sabab:
+  │             "JSON'ni ko'rish" bosilganda dropdown DB'dan qayta
+  │             chizilib, avvalgi tanlov selected deb belgilanmagani
+  │             uchun keyingi so'rovda file_id bo'sh kelgan
+  │
+  ├─ 20 minut  2. Tuzatish
+  │             print_template_fill_test.jsp da selectedFileId umumiy
+  │             o'zgaruvchiga chiqarildi, dropdown option larni chizishda
+  │             mos qator uchun selected belgisi qo'shildi
+  │
+  └─ 15 minut  3. Tasdiqlash va jarayonni hujjatlashtirish
+                ikkala joyga CP1251'da saqlandi, JspC — 0 xato;
+                foydalanuvchi so'roviga javoban "To'ldirish va yuklab
+                olish" bosilganda ishlaydigan to'liq 9 bosqichli
+                zanjir (login -> havola -> yuklab olish -> POI to'ldirish
+                -> javob -> brauzer yuklab olish) yozma tushuntirildi
+
+Yakuniy natija:
+  V Dropdown tanlovi so'rovlar orasida saqlanib qoladi
+  V Fayl tanlash bugi qaytarilmaydi
+
+================================================================================
+TASK 7: Placeholder qiymatlarining to'ldirilmasligi sababini topish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  pechat-service zanjiri orqali generatsiya qilinganda barcha maydonlar
+  bo'sh chiqishi sababi ikkita mustaqil xatoga borib taqalgani aniqlandi.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. DB test ma'lumotining o'zi buzuqligini topish
+  │             Get_All_Resolved_Vars ni Q.java/JDBC orqali to'g'ridan-to'g'ri
+  │             chaqirib tekshirilganda client_name qiymatida lotincha "A"
+  │             va kirillcha "лижонов" aralashgani (Aлижонов, ko'zga bir
+  │             xil ko'ringan) aniqlandi; UPDATE Mpt_Print_Variables bilan
+  │             toza kirillchaga tuzatildi
+  │
+  ├─ 20 minut  2. JSON kalit formati nomosligi
+  │             MPT_PRINT_API qavsli kalitlar bilan qaytaradi
+  │             ("[client_name]"), pechat-service esa qavssiz kalit kutadi;
+  │             extractPlaceholdersJson() kalitlardan qavslarni olib
+  │             tashlaydigan qilib tuzatildi
+  │
+  └─ 15 minut  3. To'liq zanjirni qayta tekshirish
+                standalone va JSP orqali qayta sinaldi — barcha 5 maydon
+                (Bank, Mijoz, Kredit summasi, Shartnoma raqami, Sana) to'g'ri
+                to'ldi, ro'yxatdan o'tmagan placeholder bo'sh qoldi
+
+Yakuniy natija:
+  V Ikkala xato (buzuq test ma'lumoti + qavsli/qavssiz kalit nomosligi)
+    mustaqil aniqlanib tuzatildi
+  V To'liq zanjir (DB -> JSON -> pechat-service -> PDF) uchtan-uchga ishladi
+
+================================================================================
+TASK 8: Global o'zgaruvchilar ekraniga modul va "ALL" tanlovini qo'shish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Foydalanuvchi so'rovi bo'yicha "Global o'zgaruvchilar" add/edit
+  formasiga modul tanlash maydoni va "barcha modullar uchun" (ALL)
+  qiymati qo'shilmoqda.
+
+Bosqichlar va vaqt:
+  ├─ 25 minut  1. DB tomoni
+  │             MPT_GLOBAL_VARIABLES_V view va tegishli paket (spec+body)
+  │             modul ustuni/ALL qiymatini qo'llab-quvvatlaydigan qilib
+  │             yangilandi
+  │
+  ├─ 20 minut  2. Add/edit forma
+  │             global_variable.jsp ga modul tanlash dropdown'i (ALL
+  │             varianti bilan) qo'shildi, UTF-8 ish nusxasida tahrirlanib
+  │             CP1251'ga o'girib ikkala joyga saqlandi
+  │
+  └─ 15 minut  3. Ro'yxat ekrani
+                global_variables.jsp grid'iga modul ustuni/filtri
+                qo'shildi
+
+Yakuniy natija:
+  V DB (view+paket) va JSP (forma+ro'yxat) o'zgarishlari kiritildi
+  ! Ish sessiyasi hali davom etmoqda — yakuniy JspC tekshiruvi va
+    brauzerda foydalanuvchi tasdig'i kutilmoqda
+
+================================================================================
+KUNLIK XULOSA
+================================================================================
+Umumiy vaqt: 8 soat (480 minut)
+Task soni: 8 ta
+
+Taqsimot:
+  - POI-fill mexanizmi va test sahifa (yaratish + bug tuzatish) : 2 soat (Task 1-2)
+  - Get_All_Resolved_Vars integratsiyasi : 1 soat (Task 3)
+  - pechat-service integratsiyasi (kashfiyot + ulash + classloader fix) : 2 soat (Task 4-5)
+  - Test sahifa fayl-tanlash bugi : 1 soat (Task 6)
+  - Placeholder to'ldirilmasligi sababini topish : 1 soat (Task 7)
+  - Global o'zgaruvchilar modul/ALL qo'shish : 1 soat (Task 8)
+
+Yaratilgan/o'zgargan struktura:
+  - Yangi: print_template_fill_test.jsp, pechatservice.properties,
+    E:\project\mpt\db\grants\mpt_print_api.sql
+  - Yangilangan: print_settings.jsp ("Тест" tugmasi), MPT_PRINT_API
+    (UAPP sinonim+grant), MPT_PRINT_SETTINGS ma'lumotlari (group_code
+    bridge), pechat-service-client.jar joylashuvi ($CATALINA_HOME\lib),
+    extractPlaceholdersJson(), MPT_GLOBAL_VARIABLES_V, tegishli paket,
+    global_variable.jsp, global_variables.jsp
+  - Live DB: MPT_PRINT_VARIABLES.client_name (aralash alifbo tuzatildi)
+
+Ochiq qolgan masalalar:
+  [ ] Task 8 (Global o'zgaruvchilar modul/ALL) hali tugallanmagan — yakuniy
+      JspC tekshiruvi va brauzerda tasdiqlash qolgan
+  [ ] pechat-service-client.jar $CATALINA_HOME\lib ga ko'chirilgani —
+      vendor tomonidan jar yana yangilansa xuddi file-service-client.jar
+      kabi qayta tekshirish kerak
+  [ ] Aktivatsiya sanasi (ISO vs dd.mm.yyyy, 03-08 dan qolgan) hali
+      brauzerda yakuniy tasdiqlanmagan
+  [ ] IDEA run-config SDK JDK17/eski JRE bo'lishi mumkin (07-31 dan qolgan,
+      bugun tegilmadi)
+
+================================================================================
+Fayl yaratilgan: 2026-08-04
+Saqlash joyi: E:\project\mpt\docs\jira_tasks\04_08_2026.txt
+================================================================================

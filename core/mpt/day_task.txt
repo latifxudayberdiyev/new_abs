@@ -1,0 +1,5 @@
+1.Global o'zgaruvchilar ga modul kod qo'shishim kerak. Agarda modu bo'lmasa all hamma modul uchun ishliydigan bo'lishi kerak.
+2. RElition table qilishimiz kerak module code va table name qo'shadigan method qilib berishimiz kerak tashqi modullar uchun.
+2. Shu tablitsa ga qarab uni polyalarini chiqarib tanliydigan qilib berishimiz kerak.
+3. Shablon turlarigan  peremenniyni biriktiradigan qilishimiz kerak.
+4. BUnda modul code  shartnoma ikkalasi birgalikda unic bo'lishi kerak.

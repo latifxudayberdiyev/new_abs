@@ -1,0 +1,230 @@
+<svg viewBox="0 0 2000 746" xmlns="http://www.w3.org/2000/svg" role="img" font-family="'SF Mono', 'Consolas', monospace">
+<title>ACC_ prefiksli jadvallar uchun ER diagramma</title>
+<desc>NEW_ABS bazasidagi 12 ta ACC_ jadval va ularning bog'lanishlarini ko'rsatuvchi ER diagramma, SM_OBJECTS va CL_PHYS_PERSONS tashqi jadvallariga havolalar bilan.</desc>
+<defs>
+  <marker id="crow" markerWidth="14" markerHeight="14" refX="12" refY="6" orient="auto">
+    <path d="M0,0 L12,6 L0,12" fill="none" stroke="var(--erd-line)" stroke-width="1.4"/>
+  </marker>
+</defs>
+<style>
+  :root { --erd-bg:#ffffff; --erd-box:#f8fafc; --erd-box-ext:#f8fafc; --erd-border:#cbd5e1; --erd-header:#1e293b; --erd-header-text:#f8fafc; --erd-text:#334155; --erd-pk:#0f172a; --erd-fk:#2563eb; --erd-null:#94a3b8; --erd-line:#94a3b8; --erd-line-ext:#cbd5e1; --erd-audit:#94a3b8; }
+  @media (prefers-color-scheme: dark) {
+    :root { --erd-bg:#0b0f17; --erd-box:#1a2130; --erd-box-ext:#11151d; --erd-border:#465269; --erd-header:#334165; --erd-header-text:#f8fafc; --erd-text:#e2e8f0; --erd-pk:#ffffff; --erd-fk:#8fb4ff; --erd-null:#94a3b8; --erd-line:#64748b; --erd-line-ext:#475569; --erd-audit:#94a3b8; }
+  }
+  :root[data-theme="dark"] { --erd-bg:#0b0f17; --erd-box:#1a2130; --erd-box-ext:#11151d; --erd-border:#465269; --erd-header:#334165; --erd-header-text:#f8fafc; --erd-text:#e2e8f0; --erd-pk:#ffffff; --erd-fk:#8fb4ff; --erd-null:#94a3b8; --erd-line:#64748b; --erd-line-ext:#475569; --erd-audit:#94a3b8; }
+  :root[data-theme="light"] { --erd-bg:#ffffff; --erd-box:#f8fafc; --erd-box-ext:#f8fafc; --erd-border:#cbd5e1; --erd-header:#1e293b; --erd-header-text:#f8fafc; --erd-text:#334155; --erd-pk:#0f172a; --erd-fk:#2563eb; --erd-null:#94a3b8; --erd-line:#94a3b8; --erd-line-ext:#cbd5e1; --erd-audit:#94a3b8; }
+  .ename { font-size:12px; font-weight:700; }
+  .col { font-size:10.5px; fill: var(--erd-text); }
+  .pk { font-weight:700; fill: var(--erd-pk); text-decoration: underline; }
+  .fk { fill: var(--erd-fk); }
+  .null { fill: var(--erd-null); }
+  .audit { fill: var(--erd-audit); font-style: italic; }
+</style>
+<rect x="0" y="0" width="2000" height="746" fill="var(--erd-bg)"/>
+<path d="M290,77 C335,77 335,149 368,149" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M290,77 C675,77 675,349 1048,349" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M290,77 C335,77 335,325 368,325" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M290,213 C335,213 335,325 368,325" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M630,149 C675,149 675,157 708,157" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M630,149 C675,149 675,381 708,381" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M630,149 C675,149 675,565 708,565" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M970,157 C1015,157 1015,141 1048,141" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M970,157 C1015,157 1015,349 1048,349" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M970,157 C1015,157 1015,581 1048,581" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M1310,141 C1355,141 1355,141 1388,141" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M1310,581 C1355,581 1355,373 1388,373" fill="none" stroke="var(--erd-line)" stroke-width="1.3"  marker-end="url(#crow)"/>
+<path d="M970,157 C1355,157 1355,157 1728,157" fill="none" stroke="var(--erd-line-ext)" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#crow)"/>
+<path d="M1310,581 C1525,581 1525,69 1728,69" fill="none" stroke="var(--erd-line-ext)" stroke-width="1.3" stroke-dasharray="4,3" marker-end="url(#crow)"/>
+<g>
+<rect x="40" y="40" width="250" height="74" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="40" y="40" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="40" y="58" width="250" height="8" fill="var(--erd-header)"/>
+<text x="165" y="57" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_R_MODULES</text>
+<text x="52" y="84" class="col pk">MODULE_CODE</text>
+<text x="52" y="100" class="col">MODULE_NAME</text>
+</g>
+<g>
+<rect x="40" y="144" width="250" height="138" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="40" y="144" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="40" y="162" width="250" height="8" fill="var(--erd-header)"/>
+<text x="165" y="161" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_R_CLASS_CATALOG</text>
+<text x="52" y="188" class="col pk">CATALOG_ID</text>
+<text x="52" y="204" class="col">CLASS_CODE</text>
+<text x="52" y="220" class="col">RANGE_FROM</text>
+<text x="52" y="236" class="col">RANGE_TO</text>
+<text x="52" y="252" class="col">CATALOG_NAME</text>
+<text x="52" y="268" class="col">CATALOG_DESC <tspan class="null">?</tspan></text>
+</g>
+<g>
+<rect x="380" y="40" width="250" height="218" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="380" y="40" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="380" y="58" width="250" height="8" fill="var(--erd-header)"/>
+<text x="505" y="57" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_ACCOUNT_TYPES</text>
+<text x="392" y="84" class="col pk">ACCOUNT_TYPE_ID</text>
+<text x="392" y="100" class="col">NAME</text>
+<text x="392" y="116" class="col fk">MODULE_CODE</text>
+<text x="392" y="132" class="col">BALANCE_TYPE</text>
+<text x="392" y="148" class="col">STATE</text>
+<text x="392" y="164" class="col">UNIQUE_CONTRACT_FLAG</text>
+<text x="392" y="180" class="col">IS_OPEN_FLAG</text>
+<text x="392" y="196" class="col">INCODE_TYPE</text>
+<text x="392" y="212" class="col">IS_VIRTUAL</text>
+<text x="392" y="228" class="col">OBJECT_CODE <tspan class="null">?</tspan></text>
+<text x="392" y="244" class="audit">+ created/modified_on/by</text>
+</g>
+<g>
+<rect x="380" y="288" width="250" height="74" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="380" y="288" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="380" y="306" width="250" height="8" fill="var(--erd-header)"/>
+<text x="505" y="305" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_R_CLASS_CATALOG_MODULES</text>
+<text x="392" y="332" class="col pk fk">CATALOG_ID</text>
+<text x="392" y="348" class="col pk fk">MODULE_CODE</text>
+</g>
+<g>
+<rect x="720" y="40" width="250" height="234" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="720" y="40" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="720" y="58" width="250" height="8" fill="var(--erd-header)"/>
+<text x="845" y="57" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_ACCOUNTS</text>
+<text x="732" y="84" class="col pk">ACCOUNT_ID</text>
+<text x="732" y="100" class="col">ACCOUNT_CODE</text>
+<text x="732" y="116" class="col fk">ACCOUNT_TYPE_ID</text>
+<text x="732" y="132" class="col">OWNER_TYPE</text>
+<text x="732" y="148" class="col fk">CLIENT_ID <tspan class="null">?</tspan></text>
+<text x="732" y="164" class="col">CODE_FILIAL</text>
+<text x="732" y="180" class="col">CODE_CURRENCY</text>
+<text x="732" y="196" class="col">ABS_ACCOUNT_ID <tspan class="null">?</tspan></text>
+<text x="732" y="212" class="col">ACCOUNT_STATUS</text>
+<text x="732" y="228" class="col">DATE_OPEN</text>
+<text x="732" y="244" class="col">DATE_CLOSE <tspan class="null">?</tspan></text>
+<text x="732" y="260" class="audit">+ created/modified_on/by</text>
+</g>
+<g>
+<rect x="720" y="304" width="250" height="154" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="720" y="304" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="720" y="322" width="250" height="8" fill="var(--erd-header)"/>
+<text x="845" y="321" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_ACCOUNT_TYPE_CLIENTS</text>
+<text x="732" y="348" class="col pk">ACCOUNT_TYPE_CLIENT_ID</text>
+<text x="732" y="364" class="col fk">ACCOUNT_TYPE_ID</text>
+<text x="732" y="380" class="col">CLIENT_TYPE</text>
+<text x="732" y="396" class="col">STATE</text>
+<text x="732" y="412" class="col">CODE_COA</text>
+<text x="732" y="428" class="col">CURRENCY_CODE <tspan class="null">?</tspan></text>
+<text x="732" y="444" class="audit">+ created/modified_on/by</text>
+</g>
+<g>
+<rect x="720" y="488" width="250" height="154" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="720" y="488" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="720" y="506" width="250" height="8" fill="var(--erd-header)"/>
+<text x="845" y="505" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_ACCOUNT_TYPE_HISTORY</text>
+<text x="732" y="532" class="col pk">HISTORY_ID</text>
+<text x="732" y="548" class="col fk">ACCOUNT_TYPE_ID</text>
+<text x="732" y="564" class="col">ACTION_CODE</text>
+<text x="732" y="580" class="col">MODIFIED_ON</text>
+<text x="732" y="596" class="col">MODIFIED_BY</text>
+<text x="732" y="612" class="col">BEFORE_SNAPSHOT <tspan class="null">?</tspan></text>
+<text x="732" y="628" class="col">AFTER_SNAPSHOT</text>
+</g>
+<g>
+<rect x="1060" y="40" width="250" height="202" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="1060" y="40" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="1060" y="58" width="250" height="8" fill="var(--erd-header)"/>
+<text x="1185" y="57" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_ACCOUNT_BALANCES</text>
+<text x="1072" y="84" class="col pk">ACCOUNT_BALANCE_ID</text>
+<text x="1072" y="100" class="col fk">ACCOUNT_ID</text>
+<text x="1072" y="116" class="col">SALDO_IN</text>
+<text x="1072" y="132" class="col">SALDO_OUT</text>
+<text x="1072" y="148" class="col">INCOME</text>
+<text x="1072" y="164" class="col">EXPENSE</text>
+<text x="1072" y="180" class="col">INCOME_ALL</text>
+<text x="1072" y="196" class="col">EXPENSE_ALL</text>
+<text x="1072" y="212" class="col">SYNC_DATE</text>
+<text x="1072" y="228" class="audit">+ created/modified_on/by</text>
+</g>
+<g>
+<rect x="1060" y="272" width="250" height="154" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="1060" y="272" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="1060" y="290" width="250" height="8" fill="var(--erd-header)"/>
+<text x="1185" y="289" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_ACCOUNT_MODULES</text>
+<text x="1072" y="316" class="col pk">ACCOUNT_MODULE_ID</text>
+<text x="1072" y="332" class="col fk">ACCOUNT_ID</text>
+<text x="1072" y="348" class="col fk">MODULE_CODE</text>
+<text x="1072" y="364" class="col">IS_ACTIVE_FLAG</text>
+<text x="1072" y="380" class="col">CONNECTED_ON</text>
+<text x="1072" y="396" class="col">DISCONNECTED_ON <tspan class="null">?</tspan></text>
+<text x="1072" y="412" class="audit">+ created_on/by</text>
+</g>
+<g>
+<rect x="1060" y="456" width="250" height="250" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="1060" y="456" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="1060" y="474" width="250" height="8" fill="var(--erd-header)"/>
+<text x="1185" y="473" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_ACCOUNT_OBJECTS</text>
+<text x="1072" y="500" class="col pk">ACCOUNT_OBJECT_ID</text>
+<text x="1072" y="516" class="col fk">ACCOUNT_ID</text>
+<text x="1072" y="532" class="col fk">OBJECT_ID</text>
+<text x="1072" y="548" class="col">SALDO_IN</text>
+<text x="1072" y="564" class="col">SALDO_OUT</text>
+<text x="1072" y="580" class="col">INCOME</text>
+<text x="1072" y="596" class="col">EXPENSE</text>
+<text x="1072" y="612" class="col">INCOME_ALL</text>
+<text x="1072" y="628" class="col">EXPENSE_ALL</text>
+<text x="1072" y="644" class="col">STATE</text>
+<text x="1072" y="660" class="col">DATE_LINKED</text>
+<text x="1072" y="676" class="col">DATE_UNLINKED <tspan class="null">?</tspan></text>
+<text x="1072" y="692" class="audit">+ created/modified_on/by</text>
+</g>
+<g>
+<rect x="1400" y="40" width="250" height="202" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="1400" y="40" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="1400" y="58" width="250" height="8" fill="var(--erd-header)"/>
+<text x="1525" y="57" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_ACCOUNT_BALANCES_H</text>
+<text x="1412" y="84" class="col pk">ACCOUNT_BALANCE_HIST_ID</text>
+<text x="1412" y="100" class="col fk">ACCOUNT_BALANCE_ID</text>
+<text x="1412" y="116" class="col">OPER_DAY</text>
+<text x="1412" y="132" class="col">SALDO_IN</text>
+<text x="1412" y="148" class="col">SALDO_OUT</text>
+<text x="1412" y="164" class="col">INCOME</text>
+<text x="1412" y="180" class="col">EXPENSE</text>
+<text x="1412" y="196" class="col">INCOME_ALL</text>
+<text x="1412" y="212" class="col">EXPENSE_ALL</text>
+<text x="1412" y="228" class="audit">+ created_on/by</text>
+</g>
+<g>
+<rect x="1400" y="272" width="250" height="202" rx="6" fill="var(--erd-box)" stroke="var(--erd-border)" stroke-width="1" />
+<rect x="1400" y="272" width="250" height="26" rx="6" fill="var(--erd-header)"/>
+<rect x="1400" y="290" width="250" height="8" fill="var(--erd-header)"/>
+<text x="1525" y="289" text-anchor="middle" class="ename" fill="var(--erd-header-text)">ACC_ACCOUNT_OBJECTS_H</text>
+<text x="1412" y="316" class="col pk">ACCOUNT_OBJECT_HIST_ID</text>
+<text x="1412" y="332" class="col fk">ACCOUNT_OBJECT_ID</text>
+<text x="1412" y="348" class="col">OPER_DAY</text>
+<text x="1412" y="364" class="col">SALDO_IN</text>
+<text x="1412" y="380" class="col">SALDO_OUT</text>
+<text x="1412" y="396" class="col">INCOME</text>
+<text x="1412" y="412" class="col">EXPENSE</text>
+<text x="1412" y="428" class="col">INCOME_ALL</text>
+<text x="1412" y="444" class="col">EXPENSE_ALL</text>
+<text x="1412" y="460" class="audit">+ created_on/by</text>
+</g>
+<g>
+<rect x="1740" y="40" width="220" height="58" rx="6" fill="var(--erd-box-ext)" stroke="var(--erd-border)" stroke-width="1" stroke-dasharray="4,3"/>
+<rect x="1740" y="40" width="220" height="26" rx="6" fill="var(--erd-border)"/>
+<rect x="1740" y="58" width="220" height="8" fill="var(--erd-border)"/>
+<text x="1850" y="57" text-anchor="middle" class="ename" fill="var(--erd-text)">SM_OBJECTS</text>
+<text x="1752" y="84" class="col pk">OBJECT_ID</text>
+</g>
+<g>
+<rect x="1740" y="128" width="220" height="58" rx="6" fill="var(--erd-box-ext)" stroke="var(--erd-border)" stroke-width="1" stroke-dasharray="4,3"/>
+<rect x="1740" y="128" width="220" height="26" rx="6" fill="var(--erd-border)"/>
+<rect x="1740" y="146" width="220" height="8" fill="var(--erd-border)"/>
+<text x="1850" y="145" text-anchor="middle" class="ename" fill="var(--erd-text)">CL_PHYS_PERSONS</text>
+<text x="1752" y="172" class="col pk">CLIENT_ID</text>
+</g>
+<g font-size="10.5px">
+  <text x="40" y="22" class="col pk">PK</text>
+  <text x="66" y="22" fill="var(--erd-text)">= birlamchi kalit,</text>
+  <text x="190" y="22" class="col fk">FK</text>
+  <text x="216" y="22" fill="var(--erd-text)">= tashqi kalit,</text>
+  <text x="320" y="22" class="null">?</text>
+  <text x="332" y="22" fill="var(--erd-text)">= NULL bo'lishi mumkin,</text>
+  <text x="510" y="22" fill="var(--erd-text)">chizilgan chegara = jadval sxemadan tashqarida</text>
+</g>
+</svg>

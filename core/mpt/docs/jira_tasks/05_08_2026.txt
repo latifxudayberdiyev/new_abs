@@ -1,0 +1,266 @@
+================================================================================
+                    KUNLIK TASKLAR - 2026-08-05
+================================================================================
+Jami kunlik vaqt: 8 soat (8 task x 1 soat)
+Loyihalar: MPT (E:\project\mpt)
+Manba: 2026-08-05 kunidagi ish sessiyalari
+
+================================================================================
+TASK 1: Chop shabloni sozlamalari - "Sozlama tarixi" ekrani (MPT_PRINT_SETTINGS_H_V)
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Shablon sozlamalarining "Тарих" oynasiga fayl tarixidan tashqari sozlama
+  (nom/modul/tur/holat) o'zgarishlari tarixini ko'rsatadigan yangi bo'lim
+  qo'shildi.
+
+Bosqichlar va vaqt:
+  ├─ 30 minut  1. MPT_PRINT_SETTINGS_H_V view yaratish
+  │             Mpt_Module_Name, Mpt_Template_Types, Core_Users bilan bog'lab,
+  │             UAPP grant/sinonim qo'shildi, DDL fayllar db/views/, db/grants/
+  │             ostiga yozilib start.sql ga ro'yxatga olindi.
+  │
+  ├─ 15 minut  2. "Тарих" oynasini ikkiga ajratish
+  │             "Sozlama tarixi" (yangi view) + "Файллар" (avvalgi grid).
+  │
+  └─ 15 minut  3. Real test session-o'zgaruvchi orqali
+                ROWS=2 DATA bilan I/U voqealari modul nomi bilan to'g'ri
+                chiqishi tasdiqlandi, rollback bilan DB tozalandi.
+
+Yakuniy natija:
+  V MPT_PRINT_SETTINGS_H_V view DB da yaratildi va test qilindi
+  V Ikki bo'limli tarix oynasi tayyor (brauzerda vizual tekshiruv ochiq qoldi)
+
+================================================================================
+TASK 2: Shablon turi o'zgaruvchilari - checkbox grid arxitekturasi (backend)
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Bittalab modal orqali qo'shish o'rniga dvs_settings.jsp namunasidagi
+  checkbox grid arxitekturasiga o'tildi. Eski SM zanjiri va protseduralar
+  bazadan olib tashlandi.
+
+Bosqichlar va vaqt:
+  ├─ 30 minut  1. Eski arxitekturani o'chirish
+  │             template_type_var.jsp (ikkala joydan), MPT_TEMPLATE_TYPE_VAR
+  │             SM zanjiri (object/process/tranzition/event/procedure) bazadan
+  │             DELETE, repo fayli va start.sql yozuvi olib tashlandi,
+  │             Model_Type_Var_Sm/Save_Type_Var_Sm/Delete_Type_Var_Sm/
+  │             Save_Type_Var/Delete_Type_Var protseduralari va
+  │             MPT_TEMPLATE_VARS_V view o'chirildi.
+  │
+  ├─ 15 minut  2. Mpt_Admin_Api.Save_Type_Vars_Bulk protsedurasi
+  │             (template_code, i_Variable_Codes Core.Array_Varchar2, user_id)
+  │             — set-based sinxronlash: checkbox'da bor-u DB'da yo'qni
+  │             qo'shadi, aksini o'chiradi.
+  │
+  └─ 15 minut  3. MPT_TEMPLATE_TYPE_VARS_V pick-view
+                Barcha faol GLOBAL+MODULE o'zgaruvchilar + IS_MAPPED (1/0)
+                + modul filtri ustuni.
+
+Yakuniy natija:
+  V Save_Type_Vars_Bulk protsedurasi yozildi va ishlaydi
+  V Eski SM zanjiri va keraksiz obyektlar tozalandi
+
+================================================================================
+TASK 3: template_type_vars.jsp - checkbox grid ekrani va test
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Yangi backend asosida bitta ekranli JSP yozildi va JDBC orqali to'g'ridan-
+  to'g'ri sinxronlash testlari o'tkazildi.
+
+Bosqichlar va vaqt:
+  ├─ 30 minut  1. template_type_vars.jsp qayta qurish
+  │             Checkbox grid, "Модуль" ustuni choice filtri bilan, bitta
+  │             Saqlash tugmasi.
+  │
+  ├─ 15 minut  2. Bulk sync testi (JDBC)
+  │             Bosh holat -> 2 ta belgilash -> bittasini uncheck+yangi
+  │             qo'shish -> bo'sh massiv bilan hammasini o'chirish; ARIZA
+  │             turidagi avvalgi 5 mapping regressiyasiz saqlanib qoldi.
+  │
+  └─ 15 minut  3. JspC + javac tekshiruvi va CP1251 round-trip
+                0 xato, cs.setString/setNumber/setArrayStringParameter
+                imzolari mos, belgi yo'qolishi yo'q.
+
+Yakuniy natija:
+  V Checkbox grid ekrani yozildi, kompilyatsiya 0 xato
+  V Bulk sync va regressiya testlari DB darajasida tasdiqlandi
+
+================================================================================
+TASK 4: template_type_vars.jsp - ORA-01400 xatoligini tuzatish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Foydalanuvchi xabar bergan ORA-01400 xatoligi diagnostika qilinib
+  tuzatildi: sabab template_code maydonining saqlash formasidan
+  chiqarib tashlanganida edi.
+
+Bosqichlar va vaqt:
+  ├─ 30 minut  1. Sabab diagnostikasi
+  │             <t:request name="save"> iframe orqali mustaqil yangi HTTP
+  │             so'rov yuboradi, shu sababli sahifa boshidagi template_code
+  │             scriptlet o'zgaruvchisi saqlash so'rovida ko'rinmaydi (har
+  │             doim NULL kelib ORA-01400 chiqargan).
+  │
+  ├─ 15 minut  2. Tuzatish
+  │             template_code hidden maydoni fmSave formasiga qaytarildi
+  │             (template_type.jsp kabi boshqa MPT save formalari ham shu
+  │             qoidaga amal qiladi).
+  │
+  └─ 15 minut  3. Qayta tekshiruv va deploy
+                JspC/javac 0 xato, deploy+repo ikkala joyga CP1251 da
+                sinxron saqlandi.
+
+Yakuniy natija:
+  V ORA-01400 sababi topildi va tuzatildi
+  V Ikkala joyga (deploy+repo) CP1251 kodlashda sinxronlandi
+
+================================================================================
+TASK 5: Core.Mle_Core_Api.Raise_Error dan keyin return qo'shish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  MPT_ADMIN_API va MPT_PRINT_API paket bodylarida statik-analiz/o'qish
+  aniqligi uchun Raise_Error chaqiruvlaridan keyin return qo'shildi.
+
+Bosqichlar va vaqt:
+  ├─ 30 minut  1. 17 joyga return qo'shish
+  │             MPT_ADMIN_API - 8 ta, MPT_PRINT_API - 9 ta. Funksiyalarda
+  │             bo'sh return; kompilyatsiya bo'lmagani uchun (PLS-00503)
+  │             3 tasiga tipga mos qiymat: Get_Template_By_Group_Lang ->
+  │             return v_Row;, Resolve_Var_Value va Build_Qr_Content ->
+  │             return null;.
+  │
+  ├─ 15 minut  2. Qayta kompilyatsiya
+  │             Ikkala paket body qayta kompilyatsiya qilindi, all_errors
+  │             bo'sh, ikkalasi ham VALID.
+  │
+  └─ 15 minut  3. Fayllarni sinxronlash
+                Mpt_Admin_Api.pck va Mpt_Print_Api.pck E:\project\mpt\db\
+                packages\ ostida DB bilan bir xil holga keltirildi
+                (CRLF/LF saqlangan), backup nusxalari scratchpad'ga saqlandi.
+
+Yakuniy natija:
+  V 17 joyga return qo'shildi, ikkala paket VALID
+  V Local fayllar DB bilan sinxronlandi
+
+================================================================================
+TASK 6: Mpt_Print_Api.pck - takrorlangan package body tozalash
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Fayl tarkibida package body ikki marta yozilgani aniqlanib, tozalandi
+  va DB bilan mosligi tasdiqlandi.
+
+Bosqichlar va vaqt:
+  ├─ 30 minut  1. Takrorlanishni aniqlash va tozalash
+  │             Satr 206-1186 va 1188-2170 bir xil edi (faqat header
+  │             bo'shliqlari farq qildi). Ikkinchi nusxa olib tashlandi:
+  │             2190 -> 1196 qator.
+  │
+  ├─ 15 minut  2. DB bilan solishtirish
+  │             Local va DB dagi all_source baytma-bayt solishtirildi:
+  │             Mpt_Admin_Api.pck - 830 qator, Mpt_Print_Api.pck - 1196
+  │             qator, faqat fayl oxiridagi newline farqi (kosmetik).
+  │
+  └─ 15 minut  3. Boshqa nusxalarni qidirish
+                E:\project\mpt\db\ ostida bu paketlarning boshqa
+                takrorlangan nusxasi topilmadi.
+
+Yakuniy natija:
+  V Takrorlangan body olib tashlandi (2190 -> 1196 qator)
+  V Local va DB source baytma-bayt bir xil ekani tasdiqlandi
+
+================================================================================
+TASK 7: MPT arxitektor monitoring agenti yaratish
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  MPT moduli bo'yicha boshqa sessiyalardagi ishlarni kuzatib, zidlik va
+  yaxshiroq yechimlarni aniqlaydigan read-only agent yaratildi.
+
+Bosqichlar va vaqt:
+  ├─ 30 minut  1. Feasibility tekshiruvi
+  │             session_mgmt tool'lari (list_sessions, list_events,
+  │             search_session_transcripts) MPT ishlarini ko'ra olishi
+  │             tasdiqlandi.
+  │
+  ├─ 15 minut  2. Agent yaratish
+  │             mpt-arxitektor.md: read-only, opus model, faqat ZIDLIK va
+  │             YAXSHIROQ YECHIM signal beradigan qoidalar bilan
+  │             (C:\Users\shukurov.o\.claude\agents\mpt-arxitektor.md).
+  │
+  └─ 15 minut  3. Birinchi sinov
+                Yangi agent ro'yxati sessiya boshida yuklanishi sababli
+                joriy sessiyada ko'rinmasligi aniqlandi (keyingi
+                sessiyalardan ishlaydi).
+
+Yakuniy natija:
+  V mpt-arxitektor agenti yaratildi va konfiguratsiya qilindi
+
+================================================================================
+TASK 8: Birinchi qo'lda arxitektura analizi - 2 ta zidlik topildi
+────────────────────────────────────────────────────────────────
+Jami vaqt: 1 soat
+Tavsif:
+  Agent hali ishga tushmagani uchun birinchi analiz qo'lda bajarildi,
+  8 sessiya ko'zdan kechirilib 2 tasi chuqur o'qildi.
+
+Bosqichlar va vaqt:
+  ├─ 30 minut  1. Sessiyalarni ko'rib chiqish
+  │             "Шаблон настройки" va "MPT_MENU_GLOBAL_VARIABLES muammosi"
+  │             sessiyalari chuqur o'qildi.
+  │
+  ├─ 15 minut  2. 1-zidlik: MPT_PRINT_TEMPLATES bo'sh qolishi
+  │             Mpt_Print_Api.pck:1009-1026 dagi format aniqlash logikasi
+  │             tasdiqlandi: jadval bo'sh bo'lsa DOC shoxiga tushadi, yangi
+  │             Excel cell-mapping UI (XLSX shoxi, :1064) hech qachon
+  │             bajarilmaydi -> kiritilgan qatorlarni hech kim o'qimaydi.
+  │
+  └─ 15 minut  3. 2-zidlik: FILE_TYPE='EXCEL' noto'g'ri kalit
+                mpt_print_settings.sql:21-22 (CH2 constraint) va
+                Mpt_Print_Api.pck:1064 solishtirildi: FILE_TYPE='EXCEL'+
+                FILE_FORMAT='PDF' kombinatsiyasi ruxsat etilgan, lekin
+                kod faqat FILE_FORMAT='XLSX' ni tekshiradi.
+
+Yakuniy natija:
+  V 2 ta aniq zidlik dalillar bilan (fayl:qator) hujjatlashtirildi
+
+================================================================================
+KUNLIK XULOSA
+================================================================================
+Umumiy vaqt: 8 soat (480 minut)
+Task soni: 8 ta
+
+Taqsimot:
+  - Chop shabloni sozlamalari tarixi ekrani : 1 soat (Task 1)
+  - Shablon turi o'zgaruvchilari (checkbox grid + xato tuzatish) : 3 soat (Task 2-4)
+  - PL/SQL kod sifati (Raise_Error/return, takrorlangan kod) : 2 soat (Task 5-6)
+  - MPT arxitektura monitoring agenti va birinchi analiz : 2 soat (Task 7-8)
+
+Jonli bazaga kiritilgan o'zgarishlar:
+  - MPT_PRINT_SETTINGS_H_V view (yangi)
+  - MPT_TEMPLATE_TYPE_VARS_V pick-view (yangi)
+  - Mpt_Admin_Api.Save_Type_Vars_Bulk protsedurasi (yangi)
+  - MPT_TEMPLATE_TYPE_VAR SM zanjiri obyektlari (o'chirildi)
+  - MPT_TEMPLATE_VARS_V view (o'chirildi)
+  - MPT_ADMIN_API va MPT_PRINT_API paket bodylarida 17 joyga return (VALID)
+  - Mpt_Print_Api.pck dagi takrorlangan package body tozalandi
+
+Ochiq qolgan masalalar:
+  [ ] "Шаблон настройки" - ikkita t:table/t:grid juftligi bitta sahifada
+      yonma-yon to'g'ri chizilishini brauzerda tekshirish kerak (login
+      yo'qligi sababli o'zim ko'ra olmadim)
+  [ ] template_type_vars.jsp - ORA-01400 tuzatilgandan keyin checkbox+
+      Saqlash oqimini foydalanuvchi hali qayta sinab ko'rmagan
+  [ ] Arxitektor agenti topgan 2 ta zidlik (MPT_PRINT_TEMPLATES bo'sh
+      qolishi, FILE_TYPE='EXCEL' noto'g'ri kalit) hal qilinmagan
+  [ ] Monitoring agentini qanday davriylikda ishga tushirish (foydalanuvchi
+      javobi kutilmoqda)
+
+================================================================================
+Fayl yaratilgan: 2026-08-06
+Saqlash joyi: E:\project\mpt\docs\jira_tasks\05_08_2026.txt
+================================================================================
