@@ -1,0 +1,111 @@
+package dm;
+
+import java.sql.*;
+import iabs.oraDBConnection;
+
+public class Local {
+  private String measurement;
+  private String storehouse;
+  private String adres;
+  private String mfo;
+  private String inn;
+  private String telephone;
+  private String okonh;
+  
+//======================================================
+  public Local() {
+    this.setMeasurement("");
+    this.setStorehouse("");
+    this.setAdres("");
+    this.setMfo("");
+    this.setInn("");
+    this.setTelephone("");
+    this.setOkonh("");
+  }
+//======================================================
+  public void setLocal(iabs.oraDBConnection rDBConn, String sFilial) {
+    Connection conn = rDBConn.getConnection();
+    String cSql="Select Measurement,Storehouse,Adres,MFO,INN,Telephone,OKONH From Dm_Local Where Filial='"+sFilial+"'";
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet QR = stmt.executeQuery(cSql);
+      if (QR.next()) {
+        this.setMeasurement(QR.getString("MEASUREMENT"));
+        this.setStorehouse(QR.getString("STOREHOUSE"));
+        this.setAdres(QR.getString("ADRES"));
+        this.setMfo(QR.getString("MFO"));
+        this.setInn(QR.getString("INN"));
+        this.setTelephone(QR.getString("TELEPHONE"));
+        this.setOkonh(QR.getString("OKONH"));
+      }
+      if (QR!=null) {QR.close();}
+      stmt.close();
+    } catch(Exception e) {
+    }
+  }
+//======================================================
+  public void setMeasurement(String sValue)  {
+    if (sValue==null) {sValue="";}
+    this.measurement=sValue;
+  }
+
+  public String getMeasurement()  {
+    return(this.measurement);
+  }
+//======================================================
+  public void setStorehouse(String sValue)  {
+    if (sValue==null) {sValue="";}
+    this.storehouse=sValue;
+  }
+
+  public String getStorehouse()  {
+    return(this.storehouse);
+  }
+//======================================================
+  public void setAdres(String sValue)  {
+    if (sValue==null) {sValue="";}
+    this.adres=sValue;
+  }
+
+  public String getAdres()  {
+    return(this.adres);
+  }
+//======================================================
+  public void setMfo(String sValue)  {
+    if (sValue==null) {sValue="";}
+    this.mfo=sValue;
+  }
+
+  public String getMfo()  {
+    return(this.mfo);
+  }
+//======================================================
+  public void setInn(String sValue)  {
+    if (sValue==null) {sValue="";}
+    this.inn=sValue;
+  }
+
+  public String getInn()  {
+    return(this.inn);
+  }
+//======================================================
+  public void setTelephone(String sValue)  {
+    if (sValue==null) {sValue="";}
+    this.telephone=sValue;
+  }
+
+  public String getTelephone()  {
+    return(this.telephone);
+  }
+//======================================================
+  public void setOkonh(String sValue)  {
+    if (sValue==null) {sValue="";}
+    this.okonh=sValue;
+  }
+
+  public String getOkonh()  {
+    return(this.okonh);
+  }
+//======================================================
+
+}

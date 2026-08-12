@@ -1,0 +1,30 @@
+#calendar {
+	position:absolute;
+  left:0px;
+	top:0px;
+	visibility:hidden;
+} 
+#day:link, #day:visited, #day:active {
+  text-decoration: none;
+	color: black;
+}
+#day:hover {
+  text-decoration: none; 
+	color: yellow;
+	background : #008B8B;
+}
+#actDay{
+  text-decoration: none;
+	color: blue;
+	background : #ffffcc;
+}
+#weekEnd {
+  text-decoration: none;
+	color: black;
+	background : #99ccff;
+}
+#toDay{
+	text-decoration: none;
+  color: black;
+	background : white;
+}

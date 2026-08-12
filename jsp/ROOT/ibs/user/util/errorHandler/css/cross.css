@@ -1,0 +1,198 @@
+body {
+	margin: 0;
+	background: var(--color-white) !important;
+}
+
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-mercury);
+	transition: 0.4s linear;
+}
+
+::-webkit-scrollbar {
+	background: var(--color-white);
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: none !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--color-gray);
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: 0 0 0 grey;
+}
+
+.form {
+	border: none;
+}
+
+.basepanel {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.more {
+	text-align: center;
+	color: #FFFFFF;
+	display: block;
+	padding: 0.5rem 0.75rem;
+	background: var(--color-blue);
+	border-radius: 0.5rem;
+	cursor: pointer;
+}
+
+.pageNotFound {
+	height: 100vh;
+	text-align: center;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	box-shadow: inset var(--shadow-header), var(--shadow-navbar);
+}
+
+.pulse {
+	margin: 0 auto;
+	margin-bottom: 1rem;
+}
+
+tr,
+td,
+table,
+tbody {
+	border: none;
+}
+
+/* The Modal (background) */
+.modal {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	padding-top: 6.25rem; /* Location of the box */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-contents {
+	background-color: var(--color-white);
+	margin: auto;
+	padding: 1.25rem 2.5rem 2.5rem 2.5rem;
+	border: 1px solid var(--color-white);
+	width: 70%;
+	height: 60%;
+	border-radius: 0.75rem;
+}
+
+/* The Close Button */
+.close {
+	color: var(--color-gray) !important;
+	font-size: 1.75rem;
+	font-weight: normal;
+	cursor: pointer;
+}
+
+.closediv {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	border-bottom: 0.5px solid var(--color-stroke);
+}
+
+.closediv h2 {
+	color: var(--color-black);
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.25rem;
+}
+
+.tableDiv {
+	margin-top: 0.75rem;
+	width: 100%;
+	height: 90%;
+	overflow-y: auto;
+}
+
+.close:hover,
+.close:focus {
+	color: var(--color-blue);
+	text-decoration: none;
+	cursor: pointer;
+}
+
+td,
+td b {
+	font-family: Inter;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 0.875rem;
+	line-height: 1.125rem;
+	/* or 129% */
+
+	/* Black */
+
+	color: var(--color-black) !important;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: none;
+}
+
+p {
+	font-size: 1rem;
+	line-height: 1.5rem;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	letter-spacing: -0.014em;
+	color: var(--color-gray);
+	margin-top: 0.5rem;
+}
+
+#pageNotFound span {
+	font-family: Inter;
+	font-style: normal;
+	font-weight: 500;
+	font-size: 1.25rem;
+	line-height: 1.75rem;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	letter-spacing: -0.014em;
+}
+
+span {
+	color: var(--color-black) !important;
+	font-size: 1.25rem;
+	line-height: 1.75rem !important;
+}
+
+p {
+	margin-top: 1rem !important;
+	font-size: 1rem !important;
+	line-height: 1.5rem !important;
+	color: var(--color-gray) !important;
+}
+
+.panel {
+	padding: 0;
+	margin: 0;
+}
+
+#basepanel {
+	padding: 0;
+	margin: 0;
+}

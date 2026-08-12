@@ -1,0 +1,327 @@
+/* ============================================================
+   SQB app-shell (main.jsp). cp1251-safe (sof ASCII, CDN yo'q).
+   Grid: [brand | header] / [sidebar | main].
+   >=769px: sidebar doim ochiq (collapse bilan ikonka-rejim).
+   <=768px: sidebar off-canvas (burger + overlay).
+   ============================================================ */
+
+:root {
+	--sqb-blue: #2563eb;
+	--sqb-bg: #f9fafb;
+	--sqb-border: #f3f4f6;
+	--sqb-line: #e5e7eb;
+	--sqb-text: #374151;
+	--sqb-muted: #9ca3af;
+	--sqb-active-bg: #f3f4f6;
+	--side-w: 240px;
+	--side-w-collapsed: 64px;
+	--head-h: 56px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+	height: 100%;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+	color: #111827;
+	background: var(--sqb-bg);
+}
+
+body { overflow: hidden; }
+
+.app {
+	display: grid;
+	grid-template-columns: var(--side-w) 1fr;
+	grid-template-rows: var(--head-h) 1fr;
+	grid-template-areas:
+		"brand  header"
+		"sidebar main";
+	height: 100vh;
+	transition: grid-template-columns .18s ease;
+}
+
+.app.collapsed { grid-template-columns: var(--side-w-collapsed) 1fr; }
+
+/* ==== Brand (logo + collapse), chap-yuqori ==== */
+.brand {
+	grid-area: brand;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 0 14px;
+	background: #fff;
+	border-right: 1px solid var(--sqb-border);
+	border-bottom: 1px solid var(--sqb-border);
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.brand .logo-mark { height: 28px; width: 28px; flex: none; border-radius: 8px; }
+.brand .brand-name { font-size: 16px; font-weight: 700; color: #111827; }
+.app.collapsed .brand-name { display: none; }
+
+.icon-btn {
+	width: 34px;
+	height: 34px;
+	border: none;
+	background: transparent;
+	border-radius: 10px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--sqb-text);
+	flex: none;
+}
+
+.icon-btn:hover { background: var(--sqb-active-bg); }
+.collapse-btn { margin-left: auto; }
+.app.collapsed .collapse-btn { margin-left: 0; }
+
+/* ==== Header (top bar) ==== */
+.topbar {
+	grid-area: header;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 0 18px;
+	background: #fff;
+	border-bottom: 1px solid var(--sqb-border);
+}
+
+.burger { display: none; }
+
+.breadcrumb {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 13px;
+	color: var(--sqb-muted);
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.breadcrumb .crumb-cur { color: #111827; font-weight: 600; }
+.breadcrumb .crumb-sep { color: #d1d5db; }
+
+.topbar .spacer { flex: 1; }
+
+.notify-btn { position: relative; }
+
+.badge {
+	position: absolute;
+	top: 4px;
+	right: 4px;
+	min-width: 15px;
+	height: 15px;
+	padding: 0 4px;
+	background: #ef4444;
+	color: #fff;
+	font-size: 10px;
+	font-weight: 700;
+	line-height: 15px;
+	text-align: center;
+	border-radius: 8px;
+}
+
+.badge:empty, .badge[data-count="0"], .badge[data-count=""] { display: none; }
+
+.user-box {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 4px 6px;
+	border-radius: 10px;
+	cursor: pointer;
+	max-width: 240px;
+}
+
+.user-box:hover { background: var(--sqb-active-bg); }
+
+.user-avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	object-fit: cover;
+	background: #e5e7eb;
+	flex: none;
+}
+
+.user-name {
+	font-size: 13px;
+	font-weight: 600;
+	color: #1f2937;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* ==== Sidebar ==== */
+.sidebar {
+	grid-area: sidebar;
+	background: #fff;
+	border-right: 1px solid var(--sqb-border);
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+}
+
+.side-menu {
+	flex: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 10px 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+/* Menyu elementi (yaproq yoki guruh sarlavhasi) */
+.mi {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 9px 10px;
+	border-radius: 10px;
+	font-size: 13px;
+	color: var(--sqb-text);
+	text-decoration: none;
+	cursor: pointer;
+	border: none;
+	background: transparent;
+	width: 100%;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.mi:hover { background: var(--sqb-active-bg); }
+.mi.active { background: #eff6ff; color: var(--sqb-blue); font-weight: 600; }
+
+.mi .mi-icon { width: 18px; height: 18px; flex: none; display: flex; align-items: center; justify-content: center; }
+.mi .mi-label { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+.mi .mi-chevron { flex: none; transition: transform .15s; color: var(--sqb-muted); }
+.mi.open .mi-chevron { transform: rotate(90deg); }
+
+/* Ich-elementlar (guruh ostidagi) */
+.mi-children { display: none; flex-direction: column; gap: 2px; margin: 2px 0 2px 0; }
+.mi-children.open { display: flex; }
+.mi-children .mi { padding-left: 38px; font-size: 13px; }
+
+/* Collapsed rejimda faqat ikonka */
+.app.collapsed .mi-label,
+.app.collapsed .mi-chevron { display: none; }
+.app.collapsed .mi { justify-content: center; padding: 9px 0; }
+.app.collapsed .mi-children { display: none !important; }
+
+.side-footer {
+	border-top: 1px solid var(--sqb-border);
+	padding: 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+/* ==== Main (iframe konteyner) ==== */
+.main {
+	grid-area: main;
+	position: relative;
+	overflow: hidden;
+	background: var(--sqb-bg);
+}
+
+.main iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+/* Sidebar overlay (mobil) */
+.side-overlay {
+	display: none;
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, .3);
+	z-index: 40;
+}
+
+/* ==== Sozlamalar paneli (til) ==== */
+#settingsOverlay {
+	display: none;
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, .25);
+	z-index: 998;
+}
+
+#settingsPanel {
+	position: fixed;
+	top: 0;
+	right: -320px;
+	bottom: 0;
+	width: 300px;
+	background: #fff;
+	box-shadow: -8px 0 24px rgba(0, 0, 0, .12);
+	z-index: 999;
+	transition: right .2s ease;
+	padding: 20px;
+	overflow-y: auto;
+}
+
+#settingsPanel.open { right: 0; }
+#settingsPanel h3 { font-size: 14px; color: #111827; margin-bottom: 14px; }
+
+.lang-option {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 10px 12px;
+	border-radius: 12px;
+	cursor: pointer;
+	font-size: 13px;
+	color: var(--sqb-text);
+}
+
+.lang-option:hover { background: var(--sqb-bg); }
+.lang-option.active { background: #eff6ff; color: var(--sqb-blue); font-weight: 600; }
+.lang-option img { width: 20px; height: 16px; border-radius: 2px; }
+
+/* ==== Planshet / mobil (<=768px): off-canvas sidebar ==== */
+@media (max-width: 768px) {
+	.app {
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			"header"
+			"main";
+	}
+
+	.brand {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: var(--head-h);
+		z-index: 10;
+		border-right: none;
+		display: none;
+	}
+
+	.topbar { grid-area: header; }
+	.burger { display: flex; }
+
+	.sidebar {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 260px;
+		height: 100vh;
+		z-index: 50;
+		transform: translateX(-100%);
+		transition: transform .2s ease;
+		box-shadow: 4px 0 20px rgba(0, 0, 0, .12);
+	}
+
+	.app.side-open .sidebar { transform: translateX(0); }
+	.app.side-open .side-overlay { display: block; }
+
+	/* Mobil holatda collapse ta'sir qilmasin */
+	.app.collapsed { grid-template-columns: 1fr; }
+	.app .mi-label, .app .mi-chevron { display: inline; }
+}

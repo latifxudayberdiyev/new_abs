@@ -1,0 +1,19 @@
+:root {	
+	--size-35:  calc(var(--index) * 0.878 * 35px);
+	--size-37:  calc(var(--index) * 0.878 * 37px);
+	--size-45:  calc(var(--index) * 0.878 * 45px);
+	--size-50:  calc(var(--index) * 0.878 * 50px);
+	--size-60:  calc(var(--index) * 0.878 * 60px);
+	--size-150:  calc(var(--index) * 0.878 * 150px);
+	--size-169:  calc(var(--index) * 0.878 * 169px);
+	--size-170:  calc(var(--index) * 0.878 * 170px);
+	--size-193:  calc(var(--index) * 0.878 * 193px);
+	--size-294:  calc(var(--index) * 0.878 * 294px);
+	--size-300:  calc(var(--index) * 0.878 * 300px);
+	--size-310:  calc(var(--index) * 0.878 * 310px);
+	--size-600:  calc(var(--index) * 0.878 * 600px);
+	--size-800:  calc(var(--index) * 0.878 * 800px);
+
+	--rem-15: calc(var(--index) * 0.878 * 240px);
+	--rem-34: calc(var(--index) * 0.878 * 544px);
+}

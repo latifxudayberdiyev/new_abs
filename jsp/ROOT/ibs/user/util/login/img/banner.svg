@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 25.4.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Слой_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 866 193" style="enable-background:new 0 0 866 193;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000097475847754944840590000002064991450966899097_);}
+	.st1{fill:#FFFFFF;fill-opacity:8.000000e-02;}
+	.st2{opacity:0.4;fill:url(#SVGID_00000057827403591051925440000005916445639259180952_);enable-background:new    ;}
+	
+		.st3{opacity:0.4;fill:url(#SVGID_00000159464340281205369700000003848052595250993584_);fill-opacity:0.8;enable-background:new    ;}
+</style>
+<g>
+	<defs>
+		<rect id="SVGID_1_" width="866" height="193"/>
+	</defs>
+	<clipPath id="SVGID_00000065047627423689814650000000206869837170870151_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<g style="clip-path:url(#SVGID_00000065047627423689814650000000206869837170870151_);">
+		<path class="st1" d="M-325.4,15.5c-12.1,49-174.5,171.2,238,210S528.1,31.5,777.1,84c249,52.5,331.4,128.7,372.3,102l-8.6,152
+			c-568.7,0-887.5,0-1456.1,0C-315.3,338-313.3-33.6-325.4,15.5z"/>
+		
+			<radialGradient id="SVGID_00000017513988064401077010000002517929376965920432_" cx="-525.5302" cy="635.9234" r="1" gradientTransform="matrix(1119.65 0 0 -411.479 589513.9375 261747.5)" gradientUnits="userSpaceOnUse">
+			<stop  offset="0" style="stop-color:#00DBEF"/>
+			<stop  offset="0.6127" style="stop-color:#BEC6F4"/>
+			<stop  offset="1" style="stop-color:#4E7BFF"/>
+		</radialGradient>
+		<path style="opacity:0.4;fill:url(#SVGID_00000017513988064401077010000002517929376965920432_);enable-background:new    ;" d="
+			M-202.5,133c215.5,70,438.1-83.4,652-12.5c213.9,70.9,643.5,78.3,788-95.5v289h-1440V133z"/>
+		
+			<radialGradient id="SVGID_00000036216160139088186370000011619627915721116056_" cx="-525.5768" cy="636.0091" r="1" gradientTransform="matrix(1242.89 0 0 -447.074 654320.5 284401.125)" gradientUnits="userSpaceOnUse">
+			<stop  offset="0" style="stop-color:#00DBEF"/>
+			<stop  offset="0.6127" style="stop-color:#BEC6F4"/>
+			<stop  offset="1" style="stop-color:#4E7BFF"/>
+		</radialGradient>
+		
+			<path style="opacity:0.4;fill:url(#SVGID_00000036216160139088186370000011619627915721116056_);fill-opacity:0.8;enable-background:new    ;" d="
+			M-364,0c0,0,665.5,260.5,1042,111s556.5,0,556.5,0v203h-1440L-364,0z"/>
+	</g>
+</g>
+</svg>

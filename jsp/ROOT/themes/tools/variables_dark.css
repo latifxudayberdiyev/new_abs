@@ -1,0 +1,44 @@
+:root {
+	--main-font: 'Open Sans', sans-serif;
+	--color-blue: #4785EF;
+	--color-blue10: #353945;
+	--color-black: #EFEFEF;
+	--color-gray: #777E90;
+	--color-green: #24CA49;
+	--color-green10: #353945;
+	--color-red: #FD4638;
+	--color-red10: #353945;
+	--color-yellow: #FF9A03;
+	--color-yellow10: #353945;
+	--color-white: #1A1D24;
+	--color-stroke: #3B4254;
+	--color-background: #17171C;
+	--color-mercury: #353945;
+	--color-white-smoke: #272B35;	
+	--color-icon-yellow: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 32.81%, rgba(0, 0, 0, 0.02) 100%), linear-gradient(180deg, #FF9A03 0%, #FA9C10 100%);
+	--color-icon-black: linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(35, 38, 47, 0.24) 100%), #EAEAEA;
+	--color-icon-white: linear-gradient(180deg, rgba(255, 152, 0, 0) 0%, rgba(175, 104, 0, 0.24) 100%), #FFFFFF;
+	--shadow-alert: 0px 0.25rem 0.5rem rgba(0, 0, 0, 0.24), 0px 0.5rem 1.5rem 0.5rem rgba(0, 0, 0, 0.24);
+	--shadow-iframe: 0px 0px 0.5rem rgba(0, 0, 0, 0.16), 0px 0.125rem 1rem 0.25rem rgba(0, 0, 0, 0.16);
+	--shadow-button: 0px 0.125rem 0.25rem rgba(0, 0, 0, 0.24);
+	--shadow-navbar: 0.25rem 0px 0.25rem rgba(0, 0, 0, 0.16);
+	--shadow-header: 0px 0.25rem 0.25rem rgba(0, 0, 0, 0.16);
+
+	--shadow-currency: 1px 0.375rem 0.75rem rgba(0, 0, 0, 0.04), inset -0.125rem -0.125rem 0.125rem rgba(0, 0, 0, 0.02), inset 0.125rem 0.125rem 0.125rem rgba(168, 168, 168, 0.02);
+	--gradient-currency: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 32.81%, rgba(0, 0, 0, 0.02) 100%), linear-gradient(180deg, #4785EF 0%, #4785EF 100%);
+	
+	--button-background: var(--color-white-smoke);
+    --button-background-hover: var(--color-blue10);
+    --button-border: none;
+    --input-border: 1px solid var(--color-stroke);
+    --input-border-error: 1px solid var(--color-red);
+    --input-border-focus: 1px solid var(--color-blue);
+    --input-background: var(--color-white);
+    --input-background-focus: var(--color-white);
+    --input-background-error: var(--color-red10);
+    --input-background-disabled: var(--color-white-smoke);
+	--background-hover: #F1EFED;
+    --border-inset: 1px inset var(--color-white);
+    --border-outset: 1px outset var(--color-white);
+	--modal-background: var(--color-white);
+}

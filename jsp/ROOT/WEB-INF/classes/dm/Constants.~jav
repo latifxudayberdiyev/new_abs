@@ -1,0 +1,972 @@
+package dm;
+
+import java.util.Date;
+import java.math.*; //BigDecimal;
+import java.text.*;
+import java.util.Locale;
+import java.sql.*;
+import iabs.oraDBConnection;
+
+public class Constants {
+ private String filial;
+ private String taskCode;
+ private String subSystemCode;
+// private String htmlExit;
+ private String keyM;
+ private String keyDoc;
+ private String keyDocES;
+ private String keyTypeLeads;
+ private String groupM;
+ private String storehouse;
+ private String transact="n";
+ private String bch;
+ private String qp;
+ private String operDay;      // опердень
+ private String errorMsg;     // СООБЩЕНИЕ об ошибке
+ private String errorExit;    // выход после ошибки
+ private String webServer;    // имя Web Server
+ private String frmB;         // размер баннера
+ private String frmM;         // размер меню
+ private String frmH;         // размер заголовка
+ private String frmG;         // размер грида
+ private String frmF;         // размер пола
+ private String user;         // номер Usera
+ private String monthOpen;    // открытый месяц
+ private String monthCurr;    // расчетный месяц
+ private String typeSupplier; // тип поставщика
+ private String description;  // заставка
+ private String menu;         // HTML для меню
+ private String utver;        // HTML для утверждения
+ private static String documentOplataDog;
+ private static String documentOplataFil;
+ private String sequensValue; // значение ключа
+ private String stringValue;
+ static java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd.MM.yyyy");
+
+  public void setFilial(String sFilial)  {
+    filial=sFilial;
+  }
+
+  public String getFilial()  {
+    return(filial);
+  }
+
+  public String getFilialS()  {
+    return("'"+filial+"'");
+  }
+
+  public void setWebServer(String sWS)  {
+    this.webServer=sWS;
+  }
+
+  public String getWebServer()  {
+    return(this.webServer);
+  }
+
+  public void setDescription(String sFilial)  {
+    description=sFilial;
+  }
+  public String getDescription()  {
+    return(this.description);
+  }
+
+//---------------------------------------------
+  public void setTaskCode(String sTaskCode)  {
+    this.taskCode=sTaskCode;
+  }
+  public String getTaskCode()  {
+    return(this.taskCode);
+  }
+//---------------------------------------------
+  public void setSubSystemCode(String sTaskCode)  {
+    this.subSystemCode=sTaskCode;
+  }
+  public String getSubSystemCode()  {
+    return(this.subSystemCode);
+  }
+//---------------------------------------------
+  public void setOperDay(String sOD)  {
+    operDay=sOD;
+  }
+
+  public String getOperDay()  {
+    return(operDay);
+  }
+
+  public void setQP(String sQP)  {
+    this.qp=sQP;
+  }
+
+  public String getQP()  {
+    return(this.qp);
+  }
+
+  public void setTransact(String sTransact)  {
+    this.transact=sTransact;
+  }
+
+  public String getTransact()  {
+    return(this.transact);
+  } 
+
+  public void setErrMsg(String sErrMsg)  {
+    this.errorMsg=sErrMsg;
+  }
+
+  public String getErrMsg()  {
+    return(this.errorMsg);
+  }
+
+  public void setErrExit(String sErrExit)  {
+    this.errorExit=sErrExit;
+  }
+
+  public String getErrExit()  {
+    return(this.errorExit);
+  }
+
+  public void setBch(String sBch)  {
+    this.bch=sBch;
+  } 
+
+  public String getBch()  {
+    return(this.bch);
+  } 
+
+  public void setKeyM(String sKeyM)  {
+    this.keyM=sKeyM;
+  } 
+
+  public String getKeyM()  {
+    return(this.keyM);
+  }
+//----------------
+  public void setKeyDocES(String sKeyAS)  {
+    this.keyDocES=sKeyAS;
+  }
+  public String getKeyDocES()  {
+    return(this.keyDocES);
+  }
+//----------------
+  public void setStorehouse(String sStorehouse)  {
+    this.storehouse=sStorehouse;
+  } 
+
+  public String getStorehouse()  {
+    return(this.storehouse);
+  } 
+
+  public String getUser()  {
+    return(user);
+  }
+
+  public void setUser(String sUser)  {
+    user=sUser;
+  }
+
+  public static String getS(String s)  {
+    return("'"+s+"'");
+  }
+  public String getSS(String s)  {
+    return("\""+s+"\"");
+  }
+
+  public String getSqlString(String s)  {
+    StringBuffer newS=new StringBuffer("");
+    for (int i=0;i<s.length();i++) {
+      System.out.println(i+" "+s.substring(i,i+1));
+      if (s.substring(i,i+1).equals("'")) {
+        newS.append("''");
+      } else {
+        newS.append(s.substring(i,i+1));
+      }
+    }
+    return("'"+newS.toString()+"'");
+  }
+
+/*  public void setGroupM(String sGroupM)  {
+    this.groupM=sGroupM;
+  }
+
+  public String getGroupM()  {
+    return(this.groupM);
+  }*/
+
+  public String getSqlWorker()  {
+    return("SELECT Code,Name FROM DM_Worker Where Filial="+getFilialS());
+  }
+
+  public String getSqlSupplier()  {
+    return("SELECT Code,Name FROM DM_Supplier Where Filial="+getFilialS()+" order by code");
+  }
+
+  public String getSqlStorehouse()  {
+    return("SELECT Code,Name FROM DM_Storehouse Where Filial="+getFilialS());
+  }
+
+//======================================================
+  public void setFrmB(String frmB) {
+    this.frmB=frmB;
+  }
+  public String getFrmB() {
+    return(this.frmB);
+  }
+
+  public void setFrmM(String frmM) {
+    this.frmM=frmM;
+  }
+  public String getFrmM() {
+    return(this.frmM);
+  }
+
+  public void setFrmH(String frmH) {
+    this.frmH=frmH;
+  }
+  public String getFrmH() {
+    return(this.frmH);
+  }
+
+  public void setFrmG(String frmG) {
+    this.frmG=frmG;
+  }
+  public String getFrmG() {
+    return(this.frmG);
+  }
+
+  public void setFrmF(String frmF) {
+    this.frmF=frmF;
+  }
+  public String getFrmF() {
+    return(this.frmF);
+  }
+//======================================================
+  public String getSqlState(iabs.oraDBConnection rDBConn, String sField) {
+    Connection conn = rDBConn.getConnection();
+    String cSql="Select CODE,NAME From Dm_State";
+    String st="";
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet QR = stmt.executeQuery(cSql);
+      st="nvl(decode("+sField;
+      while (QR.next()) {
+        st=st+","+QR.getString("CODE")+","+getS(QR.getString("NAME"));
+      }
+      st=st+"),"+sField+") STATE";
+      if (QR!=null) {QR.close();}
+      stmt.close();
+    } catch(Exception e) {
+      st="nvl(decode("+sField+",1,'Введен',2,'Зарегистрирован',3,'Отправлен',4,'Проведен',5,'Ошибка',6,'Утвержден',7,'Открыт',8,'Закрыт',9,'Аннулирован',10,'Активен',11,'Неактивен'),"+sField+") STATE";
+    }
+    return(st);
+  }
+
+  public String getSqlState(iabs.oraDBConnection rDBConn, String sField, String sFieldV) {
+    Connection conn = rDBConn.getConnection();
+    String cSql="Select CODE,NAME From Dm_State";
+    String st="";
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet QR = stmt.executeQuery(cSql);
+      st="nvl(decode("+sField;
+      while (QR.next()) {
+        st=st+","+QR.getString("CODE")+","+getS(QR.getString("NAME"));
+      }
+      st=st+"),"+sField+") "+sFieldV;
+      if (QR!=null) {QR.close();}
+      stmt.close();
+    } catch(Exception e) {
+      st="nvl(decode("+sField+",1,'Введен',2,'Зарегистрирован',3,'Отправлен',4,'Проведен',5,'Ошибка',6,'Утвержден',7,'Открыт',8,'Закрыт',9,'Аннулирован',10,'Активен',11,'Неактивен'),"+sField+") STATE";
+    }
+    return(st);
+  }
+
+  public String getSpisokState(iabs.oraDBConnection rDBConn) {
+    Connection conn = rDBConn.getConnection();
+    String cSql="Select CODE,NAME From Dm_State";
+    String st="";
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet QR = stmt.executeQuery(cSql);
+      while (QR.next()) {
+        st=st+QR.getString("CODE")+" "+QR.getString("NAME")+";";
+      }
+      if (QR!=null) {QR.close();}
+      stmt.close();
+    } catch(Exception e) {
+      return("0 Запланирован;");
+    }
+    return(st);
+  }
+
+  public String getState(String op) {
+    if (op.equals("введен")) {
+      return("11");
+    } else if (op.equals("зарегистрирован")) {
+      return("2");
+    } else if (op.equals("отправлен")) {
+      return("50");
+    } else if (op.equals("утвержден")) {
+      return("31");
+    } else if (op.equals("открыт")) {
+      return("7");
+    } else if (op.equals("закрыт")) {
+      return("8");
+    } else if (op.equals("аннулирован")) {
+      return("14");
+    } else if (op.equals("активен")) {
+      return("3");
+    } else if (op.equals("неактивен")) {
+      return("4");
+    } else if (op.equals("выбран")) {
+      return("9");
+    } else if (op.equals("не выбран")) {
+      return("10");
+    } else {
+      return("0");
+    }
+  }
+  public String getState(double dState) {
+    if (dState==11) {
+      return("введен");
+    } else if (dState==2) {
+      return("зарегистрирован");
+    } else if (dState==50) {
+      return("отправлен");
+    } else if (dState==31) {
+      return("утвержден");
+    } else if (dState==7) {
+      return("открыт");
+    } else if (dState==8) {
+      return("закрыт");
+    } else if (dState==14) {
+      return("аннулирован");
+    } else if (dState==3) {
+      return("активен");
+    } else if (dState==4) {
+      return("неактивен");
+    } else if (dState==9) {
+      return("выбран");
+    } else if (dState==10) {
+      return("не выбран");
+    } else {
+      return("0");
+    }
+  }
+  public int getStateAsInt(String op) {
+    if (op.equals("введен")) {
+      return(11);
+    } else if (op.equals("зарегистрирован")) {
+      return(2);
+    } else if (op.equals("отправлен")) {
+      return(50);
+    } else if (op.equals("утвержден")) {
+      return(31);
+    } else if (op.equals("открыт")) {
+      return(7);
+    } else if (op.equals("закрыт")) {
+      return(8);
+    } else if (op.equals("аннулирован")) {
+      return(14);
+    } else if (op.equals("активен")) {
+      return(3);
+    } else if (op.equals("неактивен")) {
+      return(4);
+    } else {
+      return(0);
+    }
+  }
+//======================================================
+  public void setKeyTypeLeads(String frmF) {
+    this.keyTypeLeads=frmF;
+  }
+  public String getKeyTypeLeads() {
+    return(this.keyTypeLeads);
+  }
+//======================================================
+  public String getNeedDate() {
+    return("'Введите значение согласно шаблону ДД.ММ.ГГГГ'");
+  }
+  public String getNeedReal() {
+    return("'Введите вещественное число в формате ########.##'");
+  }
+  public String getNeedMfo() {
+    return("'Код банка должен состоять из 5 цифр'");
+  }
+  public String getNeedInn() {
+    return("'ИНН должен состоять из 9 цифр'");
+  }
+  public String getNeedPC() {
+    return("'Расчетный счет должен состоять из 20 цифр'");
+  }
+  public String getNeedPerCent() {
+    return("'Введите вещественное число в формате ###.## не больше 100'");
+  }
+  public String getMaskDate() {
+    return("'[0-9][0-9][.,/][0-9][0-9][.,/][0-9][0-9][0-9][0-9]$'");
+  }
+  public String getMaskReal() {
+    return("'^[0-9]+[.,]?[0-9]*$'");
+  }
+  public String getMaskInteger() {
+    return("'^[0-9]+$'");
+  }
+//======================================================
+  public void setMonthOpen(String dt) {
+    this.monthOpen=dt;
+  }
+  public String getMonthOpen() {
+    if (monthOpen==null) {
+      return("null");
+    } else {
+      return(monthOpen);
+    }
+  }
+  public int getMonthOpenMonth() throws Exception {
+    java.util.Date dt=stringToDate(this.monthOpen);
+    return(dt.getMonth());
+  }
+  public int getMonthOpenYear() throws Exception {
+    java.util.Date dt=stringToDate(this.monthOpen);
+    return(dt.getYear());
+  }
+//======================================================
+  public void setMonthCurr(String dt) {
+    this.monthCurr=dt;
+  }
+  public String getMonthCurr() {
+    if (monthCurr==null) {
+      return("null");
+    } else {
+      return(monthCurr);
+    }
+  }
+//======================================================
+  // для преобразования java.sql.Date <--> java.util.Date <--> String
+	public synchronized String dateToString(java.util.Date d) throws Exception {
+		return sdf.format(d);
+	}
+	public synchronized java.util.Date stringToDate(String s) throws Exception {
+		return sdf.parse(s);
+	}
+  public synchronized java.util.Date getBOM(String sDt) throws Exception {
+    java.util.Date dt= new java.util.Date();
+    dt=stringToDate(sDt);
+    dt.setDate(1);
+    return(dt);
+  }
+  public synchronized java.util.Date getEOM(String sDt) throws Exception {
+    java.util.Date dt= new java.util.Date();
+    dt=getBOM(sDt);
+    dt.setMonth(dt.getMonth()+1);
+    dt.setDate(dt.getDate()-1);
+    return(dt);
+  }
+
+  public synchronized String stringBOM(String sDt) throws Exception {
+    java.util.Date dt= new java.util.Date();
+    dt=stringToDate(sDt);
+    dt.setDate(1);
+    return(dateToString(dt));
+  }
+  public synchronized String stringEOM(String sDt) throws Exception {
+    java.util.Date dt= new java.util.Date();
+    dt=getBOM(sDt);
+    dt.setMonth(dt.getMonth()+1);
+    dt.setDate(dt.getDate()-1);
+    return(dateToString(dt));
+  }
+
+  public synchronized java.util.Date dateAddMonth(String sDt, int Month) throws Exception {
+    java.util.Date dt= new java.util.Date();
+    dt=stringToDate(sDt);
+    dt.setMonth(dt.getMonth()+Month);
+    return(dt);
+  }
+  public synchronized String stringAddMonth(String sDt, int Month) throws Exception {
+    java.util.Date dt= new java.util.Date();
+    dt=stringToDate(sDt);
+    dt.setMonth(dt.getMonth()+Month);
+    return(dateToString(dt));
+  }
+
+  public synchronized String stringYear(String sDt) throws Exception {
+    java.util.Date dt= new java.util.Date();
+    dt=stringToDate(sDt);
+    int year=1900+dt.getYear();
+    return(String.valueOf(year));
+  }
+
+//======================================================
+  public static String format_soum(String s, int Scale)
+  {
+      if (s == null) s = new String("0");
+      if (s.trim().equals("")) s = "0";
+      s = s.trim();
+      double dS= new Double(s).doubleValue();
+      return(format_soum(dS, Scale));
+      /*BigDecimal bdc;
+      if (s.length() == 0)
+          bdc = new BigDecimal("0");
+      else
+          bdc = new BigDecimal(s);
+
+      DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
+      dfs.setGroupingSeparator(' ');
+      DecimalFormat df = new DecimalFormat();
+      df.setDecimalFormatSymbols(dfs);
+      df.setMinimumFractionDigits(Scale);
+      df.setMaximumFractionDigits(Scale);
+      return df.format(bdc.doubleValue());*/
+  }
+  public static String format_soumE(String s, int Scale)
+  {
+      if (s == null) s = new String("0");
+      if (s.trim().equals("")) s = "0";
+      s = s.trim();
+      double dS= new Double(s).doubleValue();
+      String st=format_soumE(dS, Scale).replace('.',',');
+      return(st);
+  }
+  public static String format_soum(double d, int Scale)
+  {
+    String sPattern="#0."+Replicate('0',Scale);
+    String sValue=String.valueOf(d);
+    if (sValue.indexOf("E")!=-1) {
+      return(formatCurrency(d,Scale));
+    }
+    DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
+    dfs.setGroupingSeparator(' ');
+    DecimalFormat df = new DecimalFormat();
+    df.setDecimalFormatSymbols(dfs);
+    df.applyPattern(sPattern);
+    df.setMinimumFractionDigits(Scale);
+    df.setMaximumFractionDigits(Scale);
+    return df.format(d);
+  }
+  public static String format_soumE(double d, int Scale)
+  {
+    String sValue=String.valueOf(d);
+    if (sValue.indexOf("E")!=-1) {
+      return(formatCurrencyE(d,Scale));
+    }
+    DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+    DecimalFormat df = new DecimalFormat();
+    df.setDecimalFormatSymbols(dfs);
+    df.setMinimumFractionDigits(Scale);
+    df.setMaximumFractionDigits(Scale);
+    String st=df.format(d).replace('.',',');
+    return(st);
+  }
+	public static String formatCurrency(double value, int radix) 	// value - сумма в неделимых единицах  - копейках
+	                                          							// radix - кол-во разрядов после запятой
+	{
+		DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
+		dfs.setGroupingSeparator(' ');
+		DecimalFormat df = new DecimalFormat();
+		df.setDecimalFormatSymbols(dfs);
+    df.setMinimumFractionDigits(radix);
+		df.setMaximumFractionDigits(radix);
+		return df.format(value);
+	}
+	public static String formatCurrencyE(double value, int radix)
+	{
+    // value - сумма в неделимых единицах  - копейках
+    // radix - кол-во разрядов после запятой
+		DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.US);
+		DecimalFormat df = new DecimalFormat();
+		df.setDecimalFormatSymbols(dfs);
+    df.setMinimumFractionDigits(radix);
+		df.setMaximumFractionDigits(radix);
+		return(df.format(value).replace('.',','));
+	}
+//======================================================
+  public String getExitNR(String sE)  {
+    return("javascript:parent.data.loadFramesNR('','','','"+sE+"','');");
+  }
+
+  public String getExit(FormN myFormN,String sForm) {
+    String sHead=getS(myFormN.getHeadSize(sForm));
+    String sGrid=getS(myFormN.getGridSize(sForm));
+    //String hFloor=getS(myFormN.getHtmlFloor(sForm));
+    return("\"javascript:parent.data.loadFramesR('','',"+
+      sHead+","+sGrid+",'','',"+
+      "'',"+
+      "'TableFormN.jsp?form="+sForm+"',''"+
+      ");\"");
+  }
+
+  public String getExit() {
+    return("\"javascript:parent.data.loadFramesR('0,*','400,*','0,*','*,0','','','about:blank',"+
+      description+",'about:blank');\"");
+  }
+  public String getExitOF() {
+    return("\"javascript:parent.data.loadFramesR('0,*','300,*','0,*','*,0','','','','../of/OF_descript.html','');\"");
+  }
+  public String getExitTop(FormN myFormN,String nameForm) {
+    String sForm=myFormN.getNumberForm(nameForm);
+    String sBanner=getS(myFormN.getBannerSize(sForm));
+    String sMenu=getS("0,*");
+    String sHead=getS(myFormN.getHeadSize(sForm));
+    String sGrid=getS(myFormN.getGridSize(sForm));
+    String hFloor=getS(myFormN.getHtmlFloor(sForm));
+    return("\"javascript:parent.data.loadFramesR("+sBanner+","+sMenu+","+
+      sHead+","+sGrid+",'','',"+
+      "'about:blank',"+
+      "'TableFormN.jsp?form="+sForm+"','about:blank');\"");
+
+    /*return("\"javascript:parent.data.loadFramesR("+sBanner+","+sMenu+","+
+      sHead+","+sGrid+",'','',"+
+      "'TableHead.jsp?form="+sForm+"',"+
+      "'TableFormN.jsp?form="+sForm+"',"+
+      hFloor+");\"");*/
+  }
+  public String getExitTopNoHead(FormN myFormN,String nameForm) {
+    String sForm=myFormN.getNumberForm(nameForm);
+    String sBanner=getS(myFormN.getBannerSize(sForm));
+    String sMenu=getS("0,*");
+    String sHead=getS(myFormN.getHeadSize(sForm));
+    String sGrid=getS(myFormN.getGridSize(sForm));
+    String hFloor=getS(myFormN.getHtmlFloor(sForm));
+    /*return("\"javascript:parent.data.loadFramesR("+sBanner+","+sMenu+","+
+      sHead+","+sGrid+",'','',"+
+      "'',"+
+      "'TableFormN.jsp?form="+sForm+"',"+
+      hFloor+");\"");*/
+
+    return("\"javascript:parent.data.loadFramesR("+sBanner+","+sMenu+","+
+      sHead+","+sGrid+",'','',"+
+      "'about:blank',"+
+      "'TableFormN.jsp?form="+sForm+"','about:blank');\"");
+  }
+//====================================================
+  // чтение значения поля как double
+  public double StringToDouble(String sValue) {
+    if ( (sValue.equals(""))||(sValue==null) )  {
+      return(0);
+    } else {
+      return(new Double(sValue).doubleValue());
+    }
+  }
+//====================================================
+  public String getCodeDocPay() {
+    return("3");
+  }
+//====================================================
+  public void setTypeSupplier(String sType)  {
+    typeSupplier=sType;
+  }
+  public String getTypeSupplier()  {
+    return(typeSupplier);
+  }
+//====================================================
+  public void setMenu(String sType)  {
+    menu=sType;
+  }
+  public String getMenu()  {
+    return(menu);
+  }
+//====================================================
+  public void setUtv(String sType)  {
+    utver=sType;
+  }
+  public String getUtv()  {
+    return(utver);
+  }
+//====================================================
+  public static void setDocumentOplataDog(String sType)  {
+    documentOplataDog=sType;
+  }
+  public static String getDocumentOplataDog()  {
+    return(documentOplataDog);
+  }
+//====================================================
+  public static void setDocumentOplataFil(String sType)  {
+    documentOplataFil=sType;
+  }
+  public static String getDocumentOplataFil()  {
+    return(documentOplataFil);
+  }
+//====================================================
+  public static int getPrizDK(String ss)  {
+    if (ss.equals("не используется")) {
+      return(0);
+    } else if (ss.equals("дебет")) {
+      return(1);
+    } else if (ss.equals("кредит")) {
+      return(2);
+    }
+    return(0);
+  }
+//====================================================
+  public static int getArea(String ss)  {
+    if (ss.equals("Сумма документа")) {
+      return(1);
+    }
+    return(1);
+  }
+//====================================================
+  public static int getCondition(String ss)  {
+    if (ss.equals("Всегда")) {
+      return(1);
+    }
+    return(1);
+  }
+//====================================================
+  // Получение ИНН банка
+  public static String getInn(iabs.oraDBConnection rDBConn, String sFilial){
+    String sErr="",sValue="";
+    Connection conn = rDBConn.getConnection();
+    CallableStatement cs = null;
+    String sPC="000"+sFilial;
+    try {
+      cs = conn.prepareCall("{ ? = call trim(BANK.GET_CLIENT_INN('"+sPC+"')) }");
+      cs.registerOutParameter(1,Types.VARCHAR);
+      cs.execute();
+      sValue = cs.getString(1);
+      cs.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка при определении ИНН плательщика "+e.toString();
+    }
+    //this.err=sErr;
+    return(sValue);
+  }
+//====================================================
+  // Получение Hаименования банка по мфо
+  public static String getNameBank(iabs.oraDBConnection rDBConn, String sFilial){
+    String sErr="",sValue="";
+    Connection conn = rDBConn.getConnection();
+    //String sPC="000"+sFilial;
+    try {
+      String cSql="select name from V_Bank where code="+sFilial;
+      Statement stmt = conn.createStatement();
+      ResultSet QR = stmt.executeQuery(cSql);
+      QR.next();
+      sValue=QR.getString(1);
+      QR.close();
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка при определении Hаименования банка плательщика "+e.toString();
+    }
+    //this.err=sErr;
+    return(sValue);
+  }
+//====================================================
+  // Получение Hаименования отдела
+  public static String getNameDepartament(iabs.oraDBConnection rDBConn, String sFilial, String sKey){
+    String sErr="",sValue="";
+    Connection conn = rDBConn.getConnection();
+    try {
+      String cSql="select name_dep from DM_Worker where code="+sKey+" and filial="+sFilial;
+      Statement stmt = conn.createStatement();
+      ResultSet QR = stmt.executeQuery(cSql);
+      if (QR.next()) {
+        sValue=QR.getString(1);
+      }
+      QR.close();
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка при определении Hаименования банка плательщика "+e.toString();
+    }
+    //this.err=sErr;
+    return(sValue);
+  }
+//====================================================
+  // Получение Hаименования работника
+  public static String getNameWorker(iabs.oraDBConnection rDBConn, String sKey){
+    String sErr="",sValue="";
+    Connection conn = rDBConn.getConnection();
+    String cSql="select NAME from DM_Worker Where Code="+sKey;
+    try {
+      Statement stmt = conn.createStatement ();
+      ResultSet QR=null;
+      QR = stmt.executeQuery(cSql);
+      if (QR.next()) {
+        sValue=QR.getString("NAME");
+      }
+      if (QR!=null) {QR.close();}
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    //this.err=sErr;
+    return(sValue);
+  }
+//====================================================
+  // Получение Hаименования счета
+  public static String getNameAccount(iabs.oraDBConnection rDBConn, String sKey){
+    String sErr="",sValue="";
+    Connection conn = rDBConn.getConnection();
+    String cSql="select NAME from DM_ACCOUNT_EMP Where Account="+sKey;
+    try {
+      Statement stmt = conn.createStatement ();
+      ResultSet QR=null;
+      QR = stmt.executeQuery(cSql);
+      if (QR.next()) {
+        sValue=QR.getString("NAME");
+      }
+      if (QR!=null) {QR.close();}
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    //this.err=sErr;
+    return(sValue);
+  }
+//====================================================
+  // Получение суммы прописью
+  public static String getSummaPropis(iabs.oraDBConnection rDBConn, double dSumma){
+    String summaP="";
+    Connection conn = rDBConn.getConnection();
+    CallableStatement cs1 = null;
+    try {
+      cs1 = conn.prepareCall("{ ? = call  PLD.slSUMWORD(?,?,?) }");
+      cs1.registerOutParameter(1,java.sql.Types.CHAR); // возвращаемый параметр зарегистрировать
+      cs1.setDouble(2,dSumma); // входящие параметры описать
+      cs1.setString(3,"000");
+      cs1.setDouble(4,9);
+      cs1.execute(); // выполнение функции
+      summaP = cs1.getString(1); // прочитать возвращаемый параметр
+      cs1.close();
+    } catch(Exception e) {
+      summaP="Ошибка при получении суммы прописью "; //+e.toString();
+    }
+    return(summaP);
+  }
+//====================================================
+  // Получение суммы прописью
+  public static String getSummaPropis(iabs.oraDBConnection rDBConn, String sSumma){
+    String summaP="";
+    Connection conn = rDBConn.getConnection();
+    CallableStatement cs1 = null;
+    try {
+      cs1 = conn.prepareCall("{ ? = call  PLD.slSUMWORD(?,?,?) }");
+      cs1.registerOutParameter(1,java.sql.Types.CHAR); // возвращаемый параметр зарегистрировать
+      cs1.setDouble(2,new Double(sSumma).doubleValue()); // входящие параметры описать
+      cs1.setString(3,"000");
+      cs1.setDouble(4,9);
+      cs1.execute(); // выполнение функции
+      summaP = cs1.getString(1); // прочитать возвращаемый параметр
+      cs1.close();
+    } catch(Exception e) {
+      summaP="Ошибка при получении суммы прописью "; //+e.toString();
+    }
+    return(summaP);
+  }
+//====================================================
+  // получение последнего номера документа
+  public static String getNumberDoc(iabs.oraDBConnection rDBConn, String sFilial){
+    String sValue="",sErr="";
+    Connection conn = rDBConn.getConnection();
+    String cSql="select NDOC from DM_Document Where rownum=1 and Filial="+sFilial+" order by ndoc desc";
+    try {
+      Statement stmt = conn.createStatement ();
+      ResultSet QR=null;
+      QR = stmt.executeQuery(cSql);
+      if (QR.next()) {
+        sValue=QR.getString("NDOC");
+      }
+      if (QR!=null) {QR.close();}
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    try {
+      sValue=String.valueOf(Integer.parseInt(sValue)+1);
+    } catch(Exception e) {
+      sValue="";
+    }
+    return(sValue);
+  }
+//====================================================
+  // получение последнего номера документа
+  public static String getNumberDoc(String sValue) {
+    try {
+      sValue=String.valueOf(Integer.parseInt(sValue)+1);
+    } catch(Exception e) {
+      sValue="";
+    }
+    return(sValue);
+  }
+//====================================================
+  public String execProc(iabs.oraDBConnection rDBConn, String cSql){
+    String sErr="";
+    Connection conn = rDBConn.getConnection();
+    CallableStatement cs = null;
+    try
+    {
+      cs = conn.prepareCall("{ call DM_EXEC(?,?) }");
+      cs.setString(1, cSql);
+      cs.registerOutParameter(2,java.sql.Types.VARCHAR);
+      cs.execute();
+      sErr=cs.getString(2);
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка при выполнении процедуры "+e.toString();
+    }
+    try
+    {
+      cs.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка при выполнении процедуры "+e.toString();
+    }
+    if (sErr==null) {sErr="";}
+    return(sErr);
+  }
+//====================================================
+  public static String Replicate(char ch, int len){
+    String st=new String();
+    for (int i=0;i<len;i++) {
+      st=st+ch;
+    }
+    return(st);
+  }
+//====================================================
+  public static String Align(String str, String pref, int ln){
+    String st= new String();
+    str=str.trim();
+    int len=str.length();
+    if (len>ln) {
+      st=str.substring(1,ln);
+    } else if (pref.equals("left")) {
+      st=str+Replicate(' ',ln-len);
+    } else if (pref.equals("right")) {
+      st=Replicate(' ',ln-len)+str;
+    } else if (pref.equals("center")) {
+      st=Replicate(' ',(ln-len)/2)+str+Replicate(' ',ln-len-(ln-len)/2);
+    } else {st=str;}
+    return(st);
+  }
+//====================================================
+  // установка значения ключа
+  public void setSequensValue(iabs.oraDBConnection rDBConn, String sName) {
+    Connection conn = rDBConn.getConnection();
+    String cSql="SELECT "+sName+".NEXTVAL FROM DUAL";
+    sequensValue="";
+    String sErr="";
+    try {
+      Statement stmt9 = conn.createStatement();
+      ResultSet QueryResult = stmt9.executeQuery(cSql);
+      QueryResult.next();
+      sequensValue=QueryResult.getString(1);
+      QueryResult.close();
+      stmt9.close();
+    } catch(Exception e) {
+      sErr="Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    //return(sValue);
+  }
+//-------------------------------------------------------------------------
+  // получение значения ключа
+  public String getSequensValue() {
+    return(this.sequensValue);
+  }
+//-------------------------------------------------------------------------
+  public void setStringValue(String sValue) {
+    this.stringValue=sValue;
+  }
+//-------------------------------------------------------------------------
+  // получение значения
+  public String getStringValue() {
+    return(this.stringValue);
+  }
+//-------------------------------------------------------------------------
+}

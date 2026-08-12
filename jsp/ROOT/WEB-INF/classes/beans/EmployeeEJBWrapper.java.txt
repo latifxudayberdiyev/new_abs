@@ -1,0 +1,78 @@
+package beans;
+
+import employee.Employee;
+import employee.EmployeeHome;
+import employee.EmpRecord;
+import oracle.aurora.jndi.sess_iiop.ServiceCtx;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.servlet.http.HttpSessionBindingListener;
+import javax.servlet.http.HttpSessionBindingEvent;
+import java.util.Hashtable;
+
+public class EmployeeEJBWrapper
+             implements HttpSessionBindingListener
+{
+  public EmployeeEJBWrapper() {}     // no arg bean constructor
+  
+  private Employee employeeEJB = null;
+  private String empNumber = null; 
+  private String serviceURL = null;
+  
+
+  public String doCallEJB(int empno, String inJServer) {
+    try {
+      if (employeeEJB == null) {
+        Context ic = null;
+        EmployeeHome home = null;
+        if (inJServer == null) { // not running in JServer, usual client setup
+          Hashtable env = new Hashtable();
+          env.put(Context.URL_PKG_PREFIXES, "oracle.aurora.jndi");
+          env.put(Context.SECURITY_PRINCIPAL, "scott");
+          env.put(Context.SECURITY_CREDENTIALS, "tiger");
+          env.put(Context.SECURITY_AUTHENTICATION, ServiceCtx.NON_SSL_LOGIN);
+          ic = new InitialContext (env);
+          home = (EmployeeHome)ic.lookup (serviceURL + 
+                           "/test/employeeBean");
+        }
+	else { // in JServer, use simplified and optimized lookup
+          ic = new InitialContext();
+          home = (EmployeeHome)ic.lookup ("/test/employeeBean");
+        }
+        employeeEJB = home.create();
+      }
+      EmpRecord empRec = empRec = employeeEJB.query (empno);
+      return  empRec.ename + "       $" + empRec.sal;
+    } catch (Exception e) { return "Error occurred: " + e;}
+  }   
+
+  public void setServiceURL (String serviceURL) {
+      this.serviceURL = serviceURL;
+  }
+
+  public String getServiceURL () {
+     return serviceURL;
+  }
+
+  public void setEmpNumber(String empNo) {
+      empNumber = empNo;
+  }     
+
+  public String getEmpNumber() {
+      return empNumber;
+  }
+
+  public void valueBound(HttpSessionBindingEvent event) {
+    // nothing to do here, EJB will be created when query is submitted
+  } 
+  
+  public synchronized void valueUnbound(HttpSessionBindingEvent event) {
+    if (employeeEJB != null) {
+      try {
+        employeeEJB.remove();   // destroy the bean instance
+      } catch (Exception ignore) {}
+    }
+  }
+}
+
+

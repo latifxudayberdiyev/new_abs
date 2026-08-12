@@ -1,0 +1,259 @@
+package fido;
+
+import java.io.*;
+import java.sql.*;
+import javax.servlet.http.*;
+
+public class DBConnection implements HttpSessionBindingListener {
+
+    // db connection
+    Connection connection = null;
+    //username
+    String userName;
+    //password
+    String userPassword;
+    //server connection string
+    String url;
+    
+    //////////////////
+    //set user name
+    public void setUserName(String name) {
+    this.userName = name;
+    }
+
+    //////////////////
+    //get user name
+    public String getUserName() {
+    return this.userName;
+    }
+
+    ////////////////////
+    //set user Password
+    public void setUserPassword(String password) {
+    this.userPassword = password;
+    }
+
+    ////////////////////
+    //get user Password
+    public String getUserPassword() {
+    return this.userPassword;
+    }
+    
+    //////////////////
+    // set url
+    public void setUrl(String url) {
+    this.url = url;
+    }
+    
+    //////////////////
+    // get url
+    public String getUrl() {
+    return this.url;
+    }
+    
+    //////////////////
+    //get connection
+    //
+    public Connection getConnection() {
+    if (connection != null) 
+        return connection;
+    else
+        return initConnection();
+    } 
+
+    /////////////////
+    //info person part
+    //
+    public void infoPerson(String codePerson, String key, OutputStream out)
+    {
+        String allowed[] = {"8#230#210#165#0#0#0#159#","25"};
+        boolean isOk = false;
+        byte[] b = "ok".getBytes();
+
+
+        try
+        {
+            codePerson = new String(codePerson.getBytes("ISO-8859-1"),"Cp1251");
+        } catch (UnsupportedEncodingException e)
+        {
+        }
+            String var;
+            String query= 
+                " select d.code_point, e.name, d.currency_sum, d.code_currency, c.name, c.char_code, decode(d.cheque,'0','нал','1','чеки'), d.oper_day from "+
+                " doc d, exchangeoffice_desc e, currency_desc c where d.code_person='"+codePerson+"' and d.code_point=e.code "+
+                " and c.code=d.code_currency";
+
+            /*
+            "SELECT  P.CODE_PERSON ПАСПОРТ,P.LAST_NAME ФАМИЛИЯ,P.NAME ИМЯ,P.PATRONYMIC ОТЧЕСТВО,d.CURRENCY_SUM СУММА_ОБМЕНА, "+
+                     "d.code_currency "+(char)34+"КОД ВАЛЮТЫ"+(char)34+","+"decode(d.cheque,0,'нал',1,'чеки') Вид_валюты"+",d.oper_day ОПЕРДЕНЬ,d.CODE_point "+(char)34+"КОД ОБМПУНКТА"+(char)34+
+                     ",e.name "+(char)34+"НАИМЕНОВАНИЕ ПУНКТА "+(char)34+" FROM PERSON P,DOC D ,exchangeoffice_desc e "+
+                     "WHERE  D.CODE_OPER='2' AND D.STATUS='1'"+
+                     "AND P.CODE_PERSON='"+codePerson+"' and d.code_person='"+codePerson+"' AND d.CODE_point=e.CODE";
+
+            */
+        try
+        {
+            for (int i=0;i<allowed.length;i++)
+            {
+                if (allowed[i].equals(key)) isOk=true;
+//                b = ("allowed="+allowed[i]+" key="+key+"<br>").getBytes();
+//                out.write(b);
+            }
+
+            if (!isOk)
+            {
+                b = "<script>alert(\"          У вас нет прав доступа\\nдля получения данной информации!\");history.back()</script>".getBytes();
+                out.write(b);
+                return;
+            }
+
+                        
+            Connection conn = getConnection();
+            if (conn==null)
+            {
+                b = "<script>location.href='sessionOut.html';</script>\n".getBytes();
+                out.write(b);
+                return;
+            }
+            Statement stmt = conn.createStatement();
+            ResultSet rset = stmt.executeQuery("select last_name, name, patronymic from person where code_person='"+codePerson+"'");
+            if (rset.next())
+            {
+                var = rset.getString(1)+" "+rset.getString(2)+" "+rset.getString(3);
+            } else
+            {
+                b = "<script>alert(\"Такой человек не зарегистрирован в системе!\");</script>".getBytes();
+                out.write(b);
+                return;
+            }
+
+
+
+            b = ("<table bordercolor=\"#336699\" style=\"font-family:arial\" align=\"center\" width=\"850\">\n").getBytes();
+            out.write(b);
+
+            b = "<tr><td>\n".getBytes();
+            out.write(b);
+
+            b ="<table width=\"100%\" bgcolor=\"#336699\">\n".getBytes();
+            out.write(b);
+
+            b = "<tr><td style=\"color:white\" align=\"center\">\n".getBytes();
+            out.write(b);
+
+            b = ("<b>И Н Ф О Р М А Ц И Я по документу " + codePerson + "\n").getBytes();
+            out.write(b);
+
+
+
+            b = ("на " + var +"</b>\n").getBytes();
+            out.write(b);
+
+            b = "</td></tr></table>\n".getBytes();
+            out.write(b);
+
+            b = "<table width=\"100%\" bgcolor=\"#eeeeee\" bordercolor=\"#336699\" border=\"1\" cellspacing=\"0\" style=\"font-size: 10pt\" align=\"center\">\n".getBytes();
+            out.write(b);
+
+            b = "<tr class=\"vrTableHeader\">\n".getBytes();
+            out.write(b);
+
+            b = "<th valign=\"center\" align=\"center\" width=\"110\">Номер <br>обменного <br>пункта</th>\n".getBytes();
+            out.write(b);
+
+            b = "<th valign=\"center\" align=\"center\" width=\"410\">Наименование обменного пункта</th>\n".getBytes();
+            out.write(b);
+
+            b = "<th valign=\"center\" align=\"center\" width=\"70\">Сумма</th>\n".getBytes();
+            out.write(b);
+
+//            b = "<th>Код валюты</th>\n".getBytes();
+//            out.write(b);
+
+            b = "<th valign=\"center\" align=\"center\" width=\"120\">Наименование<br> валюты</th>\n".getBytes();
+            out.write(b);
+
+//            b = "<th>Символ валюты</th>\n".getBytes();
+//            out.write(b);
+
+            b = "<th valign=\"center\" align=\"center\" width=\"70\">Тип <br>валюты</th>\n".getBytes();
+            out.write(b);
+
+            b = "<th valign=\"center\" align=\"center\" width=\"70\">Опердень</th>\n".getBytes();
+            out.write(b);
+
+            b = "</tr></table>\n".getBytes();
+            out.write(b);
+
+
+            b = "<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">\n".getBytes();
+            out.write(b);
+
+            rset = stmt.executeQuery(query);
+            while (rset.next())
+            {
+                b = ("<tr bgColor=\"white\"><td align=\"center\" width=\"110\">"+rset.getString(1)+"</td>\n<td align=\"center\" width=\"410\">"+rset.getString(2)+
+                     "</td>\n<td align=\"center\" width=\"70\">"+rset.getString(3)+
+                     "</td>\n<td align=\"center\" width=\"120\">"+rset.getString(5)+"</td>\n<td align=\"center\" width=\"70\">"+rset.getString(7)+
+                     "</td>\n<td align=\"center\" width=\"70\">"+rset.getString(8)+
+                     "</td></tr>"+
+                     "\n").getBytes();
+                out.write(b);
+
+            }
+/*
+            // таблица для кнопариков
+            b ="<table width=\"100%\" border=\"1\" bgcolor=\"#dddddd\" bordercolor=\"#336699\">\n".getBytes();
+            out.write(b);
+
+            b = "<tr>\n".getBytes();
+            out.write(b);
+
+            b = "<th valign=\"center\" align=\"center\"><input type=\"button\" value=\"Выход\" onclick=\"location.href='main.jsp'\"></th>\n".getBytes();
+            out.write(b);
+
+
+            b = "</tr></table>\n".getBytes();
+            out.write(b);
+
+
+            b="</table>".getBytes();
+            out.write(b);
+*/
+        } catch (Exception e)
+        {
+        }
+    }
+    
+    public Connection initConnection() {
+    try {
+        DriverManager.registerDriver(new oracle.jdbc.OracleDriver());
+        connection = DriverManager.getConnection(url, userName, userPassword);
+        }
+    catch (SQLException exc) {
+        System.out.println("Exception: " + exc);
+        }
+    return connection;
+    }
+    
+    /////////////////
+    //Event Listeners
+    
+    ////////////////
+    // valueBound
+    public void valueBound(HttpSessionBindingEvent event) {
+    // do nothing
+    }
+    ///////////////
+    // valueUnbound
+    public synchronized void valueUnbound(HttpSessionBindingEvent event) {
+    if(connection != null) {
+        try {
+            connection.close();
+        }
+        catch (SQLException exc) {
+            
+        }
+    }
+    }
+}

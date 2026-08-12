@@ -1,0 +1,426 @@
+BODY {
+    background-color: #eeeeee;
+    font: 11px Arial;
+    margin: 5px 0px 5px 5px;
+    overflow: auto;
+    modal-background: #eff2f7;
+}
+FORM {
+    padding: 0px;
+    margin: 0px;
+}
+TABLE {
+    font: 13px Arial;
+}
+TD {
+    vertical-align: middle;
+}
+TH {
+    font-weight: bold;
+}
+.form {
+    background-color: #568BBF;
+    border: 1px solid #568BBF;
+    coeff: 1;
+}
+.panel {
+    margin: 2px;
+    overflow-y: scroll;
+    width: 100%;
+    float: left;
+}
+.panel table {
+    width: 96%;
+}
+.formTitle {
+    color: #ffffff;
+    cursor: default;
+    text-align: center;
+	font-size: 13px;
+	font-weight: 400;
+    padding: 3px 0px;
+}
+
+.formTitle .navbut {
+	/*display: none;*/
+}
+
+.content {
+    background-color: #ffffff;
+    width: 100%;
+}
+.formToolbar {
+    width: 99%;
+	border: 5px solid transparent;
+	border-left-width: 0px;
+	border-right-width: 0px;
+}
+FIELDSET {
+    margin: 0px 1px 0px 1px;
+    padding: 0px 5px 3px 10px;
+    border: 1px solid #d0d0bf;
+    text-align: left;
+}
+LEGEND {
+    color: #0046dc;
+    padding: 0 1em;
+    font: bold 11px "Trebuchet MS", Tahoma, Verdana, sans-serif;
+}
+LABEL {
+    text-align: right;
+    padding-right: 10px;
+}
+INPUT,
+BUTTON,
+TEXTAREA,
+SELECT {
+    margin: 0px 0px 0px 4px;
+    button-background: #ECECF0;
+    button-background-hover: #4C81B5;
+    button-color: #4C4C58;
+    button-color-hover: #ffffff;
+    button-border: none;
+    button-border-hover: none;
+    input-border: 1px solid #8E8E96;
+	input-border-focus: 1px solid #101020;
+    input-border-error: 1px solid #E11A1A;
+    input-border-disabled: 1px solid #E3E3EB;
+    input-background: white;
+    input-color: #171725;
+    input-color-disabled: #171725;
+    input-background-focus: #e2efff;
+    input-background-error: #ff9966;
+    input-background-disabled: #F8F9FC;
+	input-background-focus: #ffffff;
+    input-background-error: #ffffff;
+    input-background-disabled: #ffffff;
+    vertical-align: middle;
+	outline: none;
+}
+INPUT,
+BUTTON,
+SELECT {
+	cursor: pointer;
+	padding-bottom: 2px;
+}
+TEXTAREA {
+    overflow: auto;
+}
+SELECT {
+    vertical-align: bottom;
+    border: 1px dotted black;
+}
+.withFilter {
+    color: #990000;
+    font-weight: bold;
+}
+.mbtn {
+    font: 13px Arial;
+    width: 19px;
+    height: 19px;
+}
+.multiple,
+.multiple td,
+.multiple th {
+    border: 1px solid #919b9c;
+    border-collapse: collapse;
+    text-align: center;
+    padding: 2px;
+    margin: 2px;
+}
+.navbut {
+    margin: 0px 1px;
+    font-family: webdings;
+    font-size: 13px;
+    height: 22px;
+    width: 23px;
+    text-align: center;
+}
+.sysbut {
+    margin: 0px 1px;
+    border: solid 1 black;
+    font-weight: bold;
+    font-size: 13px;
+    height: 22px;
+    width: 23px;
+    text-align: center;
+}
+tr.cellEven {
+    background: #ffffff;
+}
+tr.cellOdd {
+    background: #ffffff;
+}
+td.cellCur {
+    background: #C0C0C9;
+}
+tr.cellSel {
+    background: #DDDDE6;
+}
+.cSort {
+    cursor: hand;
+    color: #ff0000;
+}
+.panel #tbl {
+    margin: 0px;
+    width: 100%;
+    cursor: default;
+}
+/* .panel #tbl THEAD TR { */
+    /* position: relative; */
+    /* top: expression(this.offsetParent.scrollTop); */
+/* } */
+.panel #tbl TH {
+    text-align: center;
+    padding: 7px 2px;
+    vertical-align: middle;
+}
+.panel #tbl thead TH {
+    font-family: Arial, sans-serif;
+    background-color: #F3F4F7;
+	color: #62666D;
+	font: 400 12px var(--main-font);
+	border-left: 1px solid #E0E3E6;
+	border-bottom: 1px solid #DEDFE1;
+}
+.panel #tbl tbody TH {
+	font-size: 12px;
+	font-weight: 400;
+	border-bottom: 1px solid #E0E3E6;
+}
+.panel #tbl TD {
+    border-left: 1px solid #E0E3E6;
+    border-bottom: 1px solid #E0E3E6;
+    padding: 2px 5px;
+	font-size: 12px;
+}
+.rpp {
+    input-background: #eff2f7;
+    text-align: center;
+    font: bold 12px;
+}
+.tp {
+    input-background: #eff2f7;
+    text-align: left;
+    font: bold 12px;
+    input-border: 1px solid #eff2f7;
+    margin-right: 5px;
+    margin-left: 0px;
+}
+span.counter {
+    background-color: #dfe9ef;
+    width: 25px;
+    height: 18px;
+    text-align: center;
+}
+span.counterhide {
+    background-color: #eff2f7;
+    color: #eff2f7;
+    width: 25px;
+    height: 18px;
+}
+div.locklayer {
+    position: absolute;
+    z-index: 10;
+    overflow: hidden;
+    text-align: center;
+    display: none;
+    background: #f5f6f8;
+    filter: alpha(opacity=50);
+}
+div.locklayer iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+    display: block;
+    z-index: -1;
+    filter: mask();
+}
+q {
+    color: red;
+    quotes: none;
+}
+q:before,
+q:after {
+    content: "";
+}
+optgroup {
+    color: indianred;
+}
+option {
+    color: black;
+}
+table.Menu {
+    position: absolute;
+    z-index: 11;
+    color: black;
+    cursor: default;
+    border: 2px outset #ffffff;
+    background: #f9f8f7;
+}
+td.MenuItem {
+    border: 1px solid #f9f8f7;
+}
+td.MenuItemHover {
+    background-color: #c6d3ef;
+    border: 1px solid #3169c6;
+	}
+td.MenuSeparator {
+    border-bottom: 1px solid #666666;
+    font-size: 1px;
+}
+td.MenuArrow {
+    text-align: right;
+    font: 11px "Webdings";
+    color: indianred;
+}
+span.tab {
+    line-height: 30px;
+    cursor: pointer;
+    padding: 3px 5px;
+    background-hover: #f1efed;
+    border-inset: 1px inset white;
+    border-outset: 1px outset white;
+    border: 1px solid #EDEDF0;
+	background: #EDEDF0 !important;
+	margin-right: 5px;
+}
+TD.menuBlock {
+    font: normal 13px Tahoma, Verdana, sans-serif;
+    color: #000000;
+    background: #ffffff;
+}
+#banner_tr {
+    background: #4C81B5 !important;
+}
+/* #banner_tr td,
+#banner_tr th {
+    color: #b5dfe8 !important;
+} */
+#banner_tr b {
+    color: #fffff2 !important;
+}
+.clsTitleBody {
+    color: white;
+    font-size: 10pt;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    background-color: #336699 !important;
+    text-align: center;
+}
+.filterControls {
+    background: transparent !important;
+    color: #070e16;
+    cursor: default;
+}
+.filterControls TD B {
+    color: #ffffff !important;
+}
+.msg_marquee {
+    color: #ffffff;
+    background: #990000;
+    cursor: hand;
+    font-weight: bold;
+}
+
+#sumControls {
+    color: #4C81B5;
+	font-weight: 600;
+}
+
+#sumControls b {
+	color: #545454;
+	font-weight: 400;
+}
+
+#message_count {
+	position: absolute;
+    top: 1px;
+    right: -1px;
+    background-color: #FF7300;
+    padding: 1px;
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+    color: #fff;
+    font-size: 10px;
+    line-height: 12px;
+}
+
+#base .content fieldset {
+	border: none;
+	border-top: 1px solid #E0E3E6;
+	padding-top: 10px;
+}
+
+#base .content fieldset th {
+	color: #42424E;
+	font-size: 12px;
+	font-weight: 400;
+}
+#vfm {
+	border: 1px solid #E0E3E6 !important
+}
+
+#keyword_menu_content, #keyword_report_content {
+	display: inline;
+	position: relative;
+}
+
+#keyword_menu_content input, #keyword_report_content input {
+	width: 100%;
+}
+#keyword_menu_content span, #keyword_report_content span {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	color: #B5B5BE;
+	background-color: #ffffff;
+	z-index: 1;
+	width: 21px;
+	height: 21px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#keyword_menu_content span;hover, #keyword_report_content span;hover {
+	color: #4C81B5;
+}
+
+
+/* multi select */
+.ie-iabs-multi-select {
+    /*position: relative;*/
+    width: 200px;
+    border: 1px solid #919b9c;
+    cursor: pointer;
+    background: white;
+    display: inline;
+    margin-left: 5px;
+}
+.ie-iabs-multi-select span {
+    display: block;
+}
+.ie-iabs-multi-select .checkbox-options {
+    position: absolute;
+    border: 1px solid #919b9c;
+    background: white;
+    width: 100%;
+    overflow-y: auto;
+    display: none;
+    /*z-index: 9;*/
+    height: 150px;
+    margin-top: 5px;
+    z-index: 99999 !important;
+}
+.ie-iabs-multi-select .checkbox-options label {
+    display: block;
+    text-align: left !important;
+}
+.ie-iabs-multi-select .checkbox-options input[type="checkbox"] {
+    margin-right: 10px;
+    left: 0;
+}

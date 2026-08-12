@@ -1,0 +1,36 @@
+cl-input{
+    display: inline-block;
+    width: 100%;
+    height: 38px;
+    margin-top: 5px;
+    padding: 5px 11px;
+    font-size: 13.5px;
+    transition: border-color .12s, box-shadow .12s, background .12s;
+}
+
+table{
+    width: 100%;
+}
+td {
+    padding: 10px;
+}
+label{
+   font-size: 13px;
+    font-weight: bold;
+}
+
+button{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background .12s, border-color .12s, box-shadow .12s, transform .04s;
+    font-family: inherit;
+}

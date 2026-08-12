@@ -1,0 +1,97 @@
+@media only screen and (max-device-width: 767.98px)   									{ :root { --index: 0.562;  } }
+@media only screen and (min-device-width: 768px) and (max-device-width: 799.98px)   	{ :root { --index: 0.562;  } }
+@media only screen and (min-device-width: 800px) and (max-device-width: 847.98px)   	{ :root { --index: 0.585;  } }
+@media only screen and (min-device-width: 848px) and (max-device-width: 959.98px)   	{ :root { --index: 0.620;  } }
+@media only screen and (min-device-width: 960px) and (max-device-width: 991.98px)   	{ :root { --index: 0.702;  } }
+@media only screen and (min-device-width: 992px) and (max-device-width: 1023.98px)  	{ :root { --index: 0.726;  } }
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1151.98px)  	{ :root { --index: 0.749;  } }
+@media only screen and (min-device-width: 1152px) and (max-device-width: 1199.98px)  	{ :root { --index: 0.843;  } }
+@media only screen and (min-device-width: 1200px) and (max-device-width: 1279.98px)  	{ :root { --index: 0.878;  } }
+@media only screen and (min-device-width: 1280px) and (max-device-width: 1365.98px)  	{ :root { --index: 0.973;  } }
+@media only screen and (min-device-width: 1366px) and (max-device-width: 1399.98px)  	{ :root { --index: 1;      } }
+@media only screen and (min-device-width: 1400px) and (max-device-width: 1439.98px)  	{ :root { --index: 1.006;  } }
+@media only screen and (min-device-width: 1440px) and (max-device-width: 1535.98px)  	{ :root { --index: 1.013;  } }
+@media only screen and (min-device-width: 1536px) and (max-device-width: 1599.98px)  	{ :root { --index: 1.031;  } }
+@media only screen and (min-device-width: 1600px) and (max-device-width: 1679.98px)  	{ :root { --index: 1.042;  } }
+@media only screen and (min-device-width: 1680px) and (max-device-width: 1791.98px)  	{ :root { --index: 1.057;  } }
+@media only screen and (min-device-width: 1792px) and (max-device-width: 1919.98px)  	{ :root { --index: 1.077;  } }
+@media only screen and (min-device-width: 1920px) and (max-device-width: 2047.98px)  	{ :root { --index: 1.101;  } }
+@media only screen and (min-device-width: 2048px) and (max-device-width: 2159.98px)  	{ :root { --index: 1.250;  } }
+@media only screen and (min-device-width: 2160px) and (max-device-width: 2255.98px)  	{ :root { --index: 1.290;  } }
+@media only screen and (min-device-width: 2256px) and (max-device-width: 2303.98px)  	{ :root { --index: 1.325;  } }
+@media only screen and (min-device-width: 2304px) and (max-device-width: 2399.98px)  	{ :root { --index: 1.343;  } }
+@media only screen and (min-device-width: 2400px) and (max-device-width: 2559.98px)  	{ :root { --index: 1.378;  } }
+@media only screen and (min-device-width: 2560px) and (max-device-width: 2879.98px)  	{ :root { --index: 1.437;  } }
+@media only screen and (min-device-width: 2880px) and (max-device-width: 2999.98px)  	{ :root { --index: 1.554;  } }
+@media only screen and (min-device-width: 3000px) and (max-device-width: 3199.98px)  	{ :root { --index: 1.598;  } }
+@media only screen and (min-device-width: 3200px) and (max-device-width: 3839.98px)  	{ :root { --index: 1.671;  } }
+@media only screen and (min-device-width: 3840px) and (max-device-width: 5119.98px)  	{ :root { --index: 1.905;  } }
+@media only screen and (min-device-width: 5120px) and (max-device-width: 6015.98px)  	{ :root { --index: 2.374;  } }
+@media only screen and (min-device-width: 6016px) and (max-device-width: 6399.98px)  	{ :root { --index: 2.702;  } }
+@media only screen and (min-device-width: 6400px) and (max-device-width: 7679.98px)  	{ :root { --index: 2.842;  } }
+@media only screen and (min-device-width: 7680px) and (max-device-width: 8191.98px)  	{ :root { --index: 3.311;  } }
+@media only screen and (min-device-width: 8192px) and (max-device-width: 10239.98px) 	{ :root { --index: 3.498;  } }
+@media only screen and (min-device-width: 10240px) and (max-device-width: 15359.98px) 	{ :root { --index: 4.266;  } }
+@media only screen and (min-device-width: 15360px)    									{ :root { --index: 6.122;  } }
+
+
+:root {
+	--size-1:   calc(var(--index) * 0.878 * 1px);
+	--size-2:   calc(var(--index) * 0.878 * 2px);
+	--size-3:   calc(var(--index) * 0.878 * 3px);
+	--size-4:   calc(var(--index) * 0.878 * 4px);
+	--size-5:   calc(var(--index) * 0.878 * 5px);
+	--size-6:   calc(var(--index) * 0.878 * 6px);
+	--size-7:   calc(var(--index) * 0.878 * 7px);
+	--size-8:   calc(var(--index) * 0.878 * 8px);
+	--size-9:   calc(var(--index) * 0.878 * 9px);
+	--size-10:  calc(var(--index) * 0.878 * 10px);
+	--size-11:  calc(var(--index) * 0.878 * 11px);
+	--size-12:  calc(var(--index) * 0.878 * 12px);
+	--size-13:  calc(var(--index) * 0.878 * 13px);
+	--size-14:  calc(var(--index) * 0.878 * 14px);
+	--size-15:  calc(var(--index) * 0.878 * 15px);
+	--size-16:  calc(var(--index) * 0.878 * 16px);
+	--size-17:  calc(var(--index) * 0.878 * 17px);
+	--size-18:  calc(var(--index) * 0.878 * 18px);
+	--size-19:  calc(var(--index) * 0.878 * 19px);
+	--size-20:  calc(var(--index) * 0.878 * 20px);
+	--size-21:  calc(var(--index) * 0.878 * 21px);
+	--size-22:  calc(var(--index) * 0.878 * 22px);
+	--size-23:  calc(var(--index) * 0.878 * 23px);
+	--size-24:  calc(var(--index) * 0.878 * 24px);
+	--size-25:  calc(var(--index) * 0.878 * 25px);
+	--size-26:  calc(var(--index) * 0.878 * 26px);
+	--size-27:  calc(var(--index) * 0.878 * 27px);
+	--size-28:  calc(var(--index) * 0.878 * 28px);
+	--size-29:  calc(var(--index) * 0.878 * 29px);
+	--size-30:  calc(var(--index) * 0.878 * 30px);
+	--size-31:  calc(var(--index) * 0.878 * 31px);
+	--size-32:  calc(var(--index) * 0.878 * 32px);
+	
+	--size-34:  calc(var(--index) * 0.878 * 34px);
+	--size-40:  calc(var(--index) * 0.878 * 40px);
+	--size-42:  calc(var(--index) * 0.878 * 42px);
+	--size-48:  calc(var(--index) * 0.878 * 48px);
+	--size-56:  calc(var(--index) * 0.878 * 56px);
+	--size-72:  calc(var(--index) * 0.878 * 72px);
+	--size-76:  calc(var(--index) * 0.878 * 76px);
+	
+	--size-100:  calc(var(--index) * 0.878 * 100px);
+	--size-136:  calc(var(--index) * 0.878 * 136px);
+	--size-200:  calc(var(--index) * 0.878 * 200px);
+	--size-210:  calc(var(--index) * 0.878 * 210px);
+	--size-264:  calc(var(--index) * 0.878 * 264px);
+	
+	--size-448:  calc(var(--index) * 0.878 * 448px);
+	--size-459:  calc(var(--index) * 0.878 * 459px);
+	--size-500:  calc(var(--index) * 0.878 * 500px);
+	
+	--rem-1: var(--size-16);
+	--rem-2: var(--size-32);
+	--rem-3: calc(var(--index) * 0.878 * 48px);
+	--rem-4: calc(var(--index) * 0.878 * 64px);
+	--rem-5: calc(var(--index) * 0.878 * 80px);
+	
+	--rem-20: calc(var(--index) * 0.878 * 320px);
+}

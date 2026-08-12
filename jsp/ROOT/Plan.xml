@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<deployment-plan xmlns="http://xmlns.oracle.com/weblogic/deployment-plan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.oracle.com/weblogic/deployment-plan http://xmlns.oracle.com/weblogic/deployment-plan/1.0/deployment-plan.xsd">
+  <application-name>iabs</application-name>
+  <module-override>
+    <module-name>iabs</module-name>
+    <module-type>war</module-type>
+    <module-descriptor external="true">
+      <root-element>weblogic-web-app</root-element>
+      <uri>WEB-INF/weblogic.xml</uri>
+      <hash-code>1755668366550</hash-code>
+    </module-descriptor>
+    <module-descriptor external="false">
+      <root-element>web-app</root-element>
+      <uri>WEB-INF/web.xml</uri>
+    </module-descriptor>
+    <module-descriptor external="true">
+      <root-element>wldf-resource</root-element>
+      <uri>META-INF/weblogic-diagnostics.xml</uri>
+    </module-descriptor>
+    <module-descriptor external="true">
+      <root-element>weblogic-webservices</root-element>
+      <uri>WEB-INF/weblogic-webservices.xml</uri>
+    </module-descriptor>
+    <module-descriptor external="false">
+      <root-element>webservices</root-element>
+      <uri>WEB-INF/webservices.xml</uri>
+    </module-descriptor>
+    <module-descriptor external="true">
+      <root-element>webservice-policy-ref</root-element>
+      <uri>WEB-INF/weblogic-webservices-policy.xml</uri>
+    </module-descriptor>
+  </module-override>
+  <config-root>/disk1/webapp/plan</config-root>
+</deployment-plan>

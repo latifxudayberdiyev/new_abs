@@ -1,0 +1,52 @@
+FIELDSET
+{
+    width:100%;
+    display:block;
+    padding:0; margin:0;
+    border-width: 1px 0 0; border-style: solid; border-color: #DDD
+}
+LEGEND
+{
+    padding: 0 10px; margin-left:-15px;
+    color: indianred;
+    font: bold 11px "Trebuchet MS", Tahoma, Verdana, sans-serif
+}
+LABEL
+{
+    cursor: pointer;
+    padding:0; margin:0;
+    font: normal 12px/1.6 "Trebuchet MS", Tahoma, Verdana, sans-serif;
+    color:#000; margin-right:5px
+}
+OPTGROUP
+{
+    color:indianred
+}
+
+OPTION
+{
+    color:black
+}
+SELECT, TEXTAREA
+{
+    font: normal 12px/1.6 "Trebuchet MS", Tahoma, Verdana, sans-serif; letter-spacing: 1px;
+    padding-left: 3px
+}
+.text
+{
+    font: normal 12px/1.6 "Trebuchet MS", Tahoma, Verdana, sans-serif; letter-spacing: 1px;
+    padding-left: 3px    
+}
+.label
+{
+    text-align: right; padding-right:5px;
+    font: lighter 12px Verdana; color:#828282
+}
+.hidden
+{
+    display:none
+}
+.readonly
+{
+    background:#fff !important
+}

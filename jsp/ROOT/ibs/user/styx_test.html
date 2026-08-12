@@ -1,0 +1,35 @@
+<html>
+<body>
+<div id=cnt>
+	<script>
+		function sign(l) {
+			var s = null;
+			try {
+				s = new ActiveXObject("Styx.Crypto.AX.ASClientControl");
+			} catch (e) {
+				throw new Error("Driver not found");
+			}
+			if (s == null) {
+				throw new Error("ActiveX not installed");
+			}
+			s.Init();
+			s.IncludeOption = 2;
+			var r = s.SignMessage(l);
+			if (r == null || r.length == 0) {
+				throw new Error("STYX Client:" + s.ErrorMsg);
+			}
+			document.write(s.GetCertificateParams());
+			return r;
+		}
+
+		var txt = "FWGB0N9LC9C8CLCEG0OGDDLN58TNJQ6003YNHEYHXNAXZ8UCIWCAS9SL59YKDGMCDAWU0AWEOZECLGZN55XC0YL5DW7VUKUBY7R0IQQ6VQNEQR8AFWWDE7IR74PVVQPM";
+		try {
+			document.write("<p>Text:<b>" + txt + "</b></p><p>CRP:<b>" + sign(txt) + "</b></p>");
+		} catch (e) {
+			alert(e.message)
+		}
+	</script>
+</div>
+</body>
+
+</html>

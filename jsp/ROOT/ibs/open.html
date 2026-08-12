@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+	<meta charset="WINDOWS-1251">
+	<title>JSP Generator Pro</title>
+	<style>
+		* {
+			box-sizing: border-box;
+			font-family: 'Segoe UI', Tahoma, sans-serif
+		}
+
+		body {
+			margin: 0;
+			padding: 20px;
+			background: #1a1a2e;
+			color: #eee
+		}
+
+		.container {
+			max-width: 1600px;
+			margin: 0 auto
+		}
+
+		h1 {
+			text-align: center;
+			color: #00d9ff;
+			margin-bottom: 20px
+		}
+
+		.config-panel {
+			background: #16213e;
+			padding: 15px;
+			border-radius: 8px;
+			margin-bottom: 20px;
+			display: grid;
+			grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+			gap: 15px
+		}
+
+		.config-panel label {
+			display: block;
+			font-size: 12px;
+			color: #888;
+			margin-bottom: 5px
+		}
+
+		.config-panel input[type="text"] {
+			width: 100%;
+			padding: 8px;
+			border: 1px solid #333;
+			border-radius: 4px;
+			background: #0f0f23;
+			color: #fff
+		}
+
+		.options-panel {
+			background: #16213e;
+			padding: 15px;
+			border-radius: 8px;
+			margin-bottom: 20px;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 15px
+		}
+
+		.options-panel label {
+			display: flex;
+			align-items: center;
+			gap: 5px;
+			cursor: pointer;
+			padding: 5px 10px;
+			background: #0f0f23;
+			border-radius: 4px;
+			font-size: 13px
+		}
+
+		.options-panel label:hover {
+			background: #1a1a3e
+		}
+
+		.fields-container {
+			background: #16213e;
+			border-radius: 8px;
+			overflow: hidden;
+			margin-bottom: 20px
+		}
+
+		.fields-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px 15px;
+			background: #0f3460
+		}
+
+		.fields-header h3 {
+			margin: 0;
+			color: #00d9ff
+		}
+
+		.btn {
+			padding: 8px 16px;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-size: 13px
+		}
+
+		.btn-primary {
+			background: #00d9ff;
+			color: #000
+		}
+
+		.btn-success {
+			background: #00c853;
+			color: #fff
+		}
+
+		.btn-danger {
+			background: #ff1744;
+			color: #fff
+		}
+
+		.btn-warning {
+			background: #ff9100;
+			color: #000
+		}
+
+		.btn-sm {
+			padding: 4px 8px;
+			font-size: 11px
+		}
+
+		.fields-table {
+			width: 100%;
+			border-collapse: collapse
+		}
+
+		.fields-table th {
+			background: #0f0f23;
+			padding: 10px 5px;
+			font-size: 11px;
+			color: #888;
+			border-bottom: 2px solid #333
+		}
+
+		.fields-table td {
+			padding: 5px;
+			border-bottom: 1px solid #333
+		}
+
+		.fields-table tr:hover {
+			background: #1a1a3e
+		}
+
+		.fields-table input[type="text"], .fields-table select {
+			width: 100%;
+			padding: 6px;
+			border: 1px solid #333;
+			border-radius: 3px;
+			background: #0f0f23;
+			color: #fff;
+			font-size: 12px
+		}
+
+		.fields-table input[type="checkbox"] {
+			width: 16px;
+			height: 16px
+		}
+
+		.row-num {
+			text-align: center;
+			color: #666;
+			font-weight: bold
+		}
+
+		.action-buttons {
+			display: flex;
+			gap: 10px;
+			margin-bottom: 20px;
+			flex-wrap: wrap
+		}
+
+		.output-container {
+			display: grid;
+			grid-template-columns:1fr 1fr;
+			gap: 20px
+		}
+
+		.output-box {
+			background: #16213e;
+			border-radius: 8px;
+			overflow: hidden
+		}
+
+		.output-header {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 10px 15px;
+			background: #0f3460
+		}
+
+		.output-header h4 {
+			margin: 0;
+			color: #00d9ff
+		}
+
+		.output-box textarea {
+			width: 100%;
+			height: 400px;
+			padding: 15px;
+			border: none;
+			background: #0f0f23;
+			color: #0f0;
+			font-family: Consolas, monospace;
+			font-size: 12px;
+			resize: vertical
+		}
+
+		.notification {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			padding: 15px 25px;
+			background: #00c853;
+			color: #fff;
+			border-radius: 8px;
+			z-index: 1000
+		}
+
+		.bulk-input {
+			background: #16213e;
+			padding: 15px;
+			border-radius: 8px;
+			margin-bottom: 20px;
+			display: none
+		}
+
+		.bulk-input.active {
+			display: block
+		}
+
+		.bulk-input textarea {
+			width: 100%;
+			height: 100px;
+			padding: 10px;
+			border: 1px solid #333;
+			border-radius: 4px;
+			background: #0f0f23;
+			color: #fff;
+			font-family: monospace;
+			margin-bottom: 10px
+		}
+
+		.status {
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			padding: 8px 15px;
+			background: #00c853;
+			color: #fff;
+			border-radius: 20px;
+			font-size: 12px
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<h1>JSP Generator Pro</h1>
+
+	<div class="config-panel">
+		<div>
+			<label>View/Table nomi</label>
+			<input type="text" id="view_table" placeholder="v_table_name">
+		</div>
+		<div>
+			<label>Sarlavha (Title)</label>
+			<input type="text" id="si_title" placeholder="Sarlavha">
+		</div>
+		<div>
+			<label>JSP fayl nomi</label>
+			<input type="text" id="jsp_name" placeholder="page_name">
+		</div>
+	</div>
+
+	<div class="options-panel" id="optionsPanel">
+		<label><input type="checkbox" id="c_page" checked><span>page</span></label>
+		<label><input type="checkbox" id="c_number" checked><span>numbering</span></label>
+		<label><input type="checkbox" id="c_focus"><span>withoutFocus</span></label>
+		<label><input type="checkbox" id="c_cursor" checked><span>withoutCursor</span></label>
+		<label><input type="checkbox" id="c_sort"><span>withoutSortButtons</span></label>
+		<label><input type="checkbox" id="c_refresh"><span>withoutRefreshButton</span></label>
+		<label><input type="checkbox" id="c_reset"><span>resetCursor</span></label>
+		<label><input type="checkbox" id="c_filter"><span>hideFilterButton</span></label>
+		<label><input type="checkbox" id="c_excel"><span>hideExcelButton</span></label>
+		<label><input type="checkbox" id="c_enter"><span>enterDirection</span></label>
+		<label><input type="checkbox" id="c_row"><span>rowColor</span></label>
+		<label style="background:#0f3460"><input type="checkbox" id="c_add"><span>Add</span></label>
+		<label style="background:#0f3460"><input type="checkbox" id="c_edit"><span>Edit</span></label>
+		<label style="background:#0f3460"><input type="checkbox" id="c_del"><span>Delete</span></label>
+		<label style="background:#0f3460"><input type="checkbox" id="c_grid"><span>Search</span></label>
+		<label style="background:#1a3a1a"><input type="checkbox" id="c_add_edit"><span>Add-Edit Combined</span></label>
+		<label style="background:#1a3a1a"><input type="checkbox" id="c_save"><span>Save</span></label>
+		<label style="background:#1a3a1a"><input type="checkbox" id="c_exit"><span>Exit</span></label>
+	</div>
+
+	<div class="bulk-input" id="bulkInput">
+		<div style="display:grid;grid-template-columns:1fr 1fr;gap:15px">
+			<div>
+				<label style="color:#888">Field nomlari (vergul bilan):</label>
+				<textarea id="bulk_fields" placeholder="id, name, code, state"></textarea>
+				<button class="btn btn-primary" onclick="applyBulkFields()">Qollash</button>
+			</div>
+			<div>
+				<label style="color:#888">Label nomlari (vergul bilan):</label>
+				<textarea id="bulk_labels" placeholder="ID, Nomi, Kodi, Holati"></textarea>
+				<button class="btn btn-primary" onclick="applyBulkLabels()">Qollash</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="fields-container">
+		<div class="fields-header">
+			<h3>Maydonlar</h3>
+			<div style="display:flex;gap:10px">
+				<button class="btn btn-warning" onclick="toggleBulkInput()">Bulk Input</button>
+				<button class="btn btn-success" onclick="addFieldAtEnd()">+ Maydon</button>
+				<button class="btn btn-danger" onclick="clearAllFields()">Tozalash</button>
+			</div>
+		</div>
+		<div style="overflow-x:auto">
+			<table class="fields-table">
+				<thead>
+				<tr>
+					<th>#</th>
+					<th>Field Name</th>
+					<th>Label</th>
+					<th>Type</th>
+					<th>Filter</th>
+					<th>Mask</th>
+					<th>Custom</th>
+					<th>Align</th>
+					<th>Flt</th>
+					<th>Grd</th>
+					<th>Fot</th>
+					<th>Frm</th>
+					<th>Hdn</th>
+					<th>Ref</th>
+					<th>RqF</th>
+					<th>RqV</th>
+					<th>R</th>
+					<th>Act</th>
+				</tr>
+				</thead>
+				<tbody id="fieldsBody"></tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="action-buttons">
+		<button class="btn btn-primary" onclick="generateListPage()"
+						style="padding:12px 30px;font-size:15px">List Page Yaratish
+		</button>
+		<button class="btn btn-primary" onclick="generateAddPage()"
+						style="padding:12px 30px;font-size:15px">Add/Edit Page Yaratish
+		</button>
+		<button class="btn btn-warning" onclick="exportConfig()">Export</button>
+		<input type="file" id="importFile" accept=".json" style="display:none" onchange="importConfig(this)">
+		<button class="btn btn-warning" onclick="document.getElementById('importFile').click()">Import</button>
+		<button class="btn btn-danger" onclick="resetAll()">Reset</button>
+	</div>
+
+	<div class="output-container">
+		<div class="output-box">
+			<div class="output-header">
+				<h4>List Page</h4>
+				<button class="btn btn-sm btn-primary" onclick="copyCode('listOutput')">Copy</button>
+			</div>
+			<textarea id="listOutput" readonly placeholder="List page kodi shu yerda..."></textarea>
+		</div>
+		<div class="output-box">
+			<div class="output-header">
+				<h4>Add/Edit Page</h4>
+				<button class="btn btn-sm btn-primary" onclick="copyCode('addOutput')">Copy</button>
+			</div>
+			<textarea id="addOutput" readonly placeholder="Add/Edit page kodi shu yerda..."></textarea>
+		</div>
+	</div>
+</div>
+
+<div class="status" id="status">Saqlandi</div>
+
+<script>
+	var STORAGE_KEY = 'jsp_gen_v4';
+	var fieldCounter = 0;
+
+	var FIELD_TYPES = ['-', 'quote', 'date', 'datetime', 'sum', 'sum2', 'time', 'number', 'numberS2', 'notSend'];
+	var FILTER_TYPES = ['-', '_search_', '_like_', 'choice', 'range', 'option', 'optionSQL'];
+	var MASK_TYPES = ['-', 'date', 'date2', 'datetime', 'acc', 'acc2', 'clientcode', 'localcode', 'mfo', 'number', 'user'];
+	var ALIGN_TYPES = ['-', 'left', 'right'];
+
+	function createSelect(cls, opts, sel) {
+		var h = '<select class="' + cls + '">';
+		for (var i = 0; i < opts.length; i++) {
+			var v = opts[i] === '-' ? '' : opts[i];
+			h += '<option value="' + v + '"' + (v === sel ? ' selected' : '') + '>' + opts[i] + '</option>';
+		}
+		return h + '</select>';
+	}
+
+	function createFieldRow(d) {
+		d = d || {};
+		fieldCounter++;
+		var id = fieldCounter;
+		var tr = document.createElement('tr');
+		tr.id = 'row_' + id;
+		tr.innerHTML = '<td class="row-num">' + id + '</td>' +
+			'<td><input type="text" class="f-name" value="' + (d.name || '') + '"></td>' +
+			'<td><input type="text" class="f-label" value="' + (d.label || '') + '"></td>' +
+			'<td>' + createSelect('f-type', FIELD_TYPES, d.type || '') + '</td>' +
+			'<td>' + createSelect('f-filter', FILTER_TYPES, d.filter || '') + '</td>' +
+			'<td>' + createSelect('f-mask', MASK_TYPES, d.mask || '') + '</td>' +
+			'<td><input type="text" class="f-custom" value="' + (d.custom || '') + '"></td>' +
+			'<td>' + createSelect('f-align', ALIGN_TYPES, d.align || '') + '</td>' +
+			'<td><input type="checkbox" class="f-flt"' + (d.flt ? ' checked' : '') + '></td>' +
+			'<td><input type="checkbox" class="f-grd"' + (d.grd !== false ? ' checked' : '') + '></td>' +
+			'<td><input type="checkbox" class="f-fot"' + (d.fot ? ' checked' : '') + '></td>' +
+			'<td><input type="checkbox" class="f-frm"' + (d.frm !== false ? ' checked' : '') + '></td>' +
+			'<td><input type="checkbox" class="f-hdn"' + (d.hdn ? ' checked' : '') + '></td>' +
+			'<td><input type="checkbox" class="f-ref"' + (d.ref ? ' checked' : '') + '></td>' +
+			'<td><input type="checkbox" class="f-rqf"' + (d.rqf ? ' checked' : '') + '></td>' +
+			'<td><input type="checkbox" class="f-rqv"' + (d.rqv ? ' checked' : '') + '></td>' +
+			'<td><input type="checkbox" class="f-r"' + (d.r ? ' checked' : '') + '></td>' +
+			'<td><button class="btn btn-sm btn-success" onclick="addAfter(' + id + ')">+</button> ' +
+			'<button class="btn btn-sm btn-danger" onclick="removeRow(' + id + ')">x</button></td>';
+
+		var inputs = tr.querySelectorAll('input,select');
+		for (var i = 0; i < inputs.length; i++) {
+			inputs[i].onchange = saveData;
+		}
+		return tr;
+	}
+
+	function addFieldAtEnd(d) {
+		document.getElementById('fieldsBody').appendChild(createFieldRow(d));
+		updateNums();
+		saveData();
+	}
+
+	function addAfter(id) {
+		var row = document.getElementById('row_' + id);
+		if (row && row.nextSibling) {
+			row.parentNode.insertBefore(createFieldRow(), row.nextSibling);
+		} else if (row) {
+			row.parentNode.appendChild(createFieldRow());
+		}
+		updateNums();
+		saveData();
+	}
+
+	function removeRow(id) {
+		var rows = document.querySelectorAll('#fieldsBody tr');
+		if (rows.length <= 1) {
+			alert('Kamida 1 ta maydon kerak!');
+			return;
+		}
+		var row = document.getElementById('row_' + id);
+		if (row) row.remove();
+		updateNums();
+		saveData();
+	}
+
+	function updateNums() {
+		var rows = document.querySelectorAll('#fieldsBody tr');
+		for (var i = 0; i < rows.length; i++) {
+			rows[i].querySelector('.row-num').textContent = i + 1;
+		}
+	}
+
+	function clearAllFields() {
+		if (!confirm('Hammasini ochirish?')) return;
+		document.getElementById('fieldsBody').innerHTML = '';
+		fieldCounter = 0;
+		addFieldAtEnd();
+	}
+
+	function toggleBulkInput() {
+		var el = document.getElementById('bulkInput');
+		el.style.display = el.style.display === 'block' ? 'none' : 'block';
+	}
+
+	function applyBulkFields() {
+		var arr = document.getElementById('bulk_fields').value.split(',');
+		var rows = document.querySelectorAll('#fieldsBody tr');
+		for (var i = 0; i < arr.length; i++) {
+			var v = arr[i].trim();
+			if (!v) continue;
+			if (i < rows.length) {
+				rows[i].querySelector('.f-name').value = v;
+			} else {
+				addFieldAtEnd({name: v});
+			}
+		}
+		saveData();
+	}
+
+	function applyBulkLabels() {
+		var arr = document.getElementById('bulk_labels').value.split(',');
+		var rows = document.querySelectorAll('#fieldsBody tr');
+		for (var i = 0; i < arr.length; i++) {
+			if (i < rows.length) {
+				rows[i].querySelector('.f-label').value = arr[i].trim();
+			}
+		}
+		saveData();
+	}
+
+	function saveData() {
+		var data = {
+			config: {
+				view_table: document.getElementById('view_table').value,
+				si_title: document.getElementById('si_title').value,
+				jsp_name: document.getElementById('jsp_name').value
+			},
+			options: {},
+			fields: []
+		};
+
+		var cbs = document.querySelectorAll('#optionsPanel input');
+		for (var i = 0; i < cbs.length; i++) {
+			data.options[cbs[i].id] = cbs[i].checked;
+		}
+
+		var rows = document.querySelectorAll('#fieldsBody tr');
+		for (var i = 0; i < rows.length; i++) {
+			var r = rows[i];
+			data.fields.push({
+				name: r.querySelector('.f-name').value,
+				label: r.querySelector('.f-label').value,
+				type: r.querySelector('.f-type').value,
+				filter: r.querySelector('.f-filter').value,
+				mask: r.querySelector('.f-mask').value,
+				custom: r.querySelector('.f-custom').value,
+				align: r.querySelector('.f-align').value,
+				flt: r.querySelector('.f-flt').checked,
+				grd: r.querySelector('.f-grd').checked,
+				fot: r.querySelector('.f-fot').checked,
+				frm: r.querySelector('.f-frm').checked,
+				hdn: r.querySelector('.f-hdn').checked,
+				ref: r.querySelector('.f-ref').checked,
+				rqf: r.querySelector('.f-rqf').checked,
+				rqv: r.querySelector('.f-rqv').checked,
+				r: r.querySelector('.f-r').checked
+			});
+		}
+
+		localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+		document.getElementById('status').textContent = 'Saqlandi';
+	}
+
+	function loadData() {
+		var s = localStorage.getItem(STORAGE_KEY);
+		if (!s) {
+			addFieldAtEnd();
+			addFieldAtEnd();
+			addFieldAtEnd();
+			return;
+		}
+
+		try {
+			var data = JSON.parse(s);
+			document.getElementById('view_table').value = data.config.view_table || '';
+			document.getElementById('si_title').value = data.config.si_title || '';
+			document.getElementById('jsp_name').value = data.config.jsp_name || '';
+
+			for (var k in data.options) {
+				var el = document.getElementById(k);
+				if (el) el.checked = data.options[k];
+			}
+
+			for (var i = 0; i < data.fields.length; i++) {
+				addFieldAtEnd(data.fields[i]);
+			}
+		} catch (e) {
+			addFieldAtEnd();
+		}
+	}
+
+	function exportConfig() {
+		var s = localStorage.getItem(STORAGE_KEY);
+		if (!s) {
+			showMsg('Avval malumot kiriting!');
+			return;
+		}
+		var a = document.createElement('a');
+		a.href = 'data:application/json,' + encodeURIComponent(s);
+		a.download = 'jsp_generator_config.json';
+		a.click();
+		showMsg('Export qilindi!');
+	}
+
+	function importConfig(input) {
+		var file = input.files[0];
+		if (!file) return;
+
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			try {
+				var data = JSON.parse(e.target.result);
+				localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+				showMsg('Import qilindi! Sahifa yangilanmoqda...');
+				setTimeout(function () {
+					location.reload();
+				}, 1000);
+			} catch (err) {
+				alert('Xato: JSON fayl formati notogri!');
+			}
+		};
+		reader.readAsText(file);
+		input.value = '';
+	}
+
+	function resetAll() {
+		if (!confirm('Hammasini ochirish?')) return;
+		localStorage.removeItem(STORAGE_KEY);
+		location.reload();
+	}
+
+	function getFields() {
+		var fields = [];
+		var rows = document.querySelectorAll('#fieldsBody tr');
+		for (var i = 0; i < rows.length; i++) {
+			var r = rows[i];
+			fields.push({
+				id: i + 1,
+				name: r.querySelector('.f-name').value.trim().toLowerCase(),
+				label: r.querySelector('.f-label').value.trim(),
+				type: r.querySelector('.f-type').value,
+				filter: r.querySelector('.f-filter').value,
+				mask: r.querySelector('.f-mask').value,
+				custom: r.querySelector('.f-custom').value.trim(),
+				align: r.querySelector('.f-align').value,
+				flt: r.querySelector('.f-flt').checked,
+				grd: r.querySelector('.f-grd').checked,
+				fot: r.querySelector('.f-fot').checked,
+				frm: r.querySelector('.f-frm').checked,
+				hdn: r.querySelector('.f-hdn').checked,
+				ref: r.querySelector('.f-ref').checked,
+				rqf: r.querySelector('.f-rqf').checked,
+				rqv: r.querySelector('.f-rqv').checked,
+				r: r.querySelector('.f-r').checked
+			});
+		}
+		return fields;
+	}
+
+	function generateListPage() {
+		var viewTable = document.getElementById('view_table').value || 'v_table';
+		var title = document.getElementById('si_title').value || 'Title';
+		var jspName = document.getElementById('jsp_name').value || 'page';
+		var fields = getFields();
+
+		var hasPage = document.getElementById('c_page').checked;
+		var hasNum = document.getElementById('c_number').checked;
+		var hasFocus = document.getElementById('c_focus').checked;
+		var hasCursor = document.getElementById('c_cursor').checked;
+		var hasSort = document.getElementById('c_sort').checked;
+		var hasRefresh = document.getElementById('c_refresh').checked;
+		var hasReset = document.getElementById('c_reset').checked;
+		var hasFilter = document.getElementById('c_filter').checked;
+		var hasExcel = document.getElementById('c_excel').checked;
+		var hasEnter = document.getElementById('c_enter').checked;
+		var hasRow = document.getElementById('c_row').checked;
+		var hasAdd = document.getElementById('c_add').checked;
+		var hasEdit = document.getElementById('c_edit').checked;
+		var hasDel = document.getElementById('c_del').checked;
+		var hasGrid = document.getElementById('c_grid').checked;
+
+		var J1 = '<' + '%';
+		var J2 = '%' + '>';
+		var JE = '<' + '%=';
+		var JD = '<' + '%!';
+		var S1 = '<' + 'script>';
+		var S2 = '<' + '/script>';
+
+		var c = '';
+		c += J1 + '@ page contentType="text/html;charset=UTF-8" language="java" ' + J2 + '\n';
+		c += J1 + '@ page import="java.sql.*, java.util.*, uz.fido_biznes.cms.*" ' + J2 + '\n';
+		c += J1 + '@ page import="oracle.sql.*, oracle.jdbc.*" ' + J2 + '\n';
+		c += J1 + '@ taglib uri="/WEB-INF/cms.tld" prefix="t" ' + J2 + '\n';
+		c += '<jsp:useBean id="cods" class="iabs.oraDBConnection" scope="session" />\n';
+		c += '<jsp:useBean id="stored" class="uz.fido_biznes.sql.StoredObject" scope="session" />\n';
+		c += '<jsp:useBean id="user" class="iabs.User" scope="session" />\n';
+		c += J1 + '\n';
+		c += '  Connection conn = cods.getConnection();\n';
+		c += '  if (conn == null || user.getUserCode() == null) {\n';
+		c += '    pageContext.setAttribute(Resource.SESSION_EXPIRED, Boolean.TRUE);\n';
+		c += '  }\n';
+		c += '  Language lang = new Language(user.getLanguageIndex(), sentences);\n';
+		c += '  pageContext.setAttribute(Resource.STR_LANGUAGE, lang);\n';
+		c += J2 + '\n';
+		c += '<t:page>' + J1 + '\n';
+
+		if (hasDel) {
+			c += '  String action = request.getParameter("action");\n';
+			c += '  if (action != null) {\n';
+			c += '    try {\n';
+			c += '      stored.execRequestProcedure("' + jspName + '_Api.Execute_Process", request);\n';
+			c += '      out.print("' + S1 + 'alert(\'" + lang.get(si_success) + "\');' + S2 + '");\n';
+			c += '    } catch (Exception ex) {\n';
+			c += '      Util.alertUserMessage(ex, out);\n';
+			c += '    }\n';
+			c += '  }\n';
+		}
+
+		c += J2 + '<t:form title="' + JE + 'si_title' + J2 + '" minWidth="fill" minHeight="fill">\n';
+		c += S1 + '\n';
+		c += 'function responseModal(r) {\n';
+		c += '  if (r) { go({}); }\n';
+		c += '}\n';
+
+		if (hasAdd) {
+			c += 'function add() {\n';
+			c += '  go({url:"' + jspName + '.jsp?process_code=CREATE_",target:"modalE",dialogHeight:600,dialogWidth:1000,lock:false,callback:responseModal});\n';
+			c += '}\n';
+		}
+
+		if (hasEdit) {
+			c += 'function edit() {\n';
+			c += '  if(!getDOM("bEdit").disabled){\n';
+			c += '    go({url:"' + jspName + '.jsp?process_code=EDIT_",\nparam:{model_process_code:"_MODEL"\n,code:getData(1)},target:"modalE",dialogHeight:600,dialogWidth:1000,lock:false,callback:responseModal});\n';
+			c += '  }\n';
+			c += '}\n';
+			c += 'function onAction(){edit();}\n';
+		}
+
+		if (hasDel) {
+			c += 'function del() {\n';
+			c += '  if(!getDOM("bDel").disabled && confirm("' + JE + 'lang.get(si_ask)' + J2 + '")){\n';
+			c += '    go({process_code:"_MODEL"\n,code:getData(1),\nparam:{action:"delete"}});\n';
+			c += '  }\n';
+			c += '}\n';
+		}
+
+		c += 'function onLoad() {\n';
+		c += '  if(!dataExist()){\n';
+		if (hasEdit) c += '    getDOM("bEdit").setDisable(true);\n';
+		if (hasDel) c += '    getDOM("bDel").setDisable(true);\n';
+		c += '  }\n';
+		c += '}\n';
+		c += S2 + '\n';
+
+		c += '<table class="formToolbar" align="center"><tr><td>\n';
+		if (hasAdd) c += '  <input type="button" name="bAdd" onclick="add();" value="' + JE + 'lang.get(si_add)' + J2 + '">\n';
+		if (hasEdit) c += '  <input type="button" name="bEdit" onclick="edit();" value="' + JE + 'lang.get(si_edit)' + J2 + '">\n';
+		if (hasDel) c += '  <input type="button" name="bDel" onclick="del();" value="' + JE + 'lang.get(si_del)' + J2 + '">\n';
+		c += '<td id="tableControls" align="right">\n';
+		if (hasGrid) c += '  <b>' + JE + 'lang.get(si_search)' + J2 + '</b><span id="filterControls"></span>\n';
+		c += '</table>\n';
+
+		c += '<t:table from="' + viewTable + '">\n';
+
+		for (var i = 0; i < fields.length; i++) {
+			var f = fields[i];
+			if (!f.name) continue;
+
+			c += '  <t:field id="' + f.id + '" name="' + f.name + '" label="' + JE + 'si_' + f.name + J2 + '"';
+			if (f.type) c += ' type="' + f.type + '"';
+
+			if (f.filter || f.mask || f.custom || f.flt) {
+				c += '>\n    <t:filter';
+				if (f.filter === 'optionSQL') {
+					c += ' optionSQL="select \'<option value=\'|| code ||\'>\' || name from v_' + f.name + '"';
+				} else if (f.filter === 'option') {
+					c += ' option="' + JE + 'si_' + f.name + '_option' + J2 + '"';
+				} else if (f.filter) {
+					c += ' operator="' + f.filter + '"';
+				}
+				if (f.custom) c += ' mask="' + f.custom + '"';
+				else if (f.mask) c += ' mask="' + f.mask + '"';
+				if (f.flt) c += ' showInGrid=""';
+				c += ' />\n  </t:field>\n';
+			} else {
+				c += ' />\n';
+			}
+		}
+
+		c += '  <t:grid';
+		if (hasPage) c += ' page=""';
+		if (hasNum) c += ' numbering=""';
+		if (hasFocus) c += ' withoutFocus=""';
+		if (hasCursor) c += ' withoutCursor=""';
+		if (hasSort) c += ' withoutSortButtons=""';
+		if (hasRefresh) c += ' withoutRefreshButton=""';
+		if (hasReset) c += ' resetCursor=""';
+		if (hasFilter) c += ' hideFilterButton=""';
+		if (hasExcel) c += ' hideExcelButton=""';
+		if (hasEnter) c += ' enterDirection=""';
+		if (hasRow) c += ' rowColor="d(1)==\'Y\'?\'#000\':\'\'"';
+		c += '>\n';
+
+		for (var i = 0; i < fields.length; i++) {
+			var f = fields[i];
+			if (f.grd && f.name) {
+				c += '    <t:column for="' + f.id + '"';
+				if (f.align) c += ' align="' + f.align + '"';
+				c += ' />\n';
+			}
+		}
+
+		var foots = [];
+		for (var i = 0; i < fields.length; i++) {
+			if (fields[i].fot && fields[i].name) foots.push(fields[i]);
+		}
+		if (foots.length > 0) {
+			c += '    <t:foot><t:row>\n';
+			for (var i = 0; i < foots.length; i++) {
+				c += '      <t:cell for="' + foots[i].id + '"' + (foots[i].align ? ' align="' + foots[i].align + '"' : '') + ' />\n';
+			}
+			c += '    </t:row></t:foot>\n';
+		}
+
+		c += '  </t:grid>\n';
+		c += '</t:table>\n';
+		c += '</t:form>\n';
+		c += '</t:page>\n';
+
+		c += JD + '\n';
+		c += '  static final int si_title = SI("' + title + '");\n';
+		if (hasAdd) c += '  static final int si_add = SI("Добавить","?ўшиш","Qo\'shish","Add");\n';
+		if (hasEdit) c += '  static final int si_edit = SI("Изменить","Ўзгартириш","O\'zgartirish","Edit");\n';
+		if (hasDel) {
+			c += '  static final int si_del = SI("Удалить","Ўчириш","O\'chirish","Delete");\n';
+			c += '  static final int si_ask = SI("Удалить?","Ўчириш?","O\'chirish?","Delete?");\n';
+			c += '  static final int si_success = SI("Успешно!","Муваффа?ият!","Muvaffaqiyat!","Success!");\n';
+		}
+		if (hasGrid) c += '  static final int si_search = SI("Поиск:","?идирув:","Qidiruv:","Search:");\n';
+
+		for (var i = 0; i < fields.length; i++) {
+			if (fields[i].name) {
+				c += '  static final int si_' + fields[i].name + ' = SI("' + (fields[i].label || ' ') + '");\n';
+			}
+		}
+
+		c += J2 + '\n';
+		c += J1 + '@ include file="/language.jsp" ' + J2;
+
+		document.getElementById('listOutput').value = c;
+		showMsg('List page yaratildi!');
+	}
+
+	function generateAddPage() {
+		var title = document.getElementById('si_title').value || 'Title';
+		var jspName = document.getElementById('jsp_name').value || 'page';
+		var fields = getFields();
+
+		var hasAddEdit = document.getElementById('c_add_edit').checked;
+		var hasSave = document.getElementById('c_save').checked;
+		var hasExit = document.getElementById('c_exit').checked;
+
+		var J1 = '<' + '%';
+		var J2 = '%' + '>';
+		var JE = '<' + '%=';
+		var JD = '<' + '%!';
+		var S1 = '<' + 'script>';
+		var S2 = '<' + '/script>';
+
+		var c = '';
+		c += J1 + '@ page contentType="text/html;charset=UTF-8" language="java" ' + J2 + '\n';
+		c += J1 + '@ page import="java.sql.*, java.util.*, uz.fido_biznes.cms.*" ' + J2 + '\n';
+		c += J1 + '@ page import="oracle.sql.*, oracle.jdbc.*" ' + J2 + '\n';
+		c += J1 + '@ taglib uri="/WEB-INF/cms.tld" prefix="t" ' + J2 + '\n';
+		c += '<jsp:useBean id="cods" class="iabs.oraDBConnection" scope="session" />\n';
+		c += '<jsp:useBean id="stored" class="uz.fido_biznes.sql.StoredObject" scope="session" />\n';
+		c += '<jsp:useBean id="user" class="iabs.User" scope="session" />\n';
+		c += J1 + '\n';
+		c += '  Connection conn = cods.getConnection();\n';
+		c += '  if (conn == null || user.getUserCode() == null) {\n';
+		c += '    pageContext.setAttribute(Resource.SESSION_EXPIRED, Boolean.TRUE);\n';
+		c += '  }\n';
+		c += '  Language lang = new Language(user.getLanguageIndex(), sentences);\n';
+		c += '  pageContext.setAttribute(Resource.STR_LANGUAGE, lang);\n';
+		c += J2 + '\n';
+		c += '<t:page>' + J1 + '\n';
+
+		if (hasAddEdit) {
+			c += '  String code = request.getParameter("code");\n';
+			c += '  if (code != null) {\n';
+			c += '    try {\n';
+			c += '      out.println("' + S1 + 'var data=" + stored.execRequestFunction("' + jspName + '_Api.Get_Model", request) + ";"' + S2 + '");\n';
+			c += '    } catch (Exception ex) {\n';
+			c += '      Util.alertUserMessage(ex, out);\n';
+			c += '    }\n';
+			c += '  }\n';
+		}
+
+		var titleExpr = hasAddEdit ? '(code!=null)?si_edit_title:si_add_title' : 'si_title';
+		c += J2 + '<t:form title="' + JE + titleExpr + J2 + '" minWidth="fill" minHeight="fill">\n';
+		c += S1 + '\nfunction onLoad(){}\n' + S2 + '\n';
+
+		c += '<div id="basepanel" class="panel">\n';
+		c += '<iframe name="frm" style="display:none"></iframe>\n';
+		c += '<form name="fm" method="post" target="frm">\n';
+		c += '<input type="hidden" name="request" value="save">\n';
+
+		c += '<table class="formToolbar" align="center"><tr><td>\n';
+		if (hasSave) c += '  <input type="submit" value="' + JE + 'lang.get(si_save)' + J2 + '">\n';
+		c += '<td id="tableControls" align="right">\n';
+		if (hasExit) c += '  <input type="button" onclick="parent.close();" value="' + JE + 'lang.get(si_exit)' + J2 + '">\n';
+		c += '</table>\n';
+
+		for (var i = 0; i < fields.length; i++) {
+			var f = fields[i];
+			if (!f.frm || !f.name) continue;
+
+			if (f.hdn) {
+				c += '<input type="hidden" name="' + f.name + '" value="">\n';
+			} else if (f.ref || f.rqf || f.rqv) {
+				var ref = f.ref ? ' reference="{name:\'get_' + f.name + '\',put:[fm.' + f.name + ',fm.' + f.name + '_name]}"' : '';
+				var req = (f.rqf || f.rqv) ? ' request="{name:\'get_' + f.name + '\',get:{' + f.name + ':fm.' + f.name + '},put:[fm.' + f.name + '_name]}"' : '';
+				c += '<div style="display:grid;grid-template-columns:1fr 2fr;gap:5px">\n';
+				c += '  <div class="form-group">\n';
+				c += '    <input name="' + f.name + '"' + ref + req + (f.r ? ' r="1"' : '') + ' class="form-control">\n';
+				c += '    <label>' + JE + 'lang.get(si_' + f.name + ')' + J2 + (f.r ? ' <q></q>' : '') + ':</label>\n';
+				c += '  </div>\n';
+				c += '  <div class="form-group">\n';
+				c += '    <input name="' + f.name + '_name" class="form-control" readonly tabindex="-1">\n';
+				c += '    <label></label>\n';
+				c += '  </div>\n';
+				c += '</div>\n';
+			} else if (f.filter === 'optionSQL' || f.filter === 'option') {
+				c += '<div class="form-group">\n';
+				c += '  <select name="' + f.name + '" class="form-control"' + (f.r ? ' r="1"' : '') + '>\n';
+				c += '    <t:options code="code" name="name" from="v_' + f.name + '" />\n';
+				c += '  </select>\n';
+				c += '  <label>' + JE + 'lang.get(si_' + f.name + ')' + J2 + (f.r ? ' <q></q>' : '') + ':</label>\n';
+				c += '</div>\n';
+			} else {
+				var mask = f.custom ? ' mask="' + f.custom + '"' : (f.mask ? ' mask="' + f.mask + '"' : '');
+				c += '<div class="form-group">\n';
+				c += '  <input name="' + f.name + '"' + mask + (f.r ? ' r="1"' : '') + ' class="form-control">\n';
+				c += '  <label>' + JE + 'lang.get(si_' + f.name + ')' + J2 + (f.r ? ' <q></q>' : '') + ':</label>\n';
+				c += '</div>\n';
+			}
+		}
+
+		c += '</form>\n</div>\n</t:form>\n</t:page>\n';
+
+		if (hasSave) {
+			c += '<t:requests>\n';
+			c += '<t:request name="save">' + J1 + '\n';
+			c += '  try {\n';
+			c += '    stored.execRequestProcedure("' + jspName + '_Api.Execute_Process", request);\n';
+			c += '    out.print("' + S1 + 'alert(\'" + lang.get(si_success) + "\');parent.returnValue=true;parent.close();' + S2 + '");\n';
+			c += '  } catch (Exception ex) {\n';
+			c += '    response.setHeader("RT", "alert");\n';
+			c += '    Util.alertUserMessage(ex, out);\n';
+			c += '    out.print("' + S1 + 'parent.pageLock(false);' + S2 + '");\n';
+			c += '  }\n';
+			c += J2 + '</t:request>\n';
+
+			for (var i = 0; i < fields.length; i++) {
+				var f = fields[i];
+				if (f.rqf || f.rqv) {
+					c += '<t:request name="get_' + f.name + '">' + J1 + '\n';
+					c += '  try {\n';
+					c += '    String ' + f.name + ' = request.getParameter("' + f.name + '");\n';
+					c += '    String name = stored.execSelect("select name from v_' + f.name + ' where code=\'" + Util.quotesEsc(' + f.name + ') + "\'");\n';
+					c += '    if(name.equalsIgnoreCase("")) throw new Exception(lang.get(si_error_code));\n';
+					c += '    JArray result = new JArray();\n';
+					c += '    result.push(name);\n';
+					c += '    out.print(result.toString());\n';
+					c += '  } catch (Exception ex) {\n';
+					c += '    response.setHeader("RT", "error");\n';
+					c += '    out.print(Util.getUserMessage(ex));\n';
+					c += '  }\n';
+					c += J2 + '</t:request>\n';
+				}
+			}
+			c += '</t:requests>\n';
+		}
+
+		var refs = [];
+		for (var i = 0; i < fields.length; i++) {
+			if (fields[i].ref) refs.push(fields[i]);
+		}
+		if (refs.length > 0) {
+			c += '<t:references>\n';
+			for (var i = 0; i < refs.length; i++) {
+				var f = refs[i];
+				c += '<t:reference name="get_' + f.name + '">\n';
+				c += '  <t:table from="v_' + f.name + '">\n';
+				c += '    <t:field id="1" name="code" label="' + JE + 'si_code' + J2 + '"><t:filter operator="_like_" size="10" showInGrid="" /></t:field>\n';
+				c += '    <t:field id="2" name="name" label="' + JE + 'si_name' + J2 + '" type="quote"><t:filter operator="_search_" showInGrid="" /></t:field>\n';
+				c += '    <t:grid page="" numbering="" withoutCursor="" hideFilterButton=""><t:column for="1" /><t:column for="2" align="left" /></t:grid>\n';
+				c += '  </t:table>\n';
+				c += '</t:reference>\n';
+			}
+			c += '</t:references>\n';
+		}
+
+		c += JD + '\n';
+		if (hasAddEdit) {
+			c += '  static final int si_add_title = SI("Добавление","?ўшиш","Qo\'shish","Adding");\n';
+			c += '  static final int si_edit_title = SI("Изменение","Ўзгартириш","O\'zgartirish","Editing");\n';
+		} else {
+			c += '  static final int si_title = SI("' + title + '");\n';
+		}
+		if (hasSave) {
+			c += '  static final int si_save = SI("Сохранить","Са?лаш","Saqlash","Save");\n';
+			c += '  static final int si_success = SI("Успешно!","Муваффа?ият!","Muvaffaqiyat!","Success!");\n';
+		}
+		if (hasExit) c += '  static final int si_exit = SI("Закрыть","Чи?иш","Chiqish","Exit");\n';
+		if (refs.length > 0) {
+			c += '  static final int si_code = SI("Код");\n';
+			c += '  static final int si_name = SI("Наименование");\n';
+		}
+
+		var hasRq = false;
+		for (var i = 0; i < fields.length; i++) {
+			if (fields[i].rqf || fields[i].rqv) {
+				hasRq = true;
+				break;
+			}
+		}
+		if (hasRq) c += '  static final int si_error_code = SI("Код не найден!");\n';
+
+		for (var i = 0; i < fields.length; i++) {
+			if (fields[i].name) {
+				c += '  static final int si_' + fields[i].name + ' = SI("' + (fields[i].label || ' ') + '");\n';
+			}
+		}
+
+		c += J2 + '\n';
+		c += J1 + '@ include file="/language.jsp" ' + J2;
+
+		document.getElementById('addOutput').value = c;
+		showMsg('Add/Edit page yaratildi!');
+	}
+
+	function copyCode(id) {
+		var el = document.getElementById(id);
+		el.select();
+		document.execCommand('copy');
+		showMsg('Nusxalandi!');
+	}
+
+	function showMsg(txt) {
+		var el = document.createElement('div');
+		el.className = 'notification';
+		el.textContent = txt;
+		document.body.appendChild(el);
+		setTimeout(function () {
+			el.remove();
+		}, 2000);
+	}
+
+	window.onload = function () {
+		loadData();
+
+		var inputs = document.querySelectorAll('.config-panel input, #optionsPanel input');
+		for (var i = 0; i < inputs.length; i++) {
+			inputs[i].onchange = saveData;
+			inputs[i].oninput = saveData;
+		}
+	};
+</script>
+</body>
+</html>

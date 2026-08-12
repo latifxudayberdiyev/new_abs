@@ -1,0 +1,211 @@
+/* ===================================================================================
+   osm_settings.jsp - operatsiya sozlamalari sahifasi.
+   Chap panel: amallar ro'yxati.  O'ng panel: provodka shablonlari akkordeoni.
+   =================================================================================== */
+
+input[type="button"] {
+    height: 26px; padding: 0 16px; border-radius: 20px !important;
+    font: 600 11px Arial, sans-serif; cursor: pointer;
+    border: 1px solid #d7dee8 ; background: #fff ; color: #344054;
+}
+input[type="button"]:hover { background: #f4f7fb !important; border-color: #b8c9dd; }
+input[type="button"][disabled] { opacity: .5; cursor: default; }
+
+.opbadge {
+    font: 600 11px Arial, sans-serif; color: #0b3d75;
+    background: #eaf2ff; border: 1px solid #cfe0f5;
+    border-radius: 8px; padding: 3px 10px;
+}
+
+/* --- ikki panelli karkas -------------------------------------------------------
+   Chap panel tor (faqat nom + holat), o'ng panelda provodka formasi joylashishi
+   kerak - shuning uchun qolgan kenglikning hammasi unga beriladi.              */
+.split { display: grid; grid-template-columns: 450px 1fr; gap: 10px; }
+
+.pane { border: 1px solid #e5e9f0; border-radius: 10px; background: #fff; overflow: hidden; }
+.pane-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 11px; border-bottom: 1px solid #e5e9f0; background: #fbfcfe;
+}
+.pane-title {
+    font: 700 10.5px Arial, sans-serif; color: #0b3d75;
+    text-transform: uppercase; letter-spacing: .5px;
+}
+/* max-height ni JS (fitPanes) o'rnatadi - bu yerdagisi faqat zaxira qiymat */
+.pane-body { max-height: calc(100vh - 168px); min-height: 240px; overflow-y: auto; }
+
+/* --- o'ng paneldagi tablar ------------------------------------------------------
+   Papka tabi: faol tabning oq pastki chegarasi pane-head chizig'ini yopib,
+   tabni pane-body bilan qo'shib yuboradi. osm_methods/osm_getters bilan bir xil. */
+.pane-head.tabbar {
+    padding: 7px 8px 0 8px; gap: 2px; justify-content: flex-start;
+    background: #eef2f7;
+}
+/* mode=all da tab bar sahifa tepasida turadi (pane-head ichida emas) */
+.osm-tabs { display: flex; gap: 2px; padding-left: 10px; margin-bottom: -1px; position: relative; z-index: 1; }
+
+/* Sinf nomi .tab EMAS: ROOT/form.css da span.tab qoidasi bor va u kuchliroq
+   (element+class), padding/border/line-height ni bosib ketadi.                  */
+.osm-tab {
+    padding: 7px 16px; cursor: pointer; border-radius: 8px 8px 0 0;
+    font: 600 11px Arial, sans-serif; color: #667085;
+    white-space: nowrap; background: #f7f9fc; border: 1px solid #e5e9f0;
+    margin-bottom: -1px; position: relative; z-index: 1;
+    transition: background .12s, color .12s;
+}
+.osm-tab:hover { color: #0b3d75; background: #eaf0f8; }
+.osm-tab.active {
+    color: #0b3d75; background: #fff; border-bottom-color: #fff; cursor: default;
+}
+
+/* --- umumiy elementlar --------------------------------------------------------- */
+.pill {
+    display: inline-block; padding: 1px 9px; border-radius: 10px;
+    font: 600 10.5px Arial, sans-serif; white-space: nowrap;
+}
+.no-data { padding: 26px 10px; text-align: center; color: #98a2b3; font-size: 12px; }
+.hint {
+    padding: 40px 20px; text-align: center; color: #98a2b3;
+    font-size: 12px; line-height: 1.6;
+}
+
+/* pane-head ichidagi tugma: .pane-title bilan bir qatorda, ixchamroq */
+.pane-head .btn-pri { height: 22px; padding: 0 12px; font-size: 10.5px; }
+
+/* --- CHAP PANEL: amalni operatsiyaga biriktirish paneli ------------------------- */
+.oa-add {
+    padding: 9px; margin: 8px; border: 1px solid #cfe0f5; border-radius: 9px;
+    background: #f7fafd;
+}
+
+/* --- CHAP PANEL: amallar jadvali ----------------------------------------------- */
+.lst { width: 100%; border-collapse: collapse; font: 12.5px Arial, sans-serif; }
+.lst thead th {
+    position: sticky; top: 0; z-index: 1;
+    background: #f4f7fb; color: #475467; text-align: left;
+    font: 600 11.5px Arial, sans-serif; padding: 9px 12px;
+    border-bottom: 1px solid #e5e9f0; white-space: nowrap;
+}
+.lst tbody td { padding: 10px 12px; border-bottom: 1px solid #f0f2f6; }
+.lst tbody tr { cursor: pointer; }
+.lst tbody tr:hover { background: #f7fafd; }
+.lst tbody tr.sel { background: #eaf2ff; }
+.lst tbody tr.sel td { border-bottom-color: #cfe0f5; }
+/* holat ustuni - pill sig'adigan minimal kenglik, qolgani nomga qoladi */
+.lst .st { width: 1%; white-space: nowrap; }
+
+/* --- O'NG PANEL: provodkalar akkordeoni ---------------------------------------- */
+.cards { padding: 8px; }
+.pt {
+    border: 1px solid #e5e9f0; border-radius: 9px; background: #fff;
+    margin-bottom: 7px; font: 12px Arial, sans-serif;
+}
+/* DIQQAT: overflow:hidden bo'lmasin - ochilgan forma karta ichida qisilib qoladi */
+.pt.open { border-color: #b8c9dd; box-shadow: 0 1px 4px rgba(11, 61, 117, .08); }
+.pt-head {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 9px; cursor: pointer; background: #fbfcfe;
+}
+.pt.open .pt-head { border-bottom: 1px solid #e5e9f0; }
+.pt-head:hover { background: #f4f7fb; }
+.pt-idx {
+    flex: 0 0 20px; height: 20px; line-height: 20px; text-align: center;
+    border-radius: 5px; background: #eef2f7; color: #475467;
+    font: 700 10.5px Arial, sans-serif;
+}
+.pt-caret { flex: 0 0 10px; color: #98a2b3; font-size: 10px; }
+.pt-name { font: 700 11.5px Arial, sans-serif; color: #101828; }
+.pt-sub  { color: #667085; font-size: 11px; flex: 1 1 auto; }
+.pt-tools { flex: 0 0 auto; display: flex; gap: 3px; }
+.ico {
+    width: 22px; height: 22px; display: inline-flex;
+    align-items: center; justify-content: center;
+    border: 1px solid transparent; border-radius: 6px;
+    color: #98a2b3; cursor: pointer; background: none;
+}
+.ico:hover { background: #fff; border-color: #d7dee8; color: #475467; }
+.ico.del:hover { color: #b91c1c; border-color: #f3c4c4; background: #fef4f4; }
+
+.pt-body { padding: 10px 11px 11px; display: none; }
+.pt.open .pt-body { display: block; }
+
+/* --- tahrirlash formasi --------------------------------------------------------
+   ibs ning .form-group komponenti ishlatiladi (floating label). Bu yerda uni
+   ixchamlashtiramiz: tema standarti 50px balandlik - bir kartada 27 ta maydon
+   bo'lgani uchun juda katta chiqadi.                                            */
+/* 6 ustunli asos: oddiy maydon yarim (3), qisqasi uchdan bir (2), kengi to'liq (6).
+   Shu bilan bitta qatorda 2 ta ham, 3 ta ham maydon chiqara olamiz.            */
+.fgrid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px 8px; }
+.fgrid .form-group        { grid-column: span 3; }
+.fgrid .form-group.narrow { grid-column: span 2; }
+.fgrid .form-group.wide   { grid-column: span 6; }
+
+/* tema chegarasi juda och - ko'p maydonli formada maydonlar bir-biriga qo'shilib
+   ketadi, shuning uchun bu yerda to'qroq qilamiz */
+.fgrid .form-group {
+    margin-bottom: 0; border-radius: 7px;
+    border: 1px solid #b6c2d2 !important;
+    /* tema input'ga border-radius:0 va oq fon beradi - u ota-elementning
+       yumaloq burchaklarini yopib qo'yadi, shuning uchun kesib tashlaymiz */
+    overflow: hidden;
+}
+.fgrid .form-group:hover { border-color: #8fa3bd !important; }
+.fgrid .form-group:focus-within { border-color: #0b3d75 !important; }
+
+.fgrid .form-group > input,
+.fgrid .form-group > select {
+    min-height: 36px; padding: 15px 9px 4px; font-size: 12px;
+}
+.fgrid .form-group > select { padding-right: 24px; background-position: right 8px center; }
+/* color shart: temaning --color-gray (#7F8C8D) oq fonda atigi 3.5:1 kontrast beradi */
+.fgrid .form-group > label { left: 9px; font-size: 11.5px; color: #667085; }
+.fgrid .form-group > input:focus ~ label,
+.fgrid .form-group > input:not(:placeholder-shown) ~ label,
+.fgrid .form-group > select ~ label,
+.fgrid .form-group:focus-within > label { top: 4px; font-size: 10px; }
+
+.sect-sep {
+    grid-column: 1 / -1; margin: 3px 0 0;
+    font: 700 10.5px Arial, sans-serif; color: #0b3d75;
+    text-transform: uppercase; letter-spacing: .5px;
+    border-top: 1px solid #eef1f5; padding-top: 6px;
+}
+/* tekshiruv ichidagi qiymatlar ro'yxati */
+.mem { margin-top: 10px; border-top: 1px solid #e5e9f0; padding-top: 9px; }
+.mem-head {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;
+}
+.mem-title {
+    font: 700 10.5px Arial, sans-serif; color: #0b3d75;
+    text-transform: uppercase; letter-spacing: .5px;
+}
+.mem-hint { padding: 12px; text-align: center; color: #98a2b3; font-size: 11.5px; }
+/* qiymat qo'shish: ro'yxat bo'sh bo'lganda "ma'lumot yo'q" o'rnida turadigan dumaloq tugma */
+.mem-addwrap { text-align: center; padding: 12px 0 6px; }
+.mem-add {
+    width: 30px; height: 30px; padding: 0; border-radius: 50%; cursor: pointer;
+    border: 1px dashed #b8c9dd; background: #fff; color: #0b3d75;
+    font: 700 17px Arial, sans-serif; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background .12s, border-color .12s;
+}
+.mem-add:hover { background: #eaf2ff; border-color: #0b3d75; border-style: solid; }
+.memt { width: 100%; border-collapse: collapse; font: 11.5px Arial, sans-serif; }
+.memt th {
+    background: #f4f7fb; color: #475467; text-align: left;
+    font: 600 10.5px Arial, sans-serif; padding: 5px 6px;
+    border-bottom: 1px solid #e5e9f0; white-space: nowrap;
+}
+.memt td { padding: 3px 4px; border-bottom: 1px solid #f0f2f6; vertical-align: middle; }
+.memt input[type="text"], .memt select {
+    width: 100%; box-sizing: border-box; height: 27px;
+    border: 1px solid #b6c2d2; border-radius: 6px;
+    padding: 0 6px; font: 11.5px Arial, sans-serif; color: #101828; background: #fff;
+}
+.memt input[type="text"]:focus, .memt select:focus { outline: none; border-color: #0b3d75; }
+.mem-act { white-space: nowrap; text-align: right; }
+
+.pt-foot {
+    display: flex; align-items: center; justify-content: flex-end; gap: 6px;
+    margin-top: 9px; padding-top: 8px; border-top: 1px solid #eef1f5;
+}

@@ -1,0 +1,2111 @@
+/* ============================================================================
+   CROBS Banking System - Professional Theme v2.0
+   Tartibli, guruhlangan va xatolardan tozalangan
+   ============================================================================ */
+
+/* ============================================================================
+   1. IMPORTS & FONTS
+   ============================================================================ */
+@import 'tools/media.css';
+
+/* ============================================================================
+   2. CSS VARIABLES (Custom Properties)
+   ============================================================================ */
+:root {
+	/* 2.1 Brand Colors */
+	--color-primary: #2C3E50;
+	--color-primary-light: #34495E;
+	--color-secondary: #3d6395;
+
+	/* 2.2 UI Colors */
+	--color-blue: #317bac;
+	--color-blue10: #EBF5FB;
+	--color-green: #27AE60;
+	--color-green10: #E8F8F5;
+	--color-red: #E74C3C;
+	--color-red10: #FADBD8;
+	--color-yellow: #F39C12;
+	--color-yellow10: #FEF5E7;
+
+	/* 2.3 Neutral Colors */
+	--color-white: #FFFFFF;
+	--color-black: #2C3E50;
+	--color-gray: #7F8C8D;
+	--color-gray-light: #95A5A6;
+	--color-stroke: #DFE6E9;
+	--color-background: #F8F9FA;
+	--color-mercury: #ECF0F1;
+	--color-white-smoke: #F5F7FA;
+
+	/* 2.4 Component Colors - Buttons */
+	--button-background: #FFFFFF;
+	--button-background-hover: #2C3E50;
+	--button-border: 1px solid #DFE6E9;
+
+	/* 2.5 Component Colors - Inputs */
+	--input-border: 1px solid #DFE6E9;
+	--input-border-error: 1px solid #E74C3C;
+	--input-background: #FFFFFF;
+	--input-background-focus: #FFFFFF;
+	--input-background-error: #FFEDEC;
+	--input-background-disabled: #F5F7FA;
+	--background-hover: #ECF0F1;
+
+	/* 2.6 Component Colors - Sidebar */
+	--sidebar-bg: #E8ECEF;
+	--sidebar-active: #2C3E50;
+
+	/* 2.7 Component Colors - Table */
+	--table-header-bg: #34495E;
+	--table-header-text: #FFFFFF;
+	--table-border: #DFE6E9;
+	--table-hover: #D5DBDE;
+	--table-selected: #ECF0F1;
+
+	/* 2.8 Borders */
+	--border-inset: 1px inset #ffffff;
+	--border-outset: 1px outset #ffffff;
+	--modal-background: #ffffff;
+
+	/* 2.9 Font Family */
+	--font-primary: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+	--font-mono: 'Consolas', 'Monaco', 'Courier New', monospace;
+	--font-icon: 'Webdings', sans-serif;
+	--font-menu: 'Trebuchet MS', Tahoma, Verdana, sans-serif;
+
+	/* 2.10 Font Sizes - Standart o'lchamlar */
+	--font-size-xs: 10px; /* Eng kichik: badge, sup */
+	--font-size-sm: 11px; /* Kichik: body, helper text */
+	--font-size-base: 12px; /* Asosiy: input, table, label */
+	--font-size-md: 13px; /* O'rta: button, menu, title */
+	--font-size-lg: 14px; /* Katta: form control, heading */
+	--font-size-xl: 16px; /* Juda katta: h3 */
+	--font-size-2xl: 18px; /* Sarlavha: h2, icon */
+	--font-size-3xl: 22px; /* Katta sarlavha: expand icon */
+	--font-size-4xl: 28px; /* Modal close */
+
+	/* 2.11 Font Weights */
+	--font-weight-light: 100;
+	--font-weight-normal: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+
+	/* 2.12 Line Heights */
+	--line-height-tight: 1.2;
+	--line-height-normal: 1.5;
+	--line-height-relaxed: 1.75;
+
+	/* 2.13 Shadows */
+	--shadow-sm: 0 1px 3px rgba(44, 62, 80, 0.08);
+	--shadow-md: 0 2px 8px rgba(44, 62, 80, 0.12);
+	--shadow-lg: 0 4px 12px rgba(44, 62, 80, 0.15);
+
+	/* 2.14 Transitions */
+	--transition-fast: 0.15s ease-in-out;
+	--transition-normal: 0.2s ease;
+	--transition-slow: 0.3s ease-in-out;
+
+	/* 2.15 Border Radius */
+	--radius-sm: 3px;
+	--radius-md: 5px;
+	--radius-lg: 8px;
+	--radius-xl: 10px;
+	--radius-full: 50%;
+
+	/* 2.16 Spacing */
+	--spacing-xs: 2px;
+	--spacing-sm: 5px;
+	--spacing-md: 8px;
+	--spacing-lg: 12px;
+	--spacing-xl: 16px;
+}
+
+/* ============================================================================
+   3. RESET & BASE STYLES
+   ============================================================================ */
+
+/* 3.1 Body */
+body {
+	font-family: var(--font-primary);
+	font-size: var(--font-size-sm);
+	font-weight: var(--font-weight-normal);
+	line-height: var(--line-height-normal);
+	margin: 5px 0 5px 5px;
+	overflow: auto;
+	background-color: var(--color-background);
+	color: var(--color-black);
+}
+
+/* 3.2 Typography */
+b {
+	color: var(--color-black);
+	font-weight: var(--font-weight-semibold);
+}
+
+code {
+	font-family: var(--font-mono);
+	font-size: var(--font-size-sm);
+}
+
+/* 3.3 Horizontal Rule */
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid var(--color-stroke);
+	margin: 0;
+	padding: 0;
+}
+
+/* ============================================================================
+   4. FORMS - Base Elements
+   ============================================================================ */
+
+/* 4.1 Form Container */
+form {
+	padding: 0;
+	margin: 0;
+}
+
+.form {
+	background-color: var(--color-white);
+	border-spacing: 0;
+	box-shadow: var(--shadow-md);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+}
+
+/* 4.2 Fieldset & Legend */
+fieldset {
+	margin: 0 1px;
+	padding: 0 5px 3px 10px;
+	border: 1px solid var(--color-stroke);
+	border-radius: var(--radius-md);
+	background-color: var(--color-white);
+	text-align: left;
+}
+
+legend {
+	color: var(--color-secondary);
+	padding: 0 1em;
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-bold);
+	margin: 0 !important;
+}
+
+/* 4.3 Labels */
+label {
+	text-align: right;
+	padding-right: 10px;
+	color: var(--color-black);
+}
+
+/* ============================================================================
+   5. FORM INPUTS
+   ============================================================================ */
+
+/* 5.1 Common Input Styles */
+input,
+button,
+textarea {
+	font-family: var(--font-primary);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-normal);
+	border-radius: var(--radius-md);
+	padding: var(--spacing-xs) 4px;
+	outline: none;
+	transition: all var(--transition-normal);
+}
+
+/* 5.2 Text Inputs */
+input {
+	border: var(--input-border);
+	background-color: var(--input-background);
+	color: var(--color-black);
+}
+
+input:hover {
+	border-color: var(--color-gray-light);
+}
+
+input:focus {
+	border-color: var(--color-secondary);
+	box-shadow: 0 0 0 2px var(--color-blue10);
+}
+
+input[type=text] {
+	padding-left: 3px;
+}
+
+/* 5.3 Select */
+select {
+	vertical-align: bottom;
+	color: var(--color-black);
+	font-weight: var(--font-weight-light);
+	padding: var(--spacing-xs) 3px;
+	border: 1px solid var(--color-stroke);
+	border-radius: var(--radius-md);
+	outline: none;
+	background-color: var(--color-white);
+	transition: all var(--transition-normal);
+	cursor: pointer;
+}
+
+select:hover {
+	border-color: var(--color-gray-light) !important;
+}
+
+select:focus {
+	border-color: var(--color-secondary) !important;
+}
+
+/* 5.4 Textarea */
+textarea {
+	overflow: auto;
+	border: var(--input-border);
+	background-color: var(--input-background);
+	color: var(--color-black);
+	resize: vertical;
+}
+
+textarea:focus {
+	border-color: var(--color-secondary);
+	box-shadow: 0 0 0 2px var(--color-blue10);
+}
+
+/* 5.5 Disabled States */
+input:disabled,
+button:disabled,
+select:disabled,
+textarea:disabled {
+	color: var(--color-gray-light);
+	background-color: var(--input-background-disabled);
+	cursor: not-allowed;
+}
+
+/* 5.6 Option & Optgroup */
+optgroup {
+	color: var(--color-primary);
+}
+
+option {
+	color: var(--color-black);
+}
+
+/* 5.7 Required Indicator */
+q {
+	color: var(--color-red);
+	quotes: none;
+}
+
+q:before,
+q:after {
+	content: '';
+}
+
+/* ============================================================================
+   6. BUTTONS
+   ============================================================================ */
+
+/* 6.1 Base Button Styles */
+button,
+input[type=button],
+input[type=submit],
+input[type=reset] {
+	cursor: pointer;
+	border: var(--button-border);
+	background-color: var(--button-background);
+	font-family: var(--font-primary);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-normal);
+	color: var(--color-black) !important;
+	padding: 3px var(--spacing-md);
+	border-radius: var(--radius-md);
+	outline: none;
+	transition: all var(--transition-normal);
+	box-shadow: var(--shadow-sm);
+}
+
+/* 6.2 Button Hover */
+button:hover,
+input[type=button]:hover,
+input[type=submit]:hover,
+input[type=reset]:hover {
+	background-color: var(--button-background-hover);
+	color: var(--color-white) !important;
+	border-color: var(--button-background-hover);
+	box-shadow: var(--shadow-md);
+}
+
+/* 6.3 Button Disabled */
+button:disabled,
+input[type=button]:disabled,
+input[type=submit]:disabled,
+input[type=reset]:disabled {
+	background-color: var(--input-background-disabled);
+	color: var(--color-gray-light) !important;
+	cursor: not-allowed;
+	box-shadow: none;
+}
+
+/* 6.4 Button Focus */
+form button:focus,
+form input[type=button]:focus,
+form input[type=submit]:focus,
+form input[type=reset]:focus {
+	border: 1px dashed var(--color-gray) !important;
+}
+
+/* 6.5 Navigation Buttons */
+.navbut {
+	margin: 0 1px;
+	font-family: var(--font-icon);
+	font-size: var(--font-size-sm);
+	height: 22px;
+	width: 23px;
+	text-align: center;
+	padding: 0;
+	background-color: var(--color-white);
+	border: var(--button-border);
+	color: var(--color-black) !important;
+	border-radius: var(--radius-md);
+	transition: all var(--transition-normal);
+}
+
+.navbut:hover {
+	background-color: var(--color-mercury);
+	border-color: var(--color-secondary);
+	color: var(--color-secondary) !important;
+}
+
+.sysbut {
+	margin: 0 1px;
+	border: 1px solid var(--color-stroke);
+	font-weight: var(--font-weight-bold);
+	font-size: var(--font-size-md);
+	height: 22px;
+	width: 23px;
+	text-align: center;
+}
+
+/* 6.6 Multiple Button */
+.mbtn {
+	font-size: var(--font-size-md);
+	width: 19px;
+	height: 19px;
+}
+
+/* 6.7 Filter Button */
+.withFilter {
+	background-color: var(--color-secondary) !important;
+	color: var(--color-white) !important;
+	font-weight: var(--font-weight-bold);
+	border-color: var(--color-secondary) !important;
+}
+
+/* 6.8 Side Bar Button */
+.side-bar-btn {
+	padding: 0;
+	border-radius: 0;
+}
+
+/* ============================================================================
+   7. FORM LAYOUT COMPONENTS
+   ============================================================================ */
+
+/* 7.1 Panel */
+.panel {
+	margin: var(--spacing-xs);
+	overflow-y: auto;
+	width: 100%;
+	float: left;
+}
+
+.panel table {
+	width: 96%;
+}
+
+/* 7.2 Form Title */
+.formTitle {
+	font-size: var(--font-size-2xl);
+	font-weight: var(--font-weight-medium);
+	border-bottom: 1px solid var(--color-primary);
+	padding-left: var(--radius-md);
+	cursor: pointer;
+	text-align: left;
+	position: relative;
+	line-height: 23px;
+	height: 25px;
+}
+
+.bFormLanguages {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	margin: 0;
+	width: 20px !important;
+	height: 20px !important;
+}
+
+/* 7.3 Content Area */
+.content {
+	background-color: var(--color-white);
+	width: 100%;
+}
+
+/* 7.4 Content Footer */
+.content-footer {
+	border: none;
+	background-color: var(--color-white-smoke);
+	border-top: 1px solid var(--color-stroke);
+	box-shadow: 0 -6px 8px -4px rgba(0, 0, 0, 0.1);
+}
+
+.content-footer #footForm {
+	transition: height 0.5s ease-in-out;
+	overflow: hidden;
+}
+
+.content-footer #footForm.hide {
+	height: 0 !important;
+}
+
+.content-footer th {
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-semibold);
+	color: var(--color-black);
+	padding-right: var(--spacing-md);
+}
+
+/* 7.5 Form Toolbar - STICKY */
+.content .formToolbar {
+	width: 100%;
+	padding: var(--spacing-sm) var(--spacing-md);
+	border-collapse: separate;
+	border-spacing: var(--spacing-md);
+	background-color: var(--color-white);
+
+	/* Sticky qilish */
+	position: sticky;
+	top: 0;
+	z-index: 50;
+
+	/* Pastki chiziq va soya */
+	border-bottom: 1px solid var(--color-stroke);
+	box-shadow: 0 2px 4px rgba(44, 62, 80, 0.08);
+}
+
+/* Scroll qilinganda ko'rinadigan effekt */
+.content .formToolbar.scrolled {
+	box-shadow: 0 4px 8px rgba(44, 62, 80, 0.12);
+}
+
+.formToolbar font[color=darkblue] {
+	color: var(--color-black);
+	font-weight: var(--font-weight-semibold);
+}
+
+.formToolbar font[color=darkblue] input,
+.formToolbar font[color=darkblue] select {
+	margin-left: var(--spacing-xs);
+	margin-right: var(--spacing-xs);
+}
+
+.formToolbar .btn {
+	width: auto;
+}
+
+.formToolbar input#btnView {
+	width: auto !important;
+}
+
+/* 7.6 Filter Controls */
+.filterControls #filterControls {
+	line-height: 22px;
+}
+
+.filterControls input,
+.filterControls select {
+	margin-left: 3px;
+}
+
+/* ============================================================================
+   8. TABLES
+   ============================================================================ */
+
+/* 8.1 Base Table */
+table {
+	font-size: var(--font-size-base);
+}
+
+td {
+	vertical-align: middle;
+}
+
+th {
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-bold);
+}
+
+/* 8.2 Multiple Grid */
+.multiple,
+.multiple td,
+.multiple th {
+	border: 1px solid var(--table-border);
+	border-collapse: collapse;
+	text-align: center;
+	padding: var(--spacing-xs);
+	margin: var(--spacing-xs);
+}
+
+/* 8.3 Main Table Styles */
+.panel #tbl {
+	margin: 0;
+	width: 100%;
+	cursor: default;
+	border: 1px solid var(--table-border);
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+	box-shadow: var(--shadow-sm);
+}
+
+/* 8.4 Table Header */
+.panel #tbl thead th {
+	color: var(--table-header-text);
+	background-color: var(--table-header-bg);
+	border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.panel #tbl thead tr:first-child th:first-child {
+	border-top-left-radius: var(--radius-lg);
+	border-left: none;
+}
+
+.panel #tbl thead tr:first-child th:last-child {
+	border-top-right-radius: var(--radius-lg);
+}
+
+.panel #tbl thead tr {
+	position: relative;
+}
+
+.panel #tbl th {
+	text-align: center;
+	border-bottom: 1px solid var(--table-border);
+	padding: var(--spacing-xs);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-normal);
+}
+
+.panel #tbl tbody th {
+	padding: var(--spacing-xs) 7px;
+}
+
+/* 8.5 Table Body */
+.panel #tbl td {
+	border-left: 1px solid var(--table-border);
+	border-bottom: 1px solid var(--table-border);
+	padding: var(--spacing-xs) var(--spacing-sm);
+	vertical-align: middle;
+	text-align: center;
+	font-size: var(--font-size-base);
+}
+
+/* 8.6 Sticky Headers */
+.panel #tbl thead tr:first-child th,
+.panel #tbl thead tr:first-child td {
+	position: sticky;
+	top: 0;
+	z-index: 10;
+}
+
+.panel #tbl thead tr:nth-child(2) th,
+.panel #tbl thead tr:nth-child(2) td {
+	position: sticky;
+	top: 22px;
+	z-index: 9;
+}
+
+/* 8.7 Table Rows */
+tr {
+	outline: none;
+	transition: all var(--transition-fast);
+}
+
+tr.cellEven,
+tr.cellOdd {
+	background: var(--color-white);
+}
+
+tr.cellEven:hover,
+tr.cellOdd:hover {
+	background-color: var(--table-hover);
+}
+
+td.cellCur {
+	background: var(--table-hover);
+}
+
+tr.cellSel {
+	background: var(--table-selected);
+}
+
+/* 8.8 Sort Column */
+.cSort {
+	cursor: pointer;
+	color: var(--color-red);
+}
+
+/* 8.9 Pagination */
+.rpp {
+	text-align: center;
+	font-weight: var(--font-weight-bold);
+	font-size: var(--font-size-base);
+}
+
+.tp {
+	text-align: left;
+	font-weight: var(--font-weight-bold);
+	font-size: var(--font-size-base);
+	margin-right: var(--spacing-sm);
+	margin-left: 0;
+}
+
+/* 8.10 Table Controls */
+#tableControls input {
+	text-align: center;
+}
+
+#tableControls input,
+#tableControls button {
+	margin-right: var(--spacing-sm);
+}
+
+#tableControls input,
+#tableControls select,
+#tableControls button {
+	vertical-align: middle;
+}
+
+/* 8.11 Sum Controls */
+#sumControls {
+	color: var(--color-secondary);
+	font-weight: var(--font-weight-semibold);
+}
+
+#sumControls b {
+	font-weight: var(--font-weight-semibold);
+}
+
+/* ============================================================================
+   9. NAVIGATION MENU
+   ============================================================================ */
+
+/* 9.1 Tab Controls Container */
+#tabControls {
+	position: relative;
+	z-index: 100;
+	overflow: visible;
+}
+
+#tabControls #menu {
+	overflow: visible;
+}
+
+/* 9.2 Parent Menu Items */
+#tabControls .parent {
+	display: block;
+	position: relative;
+	float: left;
+	line-height: 25px;
+}
+
+#tabControls .parent a {
+	padding: var(--spacing-xs) var(--spacing-md);
+	color: var(--color-black);
+	text-decoration: none;
+	display: flex;
+	justify-content: space-between;
+	cursor: pointer;
+	font-size: var(--font-size-md);
+	font-family: var(--font-menu);
+	transition: all var(--transition-normal);
+}
+
+/* 9.3 Top Level Menu */
+#tabControls > #menu > .parent > a {
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--color-stroke);
+	margin-right: var(--spacing-sm);
+	margin-bottom: var(--spacing-sm);
+	background-color: var(--color-white);
+	box-shadow: var(--shadow-sm);
+}
+
+#tabControls > #menu > .parent:hover > a {
+	border-color: var(--color-secondary);
+	background-color: var(--color-mercury);
+}
+
+/* 9.4 Active Menu State */
+#tabControls .parent.active > ul.child {
+	display: block !important;
+	position: absolute;
+	z-index: 9999;
+}
+
+/* 9.5 Child Menu (Dropdown) */
+#tabControls .child {
+	display: none;
+	background-color: var(--color-white);
+	box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+	border-radius: 4px;
+	z-index: 9999;
+	position: absolute;
+}
+
+/* 9.6 First Level Dropdown Position */
+#tabControls > #menu > .parent > .child {
+	top: 100%;
+	left: 0 !important;
+}
+
+/* 9.7 Nested Dropdown Position */
+#tabControls .child .child {
+	top: 0 !important;
+	left: 100% !important;
+}
+
+#tabControls .child ul.child {
+	left: 100% !important;
+	top: 0 !important;
+}
+
+#tabControls .child .parent.active > ul.child {
+	display: block !important;
+	position: absolute;
+	top: 0 !important;
+	left: 100% !important;
+	z-index: 9999;
+}
+
+/* 9.8 Child Menu Items */
+#tabControls .child li {
+	line-height: 20px;
+	width: 100%;
+	border-bottom: 1px solid var(--color-stroke);
+	position: relative;
+	float: none;
+	display: block;
+}
+
+#tabControls .child li.parent {
+	float: none;
+	display: block;
+	width: 100%;
+}
+
+#tabControls .child li:first-child {
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+}
+
+#tabControls .child li:last-child {
+	border: none;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+#tabControls .child li a {
+	white-space: nowrap;
+	padding: 6px var(--spacing-lg);
+	display: flex;
+	justify-content: space-between;
+}
+
+#tabControls .child li:hover {
+	background-color: var(--color-mercury);
+}
+
+#tabControls .child li:hover > a {
+	color: var(--color-secondary);
+}
+
+/* 9.9 Menu UL Reset */
+#tabControls ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	min-width: 65px;
+	z-index: 9999;
+}
+
+#tabControls ul ul ul {
+	left: 100% !important;
+	top: 0 !important;
+}
+
+/* 9.10 Expand Arrow */
+#tabControls .expand {
+	font-size: var(--font-size-3xl);
+	margin-left: var(--spacing-sm);
+	line-height: 17px;
+}
+
+#tabControls > #menu > .parent > a .expand {
+	line-height: 22px;
+}
+
+/* ============================================================================
+   10. CONTEXT MENU
+   ============================================================================ */
+
+table.Menu {
+	position: absolute;
+	color: var(--color-black);
+	cursor: default;
+	border: 1px solid var(--color-stroke);
+	border-radius: var(--radius-md);
+	background: var(--button-background);
+	box-sizing: border-box;
+	padding: 3px;
+	z-index: 11;
+	box-shadow: var(--shadow-lg);
+}
+
+td.MenuItem {
+	/* Base menu item */
+}
+
+td.MenuItemHover {
+	background-color: var(--color-secondary);
+	color: var(--color-secondary);
+	cursor: pointer;
+	border-radius: 4px;
+}
+
+td.MenuItemHover > table td {
+	color: var(--color-white);
+}
+
+td.MenuSeparator {
+	border-bottom: 1px solid var(--color-stroke);
+	font-size: 1px;
+	display: none;
+}
+
+td.MenuArrow {
+	text-align: right;
+	font-family: var(--font-icon);
+	font-size: var(--font-size-sm);
+	color: var(--color-secondary);
+}
+
+#contextMenuId {
+	z-index: 999;
+}
+
+/* ============================================================================
+   11. MODAL
+   ============================================================================ */
+
+/* 11.1 Modal Overlay */
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99999;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(44, 62, 80, 0.5);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	display: none;
+}
+
+/* 11.2 Modal Content */
+.modal-content {
+	position: relative;
+	background-color: var(--color-white);
+	margin: auto;
+	padding: 0;
+	border: 1px solid var(--color-stroke);
+	width: 100%;
+	height: 100%;
+	box-shadow: var(--shadow-lg);
+	animation: animatetop 0.4s ease;
+}
+
+.modal.mini .modal-content {
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+}
+
+/* 11.3 Modal Header */
+.modal-header {
+	padding: 15px;
+	background-color: var(--color-white-smoke);
+	border-top-left-radius: var(--radius-md);
+	border-top-right-radius: var(--radius-md);
+}
+
+/* 11.4 Modal Close Button */
+.modal-close {
+	color: var(--color-gray);
+	float: right;
+	font-size: var(--font-size-4xl);
+	width: 28px;
+	height: 28px;
+	margin-top: -14px;
+	margin-right: -13px;
+	text-align: center;
+	line-height: 28px;
+	transition: all var(--transition-slow);
+	cursor: pointer;
+	border-radius: var(--radius-full);
+}
+
+.modal-close:hover,
+.modal-close:focus {
+	color: var(--color-red);
+	background-color: var(--color-red10);
+	text-decoration: none;
+}
+
+/* 11.5 Modal Body */
+.modalminibody {
+	margin: 0;
+}
+
+.modalminibody #base,
+.modalbody #base {
+	border: none;
+	border-radius: 0 !important;
+}
+
+/* 11.6 Modal Animation */
+@keyframes animatetop {
+	from {
+		top: -200px;
+		opacity: 0;
+	}
+	to {
+		top: 0;
+		opacity: 1;
+	}
+}
+
+/* 11.7 Modaller Close Icon */
+.modaller3 {
+	position: absolute;
+	top: 0;
+	right: 7px;
+	font-size: var(--font-size-2xl);
+	padding: 0 var(--spacing-sm);
+	color: var(--color-white);
+	cursor: pointer;
+	transition: color var(--transition-normal);
+}
+
+.modaller3:hover {
+	color: var(--color-blue10);
+}
+
+/* ============================================================================
+   12. SIDEBAR & VERTICAL MENU
+   ============================================================================ */
+
+/* 12.1 Vertical Menu Container */
+#vertical_menu {
+	width: 40px;
+}
+
+#vertical_menu span:first-child {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	left: 0;
+	z-index: 101;
+	padding: 0;
+	height: calc(100% - 48px);
+	background-color: var(--sidebar-bg);
+	box-shadow: var(--shadow-md);
+}
+
+#vertical_menu button.input-background {
+	margin: 0 var(--spacing-xs) var(--spacing-sm);
+}
+
+/* 12.2 Recent Items */
+#recent .txt,
+#recent .txt1 {
+	display: block;
+}
+
+#recent .txt:hover {
+	background-color: var(--color-mercury);
+}
+
+#recent .txt1 {
+	background-color: var(--sidebar-active);
+	color: var(--color-white);
+}
+
+#recent li label.txt1 .srch {
+	color: var(--color-mercury);
+}
+
+/* 12.3 Dark Blue Text */
+.darkblue {
+	line-height: 20px;
+}
+
+/* 12.4 Marquee Message */
+.msg_marquee {
+	color: var(--color-white);
+	background: var(--color-red);
+	cursor: pointer;
+	font-weight: var(--font-weight-bold);
+}
+
+/* ============================================================================
+   13. SIDENAV
+   ============================================================================ */
+
+#mySidenav {
+	width: 448px;
+	left: -500px;
+	overflow: hidden !important;
+	transition: all 0.5s ease-in-out;
+	background-color: var(--color-white);
+	box-shadow: var(--shadow-lg);
+}
+
+#mySidenav li {
+	display: grid;
+	position: relative;
+	font-size: var(--font-size-base) !important;
+}
+
+#mySidenav li label {
+	width: auto !important;
+}
+
+#mySidenav li img {
+	position: absolute;
+	top: var(--spacing-sm);
+	right: 10px;
+}
+
+#mySidenav li li {
+	margin: 0;
+}
+
+#mySidenav ul ul {
+	margin-left: 0;
+}
+
+#mySidenav .reset_search {
+	cursor: pointer;
+	margin-left: 10px;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+ul[is_open="Y"] ul[is_open="Y"] li {
+	padding-left: var(--spacing-md) !important;
+}
+
+.sidenav {
+	height: auto !important;
+	bottom: 0;
+}
+
+#close {
+	top: var(--spacing-xs) !important;
+}
+
+.icone-triangle {
+	position: inherit !important;
+}
+
+.clsTitleBody {
+	background: var(--color-primary) !important;
+	color: var(--color-white);
+	padding: var(--spacing-sm);
+}
+
+/* ============================================================================
+   14. BASE PANEL & MAIN CONTENT
+   ============================================================================ */
+
+/* 14.1 Base Panel */
+#basepanel {
+	width: 99.9%;
+	margin: 0;
+	padding-left: 10px;
+	padding-right: 10px !important;
+	box-sizing: border-box;
+}
+
+#basepanel li.txt,
+#basepanel li.txt1:hover {
+	box-shadow: none;
+}
+
+/* 14.2 Base Parent */
+.baseparent {
+	width: 100%;
+	height: 100%;
+	max-width: 100%;
+	max-height: 100%;
+	position: relative;
+	overflow: auto;
+}
+
+/* 14.3 Base */
+#base {
+	width: 100%;
+	top: 0;
+	left: 0;
+	right: 0;
+	padding: 0;
+	margin: 0;
+	border-top-left-radius: var(--radius-xl);
+	border-top-right-radius: var(--radius-xl);
+}
+
+/* 14.4 Filter Body */
+.filterbody #base {
+	width: auto;
+}
+
+.filterbody #base #applyFilter {
+	margin-right: 10px;
+}
+
+.filterbody #base td[nowrap] > input,
+.filterbody #base td[nowrap] > select {
+	margin-left: 10px;
+}
+
+.filterbody #base td[align=center] span.navbut {
+	color: var(--color-secondary) !important;
+	vertical-align: top;
+	cursor: pointer;
+}
+
+.filterbody #base td[align=center] span:first-child {
+	padding-right: var(--spacing-sm);
+}
+
+.filterbody #base td[align=center] input[type=checkbox] {
+	cursor: pointer;
+}
+
+/* 14.5 Main Content */
+.maincontent {
+	padding: 9px var(--spacing-md) 0;
+	background-color: var(--color-background);
+}
+
+/* ============================================================================
+   15. PIN CONTENT
+   ============================================================================ */
+
+#pinContent {
+	height: 100% !important;
+}
+
+#pinContent .td-pn > p:first-child {
+	margin: 0;
+}
+
+#pinContent .td-pn {
+	border-radius: var(--radius-lg);
+	border: 1px solid var(--color-white);
+	transition: all var(--transition-normal);
+}
+
+#pinContent .td-pn:hover {
+	border-color: var(--color-secondary);
+	box-shadow: var(--shadow-md);
+}
+
+/* ============================================================================
+   16. MENU BLOCK
+   ============================================================================ */
+
+td.menuBlock {
+	font-size: var(--font-size-md);
+	font-weight: var(--font-weight-light);
+	color: var(--color-primary);
+	padding: var(--spacing-sm) var(--spacing-sm) 0;
+	background: var(--color-white);
+	overflow: visible;
+	position: relative;
+}
+
+td.menuBlock #search {
+	max-width: calc(100% - 40px);
+	border: 1px solid var(--color-stroke);
+}
+
+td.menuBlock .calc img {
+	vertical-align: middle;
+}
+
+td.menuBlock span.tab > span {
+	top: 40px;
+	transition: all var(--transition-normal);
+}
+
+td.MenuItemHover > span {
+	left: 210px;
+	transition: all var(--transition-slow);
+}
+
+td.menuBlock > span:hover {
+	border: var(--button-border) !important;
+	border-radius: var(--radius-sm);
+}
+
+td.menuBlock div.locklayer {
+	top: -3px !important;
+	background: transparent;
+}
+
+.menuBlockParent .menuBlock:first-child {
+	border-right: none;
+}
+
+.menuBlockParent .menuBlock:last-child {
+	border-left: none;
+}
+
+/* ============================================================================
+   17. TABS
+   ============================================================================ */
+
+span.tab {
+	line-height: 30px;
+	cursor: pointer;
+	padding: 3px var(--spacing-md);
+	border: 1px solid var(--color-stroke);
+	border-radius: var(--radius-md);
+	transition: all var(--transition-normal);
+}
+
+span.tab:hover {
+	background-color: var(--color-mercury);
+	border-color: var(--color-secondary);
+}
+
+/* ============================================================================
+   18. HEADER / BANNER
+   ============================================================================ */
+
+#banner_tr {
+	background: var(--color-primary) !important;
+	color: var(--color-white) !important;
+	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.38);
+}
+
+/* 18.1 CROBS Logo Container */
+.crobs-logo {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-md);
+}
+
+.crobs-logo-icon {
+	background-color: #303030;
+	padding: var(--spacing-sm);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: var(--radius-full);
+	width: fit-content;
+}
+
+.crobs-logo-icon svg {
+	width: 32px;
+	height: 32px;
+	fill: currentColor;
+}
+
+.crobs-logo-text {
+	font-family: var(--font-primary);
+	font-size: var(--font-size-lg);
+	font-weight: var(--font-weight-bold);
+	color: var(--color-white);
+	letter-spacing: 1px;
+}
+
+/* 18.2 Compact Logo (kichik joy uchun) */
+.crobs-logo.compact .crobs-logo-icon {
+	padding: 3px;
+}
+
+.crobs-logo.compact .crobs-logo-icon svg {
+	width: 24px;
+	height: 24px;
+}
+
+.crobs-logo.compact .crobs-logo-text {
+	font-size: var(--font-size-base);
+}
+
+/* 18.3 Banner Text Styles */
+#banner_tr b {
+	font-family: var(--font-primary);
+	color: var(--color-white) !important;
+	font-weight: var(--font-weight-semibold);
+}
+
+#banner_tr #mEndTime b {
+	margin-left: 4px;
+	margin-right: 4px;
+}
+
+#banner_tr #new_op_den,
+#banner_tr #ETP b {
+	margin-left: 10px;
+}
+
+#banner_tr td:first-child {
+	padding: 1px 4px;
+}
+
+#banner_tr code#user {
+	margin-left: 3px;
+	color: var(--color-white);
+}
+
+#banner_tr td input[name=for_copy][value=""] {
+	display: none;
+}
+
+/* ============================================================================
+   19. CHECKBOX COMPONENTS
+   ============================================================================ */
+
+/* 19.1 Checkbox Selector */
+.selCheckbox {
+	background-color: var(--color-white);
+	box-shadow: var(--shadow-md);
+	border-radius: var(--radius-md);
+}
+
+.selCheckbox nav ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+}
+
+.selCheckbox li {
+	display: block;
+	position: relative;
+	float: left;
+	line-height: 25px;
+}
+
+.selCheckbox a {
+	display: block;
+	color: var(--color-black);
+	padding: 1px var(--spacing-md);
+	text-decoration: none;
+	cursor: pointer;
+	transition: all var(--transition-normal);
+}
+
+.selCheckbox a:hover {
+	color: var(--color-white);
+	background-color: var(--color-secondary);
+}
+
+/* 19.2 Show Checkbox Menu */
+.showCheckBoxMenu {
+	width: 14px;
+	height: 14px;
+	padding: 0 !important;
+	border: 1px solid var(--color-stroke) !important;
+	background: var(--color-white) !important;
+	border-radius: var(--radius-md);
+	transition: all var(--transition-normal);
+}
+
+.showCheckBoxMenu:hover {
+	background: var(--color-mercury) !important;
+	border-color: var(--color-secondary) !important;
+}
+
+/* 19.3 Radio Label */
+.radiolabel {
+	display: inline-block;
+	border: var(--input-border);
+	border-radius: var(--radius-md);
+	padding: var(--spacing-xs);
+	cursor: pointer;
+	transition: all var(--transition-normal);
+}
+
+.radiolabel:hover {
+	background-color: var(--color-mercury);
+}
+
+input[type=radio]:checked + label.radiolabel {
+	border-color: var(--color-secondary);
+	background-color: var(--color-blue10);
+}
+
+/* ============================================================================
+   20. COUNTERS & BADGES
+   ============================================================================ */
+
+/* 20.1 Counter Span */
+span.counter {
+	background-color: var(--color-blue10);
+	width: 25px;
+	height: 18px;
+	text-align: center;
+}
+
+span.counterhide {
+	background-color: var(--color-white-smoke);
+	color: var(--color-white-smoke);
+	width: 25px;
+	height: 18px;
+}
+
+/* 20.2 Message Count Badge */
+#message_count {
+	position: absolute;
+	top: 1px;
+	right: -1px;
+	background-color: var(--color-red);
+	padding: 1px;
+	border-radius: 13px;
+	min-width: 13px;
+	height: 13px;
+	color: var(--color-white);
+	font-size: var(--font-size-xs);
+	line-height: 12px;
+}
+
+/* 20.3 Bell Button */
+.bellbutton {
+	display: inline-block;
+	background-color: var(--color-mercury);
+	font-size: var(--font-size-xl);
+	position: relative;
+	color: var(--color-black);
+	padding: 4px;
+	border-radius: var(--radius-full);
+	margin-top: 4px;
+	cursor: pointer;
+	transition: all var(--transition-normal);
+}
+
+.bellbutton:hover {
+	background-color: var(--color-blue10);
+	color: var(--color-secondary);
+}
+
+.bellbutton .sup_count {
+	margin-left: auto;
+	top: -6px;
+	right: -10px;
+	font-weight: var(--font-weight-normal) !important;
+	color: var(--color-white) !important;
+	display: inline-block;
+	background-color: var(--color-red);
+	padding: 0 1px;
+	border-radius: var(--radius-full);
+	font-size: var(--font-size-md);
+	min-width: 14px;
+	min-height: 14px;
+	text-align: center;
+}
+
+/* ============================================================================
+   21. SEARCH COMPONENTS
+   ============================================================================ */
+
+#searchForm {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+/* 21.1 Keyword Search */
+#keyword_menu_content,
+#keyword_report_content {
+	display: inline;
+	position: relative;
+}
+
+#keyword_menu_content input,
+#keyword_report_content input {
+	width: 100%;
+}
+
+#keyword_menu_content span,
+#keyword_report_content span {
+	position: absolute;
+	top: 3px;
+	right: 3px;
+	color: var(--color-gray);
+	background-color: var(--color-white);
+	z-index: 1;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	cursor: pointer;
+	transition: color var(--transition-normal);
+}
+
+#keyword_menu_content span:hover,
+#keyword_report_content span:hover {
+	color: var(--color-secondary);
+}
+
+/* ============================================================================
+   22. LOCK LAYER
+   ============================================================================ */
+
+div.locklayer {
+	position: absolute;
+	z-index: 10;
+	overflow: hidden;
+	text-align: center;
+	display: none;
+	background: var(--color-white-smoke);
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+}
+
+div.locklayer iframe {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	z-index: -1;
+	filter: mask();
+}
+
+/* ============================================================================
+   23. FOOTER & TOGGLE
+   ============================================================================ */
+
+#togglefoot {
+	text-align: right;
+}
+
+#togglefoot span {
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+	text-align: center;
+	border: 1px solid var(--color-stroke);
+	border-radius: var(--radius-full);
+	padding: var(--spacing-sm);
+	color: var(--color-gray);
+	line-height: 22px;
+	margin: 3px;
+	cursor: pointer;
+	font-size: var(--font-size-lg);
+	font-family: var(--font-mono);
+	font-weight: var(--font-weight-light);
+	background-color: var(--color-white);
+	transition: all var(--transition-normal);
+}
+
+#togglefoot span:hover {
+	color: var(--color-secondary);
+	border-color: var(--color-secondary);
+	background-color: var(--color-blue10);
+}
+
+/* ============================================================================
+   24. ICONS & IMAGES
+   ============================================================================ */
+
+.img-style {
+	margin: 0 !important;
+	padding: 9px !important;
+}
+
+#trm_ico {
+	border-radius: var(--radius-full);
+	transition: all var(--transition-normal);
+}
+
+#trm_ico:hover {
+	background-color: var(--color-secondary);
+	color: var(--color-white);
+}
+
+/* ============================================================================
+   25. NAVIGATION CLASSES
+   ============================================================================ */
+
+.navigation {
+	background-color: transparent !important;
+	border-top: none;
+}
+
+.active {
+	display: block !important;
+}
+
+/* ============================================================================
+   26. UTILITY CLASSES
+   ============================================================================ */
+
+.autoheight {
+	height: auto !important;
+}
+
+.iframebase {
+	top: 0 !important;
+	left: 0 !important;
+	width: 100%;
+	height: 100%;
+	border: none;
+}
+
+#printhtml,
+#printexcel {
+	display: none;
+}
+
+/* ============================================================================
+   27. SCROLLBAR
+   ============================================================================ */
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px var(--color-stroke);
+	border-radius: var(--radius-xl);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--color-mercury);
+	border-radius: var(--radius-xl);
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--color-gray-light);
+}
+
+/* ============================================================================
+   28. ANIMATIONS
+   ============================================================================ */
+
+@keyframes slideInRow {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.insdel-animate-row {
+	animation: slideInRow 0.3s ease-out;
+}
+
+/* ============================================================================
+   29. FORM GROUP - Floating Label (Label ichida, focus da tepaga ko'tariladi)
+   ============================================================================ */
+
+/* 29.1 Form Group - Asosiy konteyner */
+.form-group {
+	position: relative;
+	display: flex;
+	border: 1px solid var(--color-stroke);
+	border-radius: var(--radius-md);
+	background: var(--color-white);
+	margin-bottom: var(--spacing-md);
+	overflow: visible;
+}
+
+/* 29.2 Form Label - Input ichida, floating */
+.form-group > label {
+	position: absolute;
+	left: var(--spacing-lg);
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--color-gray);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-normal);
+	pointer-events: none;
+	transition: all 0.2s ease;
+	background: transparent;
+	padding: 0 4px;
+}
+
+.form-group > label .required,
+.form-group > label q {
+	color: var(--color-red);
+	margin-left: 2px;
+}
+
+/* 29.3 Form Control */
+.form-group > .form-control,
+.form-group > input,
+.form-group > select,
+.form-group > textarea {
+	flex: 1;
+	width: 100%;
+	border: none;
+	border-radius: 0;
+	padding: 20px var(--spacing-lg) 8px;
+	font-size: var(--font-size-base);
+	font-family: var(--font-primary);
+	background: var(--color-white);
+	color: var(--color-black);
+	outline: none;
+	min-height: 50px;
+}
+
+/* 29.4 Focus & Filled state - Label tepaga ko'tariladi */
+.form-group > input:focus ~ label,
+.form-group > input:not(:placeholder-shown) ~ label,
+.form-group > select:focus ~ label,
+.form-group > select:not([value=""]) ~ label,
+.form-group > textarea:focus ~ label,
+.form-group > textarea:not(:placeholder-shown) ~ label,
+.form-group:focus-within > label,
+.form-group.filled > label {
+	top: 8px;
+	transform: translateY(0);
+	font-size: var(--font-size-xs);
+	color: var(--color-secondary);
+	font-weight: var(--font-weight-medium);
+}
+
+/* 29.5 Focus state - border */
+.form-group:focus-within {
+	border-color: var(--color-secondary);
+	box-shadow: 0 0 0 2px var(--color-blue10);
+}
+
+/* 29.6 Select */
+.form-group > select {
+	cursor: pointer;
+	appearance: none;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237F8C8D' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right var(--spacing-lg) center;
+	padding-right: 35px;
+}
+
+/* Select uchun - har doim label tepada */
+.form-group > select ~ label {
+	top: 8px;
+	transform: translateY(0);
+	font-size: var(--font-size-xs);
+	color: var(--color-gray);
+}
+
+.form-group > select:focus ~ label {
+	color: var(--color-secondary);
+}
+
+/* 29.7 Textarea */
+.form-group > textarea {
+	min-height: 80px;
+	resize: vertical;
+	padding-top: 24px;
+}
+
+.form-group > textarea ~ label {
+	top: 16px;
+	transform: translateY(0);
+}
+
+.form-group > textarea:focus ~ label,
+.form-group > textarea:not(:placeholder-shown) ~ label {
+	top: 8px;
+	font-size: var(--font-size-xs);
+	color: var(--color-secondary);
+}
+
+/* 29.8 Disabled state */
+.form-group > input:disabled,
+.form-group > select:disabled,
+.form-group > textarea:disabled {
+	background-color: var(--input-background-disabled);
+	color: var(--color-gray-light);
+	cursor: not-allowed;
+}
+
+.form-group > input:disabled ~ label,
+.form-group > select:disabled ~ label,
+.form-group > textarea:disabled ~ label {
+	color: var(--color-gray-light);
+}
+
+/* 29.9 Error state */
+.form-group.error {
+	border-color: var(--color-red);
+}
+
+.form-group.error > label {
+	color: var(--color-red);
+}
+
+/* 29.10 Compact variant */
+.form-group.compact {
+	margin-bottom: var(--spacing-sm);
+}
+
+.form-group.compact > input,
+.form-group.compact > select,
+.form-group.compact > textarea {
+	padding: 16px var(--spacing-md) 6px;
+	min-height: 42px;
+	font-size: var(--font-size-sm);
+}
+
+.form-group.compact > label {
+	left: var(--spacing-md);
+	font-size: var(--font-size-sm);
+}
+
+.form-group.compact > input:focus ~ label,
+.form-group.compact > input:not(:placeholder-shown) ~ label,
+.form-group.compact:focus-within > label,
+.form-group.compact.filled > label {
+	top: 6px;
+	font-size: 9px;
+}
+
+/* ============================================================================
+   29.11 MULTILANG CONTAINER - Ko'p tilli forma (Floating Label ichida)
+   ============================================================================ */
+
+.multilang-container {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--color-stroke);
+	border-radius: var(--radius-sm);
+	background: var(--color-white);
+	margin-bottom: var(--spacing-md);
+	overflow: hidden;
+}
+
+/* Tabs */
+.multilang-container .multilang-tabs {
+	display: flex;
+	border-bottom: 1px solid var(--color-stroke);
+	background-color: var(--color-white);
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.multilang-container .multilang-tabs li {
+	margin: 0;
+	padding: 0;
+}
+
+.multilang-container .multilang-tabs li a,
+.multilang-container .multilang-tabs li span,
+.multilang-container .multilang-tabs li button {
+	display: block;
+	padding: var(--spacing-sm) var(--spacing-md);
+	font-size: var(--font-size-base);
+	font-family: var(--font-primary);
+	color: var(--color-black);
+	text-decoration: none;
+	border: none;
+	background: transparent;
+	cursor: pointer;
+	border-bottom: 2px solid transparent;
+	transition: all var(--transition-normal);
+}
+
+.multilang-container .multilang-tabs li a:hover,
+.multilang-container .multilang-tabs li span:hover,
+.multilang-container .multilang-tabs li button:hover {
+	background-color: var(--color-mercury);
+	color: var(--color-secondary);
+}
+
+.multilang-container .multilang-tabs li.active a,
+.multilang-container .multilang-tabs li.active span,
+.multilang-container .multilang-tabs li.active button,
+.multilang-container .multilang-tabs li a.active,
+.multilang-container .multilang-tabs li span.active {
+	color: var(--color-secondary);
+	border-bottom: 2px solid var(--color-secondary);
+	background-color: var(--color-white);
+	font-weight: var(--font-weight-medium);
+}
+
+/* Multilang content area */
+.multilang-container .multilang-content {
+	position: relative;
+	padding: 0;
+	min-height: 80px;
+}
+
+/* Label - textarea ichida floating */
+.multilang-container .multilang-content > label,
+.multilang-container > label {
+	position: absolute;
+	left: var(--spacing-md);
+	top: var(--spacing-md);
+	color: var(--color-gray);
+	font-size: var(--font-size-base);
+	font-weight: var(--font-weight-normal);
+	pointer-events: none;
+	transition: all 0.2s ease;
+	z-index: 1;
+}
+
+/* Focus/Filled holatida label kichrayadi */
+.multilang-container:focus-within .multilang-content > label,
+.multilang-container:focus-within > label,
+.multilang-container.filled .multilang-content > label,
+.multilang-container.filled > label {
+	top: 4px;
+	font-size: var(--font-size-xs);
+	color: var(--color-secondary);
+	font-weight: var(--font-weight-medium);
+}
+
+/* Textarea */
+.multilang-container .multilang-content textarea {
+	width: 100%;
+	min-height: 60px;
+	border: none;
+	outline: none;
+	resize: vertical;
+	font-size: var(--font-size-base);
+	font-family: var(--font-primary);
+	padding: 24px var(--spacing-md) var(--spacing-md);
+	background: transparent;
+}
+
+/* Tab panel */
+.multilang-container .multilang-panel {
+	display: none;
+}
+
+.multilang-container .multilang-panel.active {
+	display: block;
+}
+
+/* Focus state - border */
+.multilang-container:focus-within {
+	border-color: var(--color-secondary);
+	box-shadow: 0 0 0 2px var(--color-blue10);
+}
+
+/* 29.12 Form Helper */
+.form-helper {
+	font-size: var(--font-size-sm);
+	color: var(--color-gray);
+	margin-top: 4px;
+	padding-left: var(--spacing-sm);
+}
+
+.form-helper.error {
+	color: var(--color-red);
+}
+
+.form-helper.success {
+	color: var(--color-green);
+}
+
+/* 29.13 Amount Text - Summa so'z bilan */
+.form-group.has-amount-text {
+	margin-bottom: calc(var(--spacing-md) + 20px);
+}
+
+.form-group .form-amount-text {
+	position: absolute;
+	left: var(--spacing-lg);
+	bottom: -18px;
+	font-size: var(--font-size-xs);
+	color: var(--color-gray);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	cursor: help;
+	max-width: calc(100% - 15px);
+	width: calc(100% - 15px);
+}
+/* ============================================================================
+   30. RESPONSIVE DESIGN
+   ============================================================================ */
+
+@media screen and (max-width: 768px) {
+	body {
+		font-size: var(--font-size-sm);
+	}
+
+	#vertical_menu {
+		width: 100%;
+	}
+
+	.panel #tbl th,
+	.panel #tbl td {
+		padding: 4px 6px;
+		font-size: var(--font-size-sm);
+	}
+
+	#tabControls > #menu > .parent > a {
+		font-size: var(--font-size-base);
+		padding: 4px var(--spacing-md);
+	}
+}
+
+/* ============================================================================
+   31. PRINT STYLES
+   ============================================================================ */
+
+@media print {
+	#vertical_menu,
+	#tabControls,
+	.navbut,
+	.modal-close {
+		display: none !important;
+	}
+
+	body {
+		background-color: white;
+	}
+
+	.panel #tbl {
+		border: 1px solid black;
+	}
+
+	/* Print uchun sticky'ni o'chirish */
+	.content .formToolbar {
+		position: static;
+		box-shadow: none;
+		border-bottom: 1px solid #ccc;
+	}
+}
+
+/* ============================================================================
+   END OF STYLESHEET
+   ============================================================================ */

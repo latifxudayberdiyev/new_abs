@@ -1,0 +1,9 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 27" width="27" height="27">
+	<title>turkey</title>
+	<defs>
+		<image  width="27" height="27" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAbCAMAAAC6CgRnAAAAAXNSR0IB2cksfwAAAMNQTFRFAAAA2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2AAn2Qgu3ClK3jlX3ChJ2Qkv3CZH6rS+7+jq7tzf67nC5oqb2hE23S5N7t3g8O/w55mo2x0/2AMp2AQq2Qow2AAn2Qgt8PDw6au22Qct2xo93jtY3CdI7+fo4E9p55el4E1o2AAn3jdV3TBP30Zi7c/U2g8z7tzg4E1n6au36rO97+jp5oub2AAn2AAn2AAnyszKFQAAAEF0Uk5TAAEqbKnb9v8mpPFT1f4JjQj8//////////////////////////+o///////////////1//////////////9rUox2WjxVAAAA70lEQVR4nH2S6XaCMBCFhyUMIBS1LhVq1aqYuhf3ur7/U0nAChHI/ZGcOd9JZrsAsSRZUYmGGlEVWQJOumHiv0xDT6OSZWMi2yo9yZuDr3LKD+ZUMqziPD7MEKboW93KZVZYkGTYucw2JJCj4qvvtXqDh6YMCrubHy3X+2zzUAE1PL863d53fzDkmQ8EceTRnzGLJlOsJoyAhjib00UUNTvL34QFEB4rStcs2Lh0u0tVyr2b7ZeH9Ls4319uPlGdcX/Hk+udX/q7COcimqdoD0X7u8bLvRXvHcq3DHv6BeBa6DOxP5mvLz4JMCB+4us7ArAdQVQL0YsAAAAASUVORK5CYII="/>
+	</defs>
+	<style>
+	</style>
+	<use id="Background" href="#img1" x="0" y="0"/>
+</svg>

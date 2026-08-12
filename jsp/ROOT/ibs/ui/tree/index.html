@@ -1,0 +1,33 @@
+<html>
+<head>
+</head>
+<body onload="onLoad(document.getElementById('json_div'))">
+<style>
+	div {
+ 		padding-left:20px;
+	}
+</style>
+<script>
+	var just;
+		/* normal xolatda ikkinchi selectga value qo'shish */
+		var opt={p:[['План'],['План номи']],'План':[['Сервер1','1'],['Сервер2','2'] ,['Сервер3','3'],['Сервер4','4']],'1':[['Группа1','11'],['Группа2','12']],'2':[['Группа2','21'],['Группа2','22'],['Группа3','23']],'11':[['СессияA','A'],['СессияB','B'],['СессияC','C']]};
+
+	function onLoad(o){
+	document.getElementById('p').innerHTML = opt.p[0] + " ( "  + opt.p[1] + " ) " ;
+		just = opt['План'];
+		for (k in just){
+			o.innerHTML += "<div id="+ just[k][1] +" ><img src='folder.gif'> " +  just[k][0] ;
+			server = opt[just[k][1]];
+			for (m in server){
+				document.getElementById(just[k][1]).innerHTML += "<div style='margin-left:60px' id="+ server[m][1] +" ><img src='folder.gif'> " +  server[m][0];
+				ses = opt[server[m][1]];
+				for (n in ses){
+					document.getElementById(server[m][1]).innerHTML += "<div style='margin-left:60px' id="+ ses[n][1] +" ><img src='folder.gif'> " +  ses[n][0];
+				}
+			}
+		}
+	}
+</script>
+<p id=p></p>
+<span id=json_div></span>
+</html>

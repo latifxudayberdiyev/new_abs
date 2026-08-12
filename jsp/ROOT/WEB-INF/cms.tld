@@ -1,0 +1,1293 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+        "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<!-- a tag library descriptor -->
+<taglib>
+    <tlibversion>1.0</tlibversion>
+    <jspversion>1.1</jspversion>
+    <shortname>cms 1.1(13-JULY-2010)</shortname>
+    <info>content management system</info>
+    <tag>
+        <name>page</name>
+        <tagclass>uz.fido_biznes.cms.tags.PageTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>sahifa qismini o'z ichiga qamrab oladi</info>
+        <attribute>
+            <name>contentType</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>Sahifaning content-type</info>
+            <default>text/html</default>
+            <example>contentType="700"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>charset</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>Sahifaning charset</info>
+            <default>WINDOWS-1251</default>
+            <example>charset="cp866"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>references</name>
+        <tagclass>uz.fido_biznes.cms.tags.ReferencesTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>sprovichnik qismini o'z ichiga qamrab oladi</info>
+    </tag>
+    <tag>
+        <name>requests</name>
+        <tagclass>uz.fido_biznes.cms.tags.RequestsTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Zapros qismini o'z ichiga qamrab oladi</info>
+    </tag>
+    <tag>
+        <name>form</name>
+        <tagclass>uz.fido_biznes.cms.tags.FormTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>forma yasash uchun(page tagini ichida joylashadi)</info>
+        <attribute>
+            <name>title</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    formaning title
+                    qiymati integer bo'lib, ko'p tillik dasturdagi constanta beriladi
+                    yoki
+            </info>
+            <example>title="<%= ls_formTitle %>"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>titleText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    formaning title
+            </info>
+            <example>titleText="fsdfsdf"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>minWidth</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    formaning minimum kengligi
+                    agar shu kenglingdan formani uzunligi kichkina bo'lsa berilgan kenglik ishlatiladi
+            </info>
+            <example>minWidth="700"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>minHeight</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    formaning minimum balandligi
+                    agar shu balandlikdan formani uzunligi kichkina bo'lsa berilgan balandlik ishlatiladi
+            </info>
+            <example>minHeight="700"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>emptyForm</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    formaning ichiga html generatsiya qilmaslik uchun
+            </info>
+            <example>emptyForm=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>noCache</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    formani cache qilmaslik uchun
+            </info>
+            <example>noCache=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>bodyClassName</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                     sahifani body teg iga class lar qo`shish un
+            </info>
+            <example>bodyClassName=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>allowedUrls</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>vfm</name>
+        <tagclass>uz.fido_biznes.cms.tags.vfm.VfmTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>present virtual field management</info>
+        <attribute>
+            <name>table</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>table ni nomi beriladi</info>
+            <example>table="employees"</example>
+            -->
+        </attribute>
+
+        <attribute>
+            <name>title</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>titleText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>col</name>
+        <tagclass>uz.fido_biznes.cms.tags.vfm.ColumnTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>present virtual field management column</info>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>table ni nomi beriladi</info>
+            <example>table="employees"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>table ni nomi beriladi</info>
+            <example>table="employees"</example>
+            -->
+        </attribute>
+
+        <!--<attribute>-->
+        <!--<name>function</name>-->
+        <!--<required>true</required>-->
+        <!--<rtexprvalue>true</rtexprvalue>-->
+        <!--&lt;!&ndash;-->
+        <!--<info>bazadan functsiya chaqirish uchun</info>-->
+        <!--<example>function="Package.Set_Value('fdf')"</example>-->
+        <!--&ndash;&gt;-->
+        <!--</attribute>-->
+    </tag>
+    <tag>
+        <name>reference</name>
+        <tagclass>uz.fido_biznes.cms.tags.ReferenceTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>sproviching yasash uchun(references tagini ichida joylashadi)</info>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>sprovichnikning nomi</info>
+            <example>name="currency"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    formaning title
+                    qiymati integer bo'lib, ko'p tillik dasturdagi constanta beriladi
+            </info>
+            <example>label="<%= ls_formTitle %>"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>request</name>
+        <tagclass>uz.fido_biznes.cms.tags.RequestTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>zapros uchun(requests tagini ichida joylashadi)</info>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>zapros nomi</info>
+            <example>name="currency"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>responseType</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>response type onSuccess functioniga beradigan parameterning turi
+                json          Javascript Object Notation
+                xml           Extensible Markup Language
+                text          Simple text
+                script        onSuccess functioni chaqirilmaydi, faqatgina berilgan scriptni ishlatib yuboriladi holos
+            </info>
+            <default>json</default>
+            <example>responseType="xml"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>table</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.TableTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>(form yoki reference tagini ichida joylashadi)</info>
+        <attribute>
+            <name>from</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>TABLE yoki VIEW ko'rsatiladi ma'lumot olish uchun</info>
+            <example>from="employees"</example>
+            <sql>select * from employees</sql>
+            -->
+        </attribute>
+        <attribute>
+            <name>where</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>WHERE commandasini berish uchun</info>
+            <example>where="code = 37"</example>
+            <sql>select * from employees where code = 37</sql>
+            -->
+        </attribute>
+        <attribute>
+            <name>function</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>bazadan functsiya chaqirish uchun, select dan oldin chaqiriladi</info>
+            <example>function="Package.Set_Value('fdf')"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>sessionName</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>userCache ga berilgan sessionName(sessiya nomi) bo'yicha saqlanadi</info>
+            <example>sessionName="my session name"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>autoRefresh</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+               autoRefresh commandasini berish uchun
+               Qiymatlar millisekundda beriladi,
+               Agar autoRefresh="0" bo`lsa 5000 millisekund oladi
+               Agar qiymat 5000 dan kichik bo`lsa 5000 millisekund oladi
+            </info>
+            <example>autoRefresh="7000"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>field</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.FieldTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>TABLE yoki VIEW polyalari haqida ma'lumot kiritish uchun (table tagini ichida joylashadi)</info>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    javascriptda shu polyaning qiymatini olish uchun
+                    xamda boshqa taglar bilan bog'lash uchun.
+                    masalan: javasript function getData(id) shu cursor turgan polyaning qiymatini qaytaradi;
+            </info>
+            <example>id="3"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>TABLE yoki VIEW dagi polyaning nomi</info>
+            <example>name="birthday"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>label</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    client tomondagi polyaning label
+                    qiymati integer bo'lib, ko'p tillik dasturdagi constanta beriladi
+            </info>
+            <example>label="<%= si_birthday %>"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>labelText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    client tomondagi polyaning label
+                    qiymati String tipida
+            </info>
+            <example>label="My Label"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>encrypted</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    client tomondagi polyaning shifrlangan xolatda bo'ladi.2
+            </info>
+            <example>encrypted="Y"</example>
+            -->
+        </attribute>
+        <attribute>
+        <name>entityName</name>
+        <required>false</required>
+        <rtexprvalue>true</rtexprvalue>
+        <!--
+        <info>
+                client tomondagi polyani qanday salt bilan shifrlash kerak ekanligi
+                odatda bu polya qaysi table niki bo`lsa o`sha table ni nomi berilishi maslahat beriladi
+        </info>
+        <example>entity="Leads"</example>
+        -->
+    </attribute>
+        <attribute>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    shu polyaning formati yoki uning ustida bajariladigan operatsiyalari
+                    date		format: dd.mm.yyyy
+                    sum			format: FM999,999,999,999,999,990.00
+                    sum2		format: FM999G999G999G999G999G990D00
+                    datetime	format: dd.mm.yyyy hh24:mi:ss
+                    time		format: hh24:mi:ss
+                    quote		operation: to escape characters \ ' (13) (10)
+                    number		operation: faqat integerlar uchun, scale bilan ishlatish uchun numberS2, numberS4 deb berish kerak
+                    notSend		operation: shu polyaning ma'lumotini klient tomonga jo'natmaslik uchun
+                                                    masalan: filter qilishda ishlatiladi, ammo clientga jo'natish shart emas
+                    yuqoridagilardan hech qaysisi berilmagan bo'lsa, string ko'rinishiga o'tadi
+            </info>
+            <example>type="date"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>color</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>shartli textga rang berish, javascript bo'lib rang kodini qaytarishi kerak</info>
+            <example>color="d(7).substr(0,3)=='112'?'red':'blue'"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>bgColor</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>shartli textga orqa fonga rang berish, javascript bo'lib rang kodini qaytarishi kerak</info>
+            <example>bgColor="d(7).substr(0,3)=='112'?'red':'blue'"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>filter</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.FilterTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Filter elementi (field tagini ichida joylashadi)</info>
+        <attribute>
+            <name>operator</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    Filter qilish uchun kerakli operatorlar ko'rsatiladi
+			masalan: =, >, <, >=, <=, like, _like, like_, _like_, search, _search, search_, _search_, _translit_, translit_, _translit, translit, choice, range
+                    ko'rsatilgan operator bilan tayorlang SQL ko'rinishi qo'yidagicha (choice, range operatorlaridan tashqari)
+                    <field name> <operator> <value>
+                    agar operator ko'rsatilmasa = (tenglik) operatori ishlatiladi
+                    choice - operator tanlash imkoniyatini beradi
+                    range - bir miqdordan boshqa miqdorgacha bo'lgan kesimni tanlashda <= >= operatorlari ishlatiladi
+            </info>
+            <example>operator="like"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>label</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    client tomondagi polyaning labeli
+                    qiymati integer bo'lib, ko'p tillik dasturdagi constanta beriladi
+                    agar label ko'rsatilmadi, bog'lang field tagidagi labelni oladi
+            </info>
+            <example>label="<%= si_birthday %>"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>labelText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    client tomondagi polyaning label
+                    qiymati String tipida
+            </info>
+            <example>labelText="My Label"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>option</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    SELECT controli uchun option
+                    qiymati integer bo'lib, ko'p tillik dasturdagi constanta beriladi
+                    qiymati string bo'lib, sql formatida beriladi
+            </info>
+            <example>option="<%= si_state %>"</example>
+            <example>optionSQL="select '<option value='||code||'>'||name from state"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>optionSQL</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>mask</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>filter polyasi uchun mask</info>
+            <example>mask="date"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>showInGrid</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+            Formani yuqorisiga shu filter controllarini ko'rsatish uchun kerak bo'ladi
+            range va choice tipdagi filterlar ishlamaydi, faqat filter oynasida ishlaydi
+            </info>
+            <example>showInGrid=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>filter default value</info>
+            <example>value="45"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>value2</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>filter default value range tipi uchun 2 qiymat</info>
+            <example>value2=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>referenceName</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>reference bilan ishlash uchun</info>
+            <example>referenceName="currency"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>requestName</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>request bilan ishlash uchun
+            request berilgan polyaning qiymatini "code" parameteri orqali jo'natadi
+            </info>
+            <example>requestName="currency"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>referenceURL</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>reference ning URL i</info>
+            <default>_.URL.split('?')[0]</default>
+            <example>referenceURL="ref.jsp"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>requestURL</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>request ning URL i</info>
+            <default>_.URL.split('?')[0]</default>
+            <example>requestURL="ref.jsp"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>size</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>filter input polyasizing size
+            </info>
+            <example>size="30"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>sort</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.SortTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Sort elementi (field tagini ichida joylashadi)</info>
+        <attribute>
+            <name>orderKey</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>Boshqa sortlar bilan qaysi birinchi, qaysi keyin kelishini aniqlash uchun</info>
+            <example>orderKey="1"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>direction</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>Sort qilishda yo'nalishni ko'rsatish uchun (asc, desc)</info>
+            <default>asc</default
+            <example>direction="desc"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>sum</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.SumTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Sum elementi (field tagini ichida joylashadi)</info>
+        <attribute>
+            <name>label</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    client tomondagi polyaning labeli
+                    qiymati integer bo'lib, ko'p tillik dasturdagi constanta beriladi
+                    agar label ko'rsatilmadi, bog'lang field tagidagi labelni oladi
+            </info>
+            <example>label="<%= si_birthday %>"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>labelText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    client tomondagi polyaning label
+                    qiymati String tipida
+            </info>
+            <example>labelText="My Label"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    shu polyaning formati yoki uning ustida bajariladigan operatsiyalari
+                    sum			format: FM999,999,999,999,999,990.00
+                    sum2		format: FM999G999G999G999G999G990D00
+                    number		operation: faqat integerlar uchun, scale bilan ishlatish uchun numberS2, numberS4 deb berish kerak
+                    yuqoridagilardan hech qaysisi berilmagan bo'lsa, string ko'rinishiga o'tadi
+            </info>
+            <example>type="sum"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>grid</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.GridTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>GRID ni chizish va uning ustida amallar bajarish uchun kerakli ma'lumotlar to'plami
+            (table tagini ichida joylashadi)
+        </info>
+        <attribute>
+            <name>page</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    ma'lumotlarni databasedan sahifalab olish uchun
+                    agar qiymati berilmagan bo'lsa 20 ta qator bo'yicha chiqaradi
+                    (tableControls idsi bor bo'lgan html elementni ichining boshiga qo'shiladi)
+            </info>
+            <example>page=""</example>
+            <example>page="40"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>numbering</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>gridning chap tomoniga numeratsiya qo'yish uchun</info>
+            <example>numbering=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>withoutFocus</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>gridga avtomat holatida focus tushmasligi uchun</info>
+            <example>withoutFocus=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>withoutCursor</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>gridning chap tomonida kursor belgisini olib tashlash uchun</info>
+            <example>withoutCursor=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>withoutSortButtons</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>GRIDning shapkasida :) sort buttoni ishlamasligi uchun</info>
+            <example>withoutSortButtons=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>withoutRefreshButton</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>Refresh knopkasini olib tashlash uchun
+            (tableControls idsi bor bo'lgan html elementni ichining boshiga qo'shiladi)</info>
+            <example>withoutRefreshButton=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>resetCursor</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>har doim sahifa ochilganda cursor 1 qatorga hamda 1 page kirish uchun</info>
+            <default>false(reference uchun true)</default>
+            <example>resetCursor=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>hideFilterButton</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>Filter knopkasini olib tashlash uchun</info>
+            <example>hideFilterButton=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>hideExcelButton</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>Filter knopkasini olib tashlash uchun</info>
+            <example>hideExcelButton=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>enterDirection</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    Enter key(13) bosgandagi cursorning yo'nalishi
+                    agar bu parameter ko'rsatilsa key(13) uchun onAction eventi ishlamaydi
+                    up		yuqoriga
+                    down    pastga  (default)
+                    left    chapga
+                    right   o'nga
+            </info>
+            <example>enterDirection="right"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>rowColor</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>shartli textga rang berish, javascript bo'lib rang kodini qaytarishi kerak</info>
+            <example>rowColor="d(7).substr(0,3)=='112'?'red':'blue'"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>column</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.ColumnTag</tagclass>
+        <bodycontent>EMPTY</bodycontent>
+        <info>har bir ustinning parameterlari (grid tagini ichida joylashadi)</info>
+        <attribute>
+            <name>for</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>FIELD tag ida keltirilgan polyaga bog'lash uchun ID ko'rsatiladi</info>
+            <example>for="3"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    shu ustunning turi
+                    qiymatlari
+                    text        input type=text
+                    checkbox    input type=checkbox
+                    hidden      input type=hidden
+                    yuqorida keltirilgan qiymatlardan hech qaysisi to'g'ri kelmasi,
+                    hech qanday controlsiz faqatgina qiymantini o'zi chiqadi
+            </info>
+            <example>type="text"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    agar tipi control bo'sa yani input, checkbox yoki hidden
+                    shu controllarning name shu erda ko'rsatiladi
+            </info>
+            <example>name="name"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>mask</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>controlga ma'lumot kiritish maskasi</info>
+            <example>mask="date"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>enable</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>controlning enable qiymati</info>
+            <example>enable="a2[3]"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>required</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                controlga ma'lumot kirishni majburiy
+                agar tipi checkbox bo'lsa tblIsChecked() functioni orqali shu ustundagi
+                biror checkbox checked qilinganligini tekshirish mumkin
+            </info>
+            <example>required=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>checked</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>ko'risatilgan polyaning qiymati 0 bo'lsa shu checkbox checked bo'lmaydi</info>
+            <example>checked="2"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>size</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>agar tipi input text bo'lsa size parameteri</info>
+            <example>size="40"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>align</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                ma'lumotning joylashishi
+                left	chap tomonga
+                center	o'rtaga
+                right	o'ng tomonga
+                agar qiymat berilmasa center qiymati qabul qilinadi
+            </info>
+            <example>align="right"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>readonly</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>controlni readonly qilish uchun, agar checkbox bo'lsa disabled bo'ladi
+            type=text: agar empty('') bo'lsa readonly bo'ladi
+                       aks holda berilgan id bo'yicha fieldni polyasiga qiymati 0 bo'lsa readonly bo'ladi
+            type=checkbox: agar empty('') bo'lsa disabled bo'ladi
+                       aks holda berilgan id bo'yicha fieldni polyasiga qiymati 0 bo'lsa disabled bo'ladi
+            </info>
+            <example>readonly=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>nowrap</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>WRAP qilmasligi uchun
+            </info>
+            <example>nowrap=""</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>label</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    client tomondagi polyaning label
+                    qiymati integer bo'lib, ko'p tillik dasturdagi constanta beriladi
+            </info>
+            <example>label="<%= si_birthday %>"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>labelText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    client tomondagi polyaning label
+                    qiymati String tipida
+            </info>
+            <example>labelText="My Label"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>foot</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.FootTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>GRID footerini chizish uchun (grid tagini ichida joylashadi)</info>
+    </tag>
+    <tag>
+        <name>row</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.FootRowTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>GRID footeridagi qatorni chizish uchun (foot tagini ichida joylashadi)</info>
+    </tag>
+    <tag>
+        <name>cell</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.FootCellTag</tagclass>
+        <bodycontent>EMPTY</bodycontent>
+        <info>Grid footeridagi qatorlaridagi polyalarni parameterlari (row tagini ichida joylashadi)</info>
+        <attribute>
+            <name>for</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>FIELD tag ida keltirilgan polyaga bog'lash uchun ID ko'rsatiladi</info>
+            <example>for="5"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                shu controlning turi
+                qiymatlari
+                text			input type=text
+                textarea        textarea
+                yuqorida keltirilgan qiymatlardan hech qaysisi to'g'ri kelmasi,
+                text qiymati qabul qilinadi
+            </info>
+            <example>type="textarea"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>rows</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>agar tipi textarea bo'lsa ROWS parameteri</info>
+            <example>rows="40"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>size</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>agar tipi input text bo'lsa SIZE parameteri yoki textarea bo'lsa COLS parameteri</info>
+            <example>size="40"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>align</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>
+                    ma'lumotning joylashishi
+                    left	chap tomonga
+                    center	o'rtaga
+                    right	o'ng tomonga
+                    agar qiymat berilmasa center qiymati qabul qilinadi
+            </info>
+            <example>align="right"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>rowspan</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>shu control joylashgan xujayraning ROWSPAN parameteri</info>
+            <example>rowspan="2"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>colspan</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <!--
+            <info>shu control joylashgan xujayraning COLSPAN parameteri</info>
+            <example>colspan="2"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>options</name>
+        <tagclass>uz.fido_biznes.cms.tags.OptionsTag</tagclass>
+        <bodycontent>EMPTY</bodycontent>
+        <info>Select tagi uchun option yasash uchun</info>
+        <attribute>
+            <name>from</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>TABLE yoki VIEW nomi</info>
+            <example>from="v_currency"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>code</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>option tagidagi value qiymati</info>
+            <example>code="code"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>option tagidai text uchun, agar berilmasa code qiymati qo'yiladi</info>
+            <example>name="name</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>where</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>query dagi WHERE qiymati</info>
+            <example>where="condition='A'"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>orderBy</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>query dagi ORDER BY qiymati</info>
+            <example>orderBy="name"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>distinct</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>code bo'yicha distinct qilish, 
+            true  - bo'lsa distinct qiladi,
+            false - bo'lsa distinct qilmaydi</info>
+            <example>distinct="true"</example>
+            -->
+        </attribute>
+    </tag>
+    <tag>
+        <name>menu</name>
+        <tagclass>uz.fido_biznes.cms.tags.menu.MenuTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <attribute>
+            <name>labelText</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>url</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>action</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>items</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>req</name>
+        <tagclass>uz.fido_biznes.cms.tags.ReqTag</tagclass>
+        <bodycontent>EMPTY</bodycontent>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>get</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>put</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>url</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>callback</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>other</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>ref</name>
+        <tagclass>uz.fido_biznes.cms.tags.RefTag</tagclass>
+        <bodycontent>EMPTY</bodycontent>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>get</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>put</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>url</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>callback</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>other</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+
+    <tag>
+        <name>submenu</name>
+        <tagclass>uz.fido_biznes.cms.tags.menu.SubmenuTag</tagclass>
+        <bodycontent>EMPTY</bodycontent>
+        <attribute>
+            <name>formCode</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>defaultUrl</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>isExitBtnEnabled</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>jsFunction</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>errorMsg</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                 У Вас нет доступа к меню подсистемы Электронны отчеты.\\nЗакрепите доступные формы меню за ролями.
+            </info>
+            <example>errorMsg="<%= si_error %>"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>errorMsgText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    У Вас нет доступа к меню подсистемы Электронны отчеты.\\nЗакрепите доступные формы меню за ролями.
+            </info>
+            <example>errorMsgText="My error msg"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>exitMsg</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                 У Вас нет доступа к меню подсистемы Электронны отчеты.\\nЗакрепите доступные формы меню за ролями.
+            </info>
+            <example>errorMsg="<%= si_error %>"</example>
+            -->
+        </attribute>
+        <attribute>
+            <name>exitMsgText</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <!--
+            <info>
+                    У Вас нет доступа к меню подсистемы Электронны отчеты.\\nЗакрепите доступные формы меню за ролями.
+            </info>
+            <example>errorMsgText="My error msg"</example>
+            -->
+        </attribute>
+
+    </tag>
+    <tag>
+        <name>dynamicGrid</name>
+        <tagclass>uz.fido_biznes.cms.tags.table.DynamicGridTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <attribute>
+            <name>gridId</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>where</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>function</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>sessionName</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>autoRefresh</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+</taglib>

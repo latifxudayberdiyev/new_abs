@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="windows-1251">
+	<link href="toastr.css" rel="stylesheet" type="text/css">
+	<script src="jquery.min.js"></script>
+	<script src="toastr.js"></script>
+</head>
+<body style="background:#eff2f7;width:300px;">
+<script type="text/javascript">
+	$(function () {
+		var title = "Pусский Узбекча O'zbekcha English"
+		toastr.options = {
+			closeButton: 'true',
+			positionClass: 'toast-top-full-width'
+		};
+		toastr["error"](title, "Ошибка:");
+		toastr["success"](title, "Успешно:");
+		toastr["warning"](title, "Действительно вы хотите <br> <button align=right><i>Да</i></button><button align=right><i>отмена</i></button>");
+		toastr["info"](title, "info:");
+	})
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+
+.fill-stats { position: static; margin: 6px 0 8px 0; padding: 8px; border: 1px solid #0b3d75; background: #f4f7fb; color: #202124; font-size: 12px; max-height: 360px; overflow: hidden; transition: max-height .18s ease, opacity .18s ease, margin .18s ease, padding .18s ease, border-width .18s ease; }
+.fill-stats.is-loading { opacity: .55; }
+.fill-stats.is-collapsed { max-height: 0; opacity: 0; margin-top: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; border-width: 0; }
+.fill-stats-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: -8px -8px 8px -8px; padding: 7px 8px; background: #0b3d75; color: #fff; }
+.fill-stats-title { font-weight: 700; font-size: 13px; color: #fff; }
+.fill-stats-refresh { height: 24px; border: 1px solid #d7e6f7; background: #ffffff; color: #0b3d75; border-radius: 2px; padding: 0 10px; cursor: pointer; font-size: 12px; font-weight: 600; }
+.fill-stats-refresh:hover { background: #e7f0fb; }
+.fill-stats-summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+.fill-stat-card { background: #fff; border: 1px solid #c7d5e6; border-left: 3px solid #0b3d75; padding: 7px 10px; }
+.fill-stat-label { color: #666; font-size: 11px; margin-bottom: 3px; }
+.fill-stat-value { font-weight: 700; font-size: 20px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #0b3d75; }
+.fill-stat-value.small { font-size: 13px; padding-top: 4px; }
+.fill-stats-table { width: 100%; border-collapse: collapse; background: #fff; }
+.fill-stats-table th { background: #0b3d75; color: #fff; text-align: left; padding: 5px 8px; font-weight: 600; border-bottom: 1px solid #082a51; }
+.fill-stats-table td { border-bottom: 1px solid #e1e1e1; padding: 5px 8px; }
+.fill-progress-wrap { height: 15px; background: #e8eef6; border: 1px solid #b8c9dd; position: relative; min-width: 120px; }
+.fill-progress-bar { height: 100%; background: #0b3d75; }
+.fill-progress-text { position: absolute; left: 0; top: 0; width: 100%; line-height: 16px; text-align: center; font-size: 11px; font-weight: 700; color: #1f2933; }
+.fill-no-data { text-align: center; color: #777; padding: 18px; }
+
+#fillStatsPanel { display: none !important; }
+
+/* Toolbar buttons */
+.formToolbar { border-bottom: none; padding-bottom: 8px; }
+.formToolbar input[type="button"] {
+	height: 30px; padding: 0 14px; border: 1px solid #d7dee8 !important; border-radius: 6px !important;
+	background: #ffffff !important; color: #344054 !important; font: 600 12px Arial, sans-serif;
+	box-shadow: 0 1px 2px rgba(16,24,40,.04);
+}
+.formToolbar input[type="button"]:hover { background: #f4f7fb !important; border-color: #b8c9dd !important; }
+.formToolbar input[type="button"]:disabled { color: #b0b7c3 !important; background: #f4f6f8 !important; }
+
+/* Grid card */
+.grid-card { background: #fff; border: 1px solid #e5e9f0; border-radius: 10px; padding: 8px; box-shadow: 0 1px 3px rgba(16,24,40,.05); overflow-x: auto; max-width: 100%; }
+.grid-card #tbl { border-collapse: separate !important; border-spacing: 0; }
+.grid-card #tbl TH {
+	background: #f8f9fb !important; color: #667085 !important;
+	font: 700 11px Arial, sans-serif !important; text-transform: uppercase; letter-spacing: .3px;
+	border: none !important; border-bottom: 1px solid #e5e9f0 !important; padding: 8px 6px !important;
+}
+.grid-card #tbl TD { border: none !important; border-bottom: 1px solid #eef1f5 !important; padding: 7px 6px !important; }
+.grid-card tr.cellEven { background: #ffffff !important; }
+.grid-card tr.cellOdd  { background: #fafbfc !important; }
+.grid-card tr.cellSel  { background: #eaf2ff !important; }
+.grid-card td.cellCur  { background: #d6e6ff !important; }
+
+/* Message Code column - qalinroq */
+.grid-card #tbl TD:nth-child(4) { font-weight: 700 !important; color: #1f2933; }
+
+/* Module column - rangli oval badge */
+.module-pill {
+	display: inline-block; padding: 3px 12px; border-radius: 999px;
+	font: 700 11px Arial, sans-serif; text-align: center; line-height: 1.4; white-space: nowrap;
+}

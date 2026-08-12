@@ -1,0 +1,244 @@
+// Decompiled by DJ v2.9.9.61 Copyright 2000 Atanas Neshkov  Date: 07.04.2003 9:33:15
+// Home Page : http://members.fortunecity.com/neshkov/dj.html  - Check often for new version!
+// Decompiler options: packimports(3) 
+// Source File Name:   DBConnection.java
+
+package fido;
+
+import java.io.*;
+import java.sql.*;
+import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionBindingListener;
+import oracle.jdbc.OracleDriver;
+
+public class DBConnection
+    implements HttpSessionBindingListener
+{
+
+    public DBConnection()
+    {
+        connection = null;
+    }
+
+    public void setUserName(String s)
+    {
+        userName = s;
+    }
+
+    public String getUserName()
+    {
+        return userName;
+    }
+
+    public void setUserPassword(String s)
+    {
+        userPassword = s;
+    }
+
+    public String getUserPassword()
+    {
+        return userPassword;
+    }
+
+    public void setUrl(String s)
+    {
+        url = s;
+    }
+
+    public String getUrl()
+    {
+        return url;
+    }
+
+    public Connection getConnection()
+    {
+        if(connection != null)
+            return connection;
+        else
+            return initConnection();
+    }
+
+    public void infoPerson(String s, String s1, OutputStream outputstream)
+    {
+        String as[] = {
+            "8#230#210#165#0#0#0#159#", "1#20#122#153#1#0#0#179#", "1#75#132#153#1#0#0#189#"
+        };
+        boolean flag = false;
+        byte abyte0[] = "ok".getBytes();
+        try
+        {
+            s = new String(s.getBytes("ISO-8859-1"), "Cp1251");
+        }
+        catch(UnsupportedEncodingException unsupportedencodingexception) { }
+        String s3 = " select d.code_point, e.name, d.currency_sum, d.code_currency, c.name, c.char_code, decode(d.cheque,'0','\u043D\u0430\u043B','1','\u0447\u0435\u043A\u0438'), d.oper_day from  doc d, exchangeoffice_desc e, currency_desc c where d.code_person='" + s + "' and d.code_point=e.code " + " and c.code=d.code_currency";
+        try
+        {
+            for(int i = 0; i < as.length; i++)
+                if(as[i].equals(s1))
+                    flag = true;
+
+            if(!flag)
+            {
+                byte abyte1[] = "<script>alert(\"          \u0423 \u0432\u0430\u0441 \u043D\u0435\u0442 \u043F\u0440\u0430\u0432 \u0434\u043E\u0441\u0442\u0443\u043F\u0430\\n\u0434\u043B\u044F \u043F\u043E\u043B\u0443\u0447\u0435\u043D\u0438\u044F \u0434\u0430\u043D\u043D\u043E\u0439 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438!\");history.back()</script>".getBytes();
+                outputstream.write(abyte1);
+                return;
+            }
+            Connection connection1 = getConnection();
+            if(connection1 == null)
+            {
+                byte abyte2[] = "<script>location.href='sessionOut.html';</script>\n".getBytes();
+                outputstream.write(abyte2);
+                return;
+            }
+            Statement statement = connection1.createStatement();
+            ResultSet resultset = statement.executeQuery("select last_name, name, patronymic from person where code_person='" + s + "'");
+            String s2;
+            if(resultset.next())
+            {
+                s2 = resultset.getString(1) + " " + resultset.getString(2) + " " + resultset.getString(3);
+            } else
+            {
+                byte abyte3[] = "<script>alert(\"\u0422\u0430\u043A\u043E\u0439 \u0447\u0435\u043B\u043E\u0432\u0435\u043A \u043D\u0435 \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D \u0432 \u0441\u0438\u0441\u0442\u0435\u043C\u0435!\");</script>".getBytes();
+                outputstream.write(abyte3);
+                return;
+            }
+            byte abyte4[] = "<table bordercolor=\"#336699\" style=\"font-family:arial\" align=\"center\" width=\"850\">\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<tr><td>\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<table width=\"100%\" bgcolor=\"#336699\">\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<tr><td style=\"color:white\" align=\"center\">\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = ("<b>\u0418 \u041D \u0424 \u041E \u0420 \u041C \u0410 \u0426 \u0418 \u042F \u043F\u043E \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0443 " + s + "\n").getBytes();
+            outputstream.write(abyte4);
+            abyte4 = ("\u043D\u0430 " + s2 + "</b>\n").getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "</td></tr></table>\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<table border=\"1\" cellspacing=\"0\" cellpadding=\"5\">\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<tr class=\"vrTableHeader\">\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<th valign=\"center\" align=\"center\" width=\"110\">\u041D\u043E\u043C\u0435\u0440 <br>\u043E\u0431\u043C\u0435\u043D\u043D\u043E\u0433\u043E <br>\u043F\u0443\u043D\u043A\u0442\u0430</th>\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<th valign=\"center\" align=\"center\" width=\"410\">\u041D\u0430\u0438\u043C\u0435\u043D\u043E\u0432\u0430\u043D\u0438\u0435 \u043E\u0431\u043C\u0435\u043D\u043D\u043E\u0433\u043E \u043F\u0443\u043D\u043A\u0442\u0430</th>\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<th valign=\"center\" align=\"center\" width=\"70\">\u0421\u0443\u043C\u043C\u0430</th>\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<th valign=\"center\" align=\"center\" width=\"120\">\u041D\u0430\u0438\u043C\u0435\u043D\u043E\u0432\u0430\u043D\u0438\u0435<br> \u0432\u0430\u043B\u044E\u0442\u044B</th>\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<th valign=\"center\" align=\"center\" width=\"70\">\u0422\u0438\u043F <br>\u0432\u0430\u043B\u044E\u0442\u044B</th>\n".getBytes();
+            outputstream.write(abyte4);
+            abyte4 = "<th valign=\"center\" align=\"center\" width=\"70\">\u041E\u043F\u0435\u0440\u0434\u0435\u043D\u044C</th>\n".getBytes();
+            outputstream.write(abyte4);
+            byte abyte5[];
+            for(ResultSet resultset1 = statement.executeQuery(s3); resultset1.next(); outputstream.write(abyte5))
+                abyte5 = ("<tr bgColor=\"white\"><td align=\"center\" width=\"110\">" + resultset1.getString(1) + "</td>\n<td align=\"center\" width=\"410\">" + resultset1.getString(2) + "</td>\n<td align=\"center\" width=\"70\">" + resultset1.getString(3) + "</td>\n<td align=\"center\" width=\"120\">" + resultset1.getString(5) + "</td>\n<td align=\"center\" width=\"70\">" + resultset1.getString(7) + "</td>\n<td align=\"center\" width=\"70\">" + resultset1.getString(8) + "</td></tr>" + "\n").getBytes();
+
+        }
+        catch(Exception exception) { }
+    }
+
+    public void makeOper(String s, OutputStream outputstream)
+    {
+        try
+        {
+            s = new String(s.getBytes("iso-8859-1"), "Cp1251");
+            outputstream.write(s.getBytes());
+            Connection connection1 = getConnection();
+            if(connection1 == null)
+            {
+                outputstream.write("<script>location.href='sessionOut.html';</script>".getBytes());
+                return;
+            }
+            Statement statement = connection1.createStatement();
+            if(s.startsWith("#select"))
+            {
+                s = s.substring(1);
+                ResultSet resultset = statement.executeQuery(s);
+                outputstream.write("<center>\n".getBytes());
+                ResultSetMetaData resultsetmetadata = resultset.getMetaData();
+                int j = resultsetmetadata.getColumnCount();
+                outputstream.write(("Column count:" + j + "\n").getBytes());
+                outputstream.write("<table border=\"1\">\n".getBytes());
+                outputstream.write("<tr>\n".getBytes());
+                for(int k = 1; k <= j; k++)
+                {
+                    outputstream.write("<td>".getBytes());
+                    outputstream.write(resultsetmetadata.getColumnName(k).getBytes());
+                    outputstream.write("</td>".getBytes());
+                }
+
+                outputstream.write("</tr>\n".getBytes());
+                for(; resultset.next(); outputstream.write("</tr>\n".getBytes()))
+                {
+                    outputstream.write("<tr>\n".getBytes());
+                    for(int l = 1; l <= j; l++)
+                    {
+                        outputstream.write("<td>".getBytes());
+                        String s1 = resultset.getString(l);
+                        if(s1 == null)
+                            s1 = "&nbsp;";
+                        outputstream.write(s1.getBytes());
+                        outputstream.write("</td>".getBytes());
+                    }
+
+                }
+
+                outputstream.write("</table>\n".getBytes());
+                outputstream.write("</center>\n".getBytes());
+            } else
+            if(s.startsWith("$"))
+            {
+                outputstream.write("<br>updated<br>".getBytes());
+                s = s.substring(1);
+                outputstream.write(s.getBytes());
+                int i = statement.executeUpdate(s);
+                outputstream.write("<br>".getBytes());
+                outputstream.write(("quantity updated:" + i).getBytes());
+            }
+        }
+        catch(Exception exception)
+        {
+            try
+            {
+                outputstream.write(exception.toString().getBytes());
+            }
+            catch(Exception exception1) { }
+        }
+    }
+
+    public Connection initConnection()
+    {
+        try
+        {
+            DriverManager.registerDriver(new OracleDriver());
+            connection = DriverManager.getConnection(url, userName, userPassword);
+        }
+        catch(SQLException sqlexception)
+        {
+            System.out.println("Exception: " + sqlexception);
+        }
+        return connection;
+    }
+
+    public void valueBound(HttpSessionBindingEvent httpsessionbindingevent)
+    {
+    }
+
+    public synchronized void valueUnbound(HttpSessionBindingEvent httpsessionbindingevent)
+    {
+        if(connection != null)
+            try
+            {
+                connection.close();
+            }
+            catch(SQLException sqlexception) { }
+    }
+
+    Connection connection;
+    String userName;
+    String userPassword;
+    String url;
+}

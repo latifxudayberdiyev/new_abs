@@ -1,0 +1,309 @@
+<?xml version = '1.0' encoding = 'ISO-8859-1'?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+<taglib>
+
+	<tlib-version>1.0</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>jml</short-name>
+        <uri>http://xmlns.oracle.com/j2ee/jsp/tld/ojsp/jml.tld</uri>
+        <description> The OC4J JmlTag Library </description>
+	<!-- name="META-INF/taglib.tld" location="@oracle.home@/jsp/lib/tlds/jml.jar" -->
+
+
+	<!--
+		Oracle's jml tag library.  All of the jml 
+		tag's available in the Oracle JSP environment
+		are provided in this library.  No jsp: tags are
+		duplicated, some tags are unavailable, and some tags
+		have stricter syntax.  No bean expressions are supported.
+		
+		The differences are:
+			*- jml:call - not available 
+			*  jml:choose - works as documented
+			*  jml:flush - works as documented
+			*  jml:for - works as documented
+			*  jml:foreach - the type attribute is required, 
+					 otherwise, as documented
+			*! jml:forward - use jsp:forward
+			*! jml:getProperty - use jsp:getProperty
+			*  jml:if - works as documented
+			*! jml:include - use jsp:include
+			*- jml:lock - not available
+			*! jml:plugin - use jsp:plugin
+			*  jml:print - the expression to print must be supplied 
+					as an attribute.  i.e. the tag cannot 
+					have a body		
+			*  jml:remove - works as documented
+			*  jml:return - works as documented
+			*- jml:set - not available
+			*! jml:setProperty - use jsp:setProperty
+			*! jml:useBean - use jsp:useBean
+			*  jml:useCookie - works as documented 
+			*  jml:useForm - works as documented
+			*  jml:useVariable - works as documented		
+        -->
+
+  	<!-- The choose tag -->
+	<tag>
+		<name>choose</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlChoose</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			The outer tag of a multiple choice logic block,
+			choose
+				when condition1
+				when condition2
+				otherwise
+			end choose
+		</description>
+	</tag>
+
+  	<!-- The flush tag -->
+	<tag>
+		<name>flush</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlFlush</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Flush the current JspWriter
+		</description>
+	</tag>
+  
+	<!-- The for tag -->
+	<tag>
+		<name>for</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlFor</tag-class>
+		<tei-class>oracle.jsp.jml.tagext.JmlForTEI</tei-class>
+		<body-content>JSP</body-content>
+		<description>
+			A simple for loop
+		</description>
+
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>from</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>to</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<!-- The foreach tag -->
+	<tag>
+		<name>foreach</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlForeach</tag-class>
+		<tei-class>oracle.jsp.jml.tagext.JmlForeachTEI</tei-class>
+		<body-content>JSP</body-content>
+		<description>
+			A foreach loop for iterating arrays, enumerations,
+			and vector's.
+		</description>
+
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>in</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>limit</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+
+	<!-- The if tag -->
+	<tag>
+		<name>if</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlIf</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			A classic if
+		</description>
+	
+		<attribute>
+			<name>condition</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+  	<!-- The otherwise tag -->
+	<tag>
+		<name>otherwise</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlOtherwise</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			(optional) final part of a choose block
+		</description>
+	</tag>
+	
+  	<!-- The print tag -->
+	<tag>
+		<name>print</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlPrint</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			print the expression specified in the eval attribute
+		</description>
+		<attribute>
+			<name>eval</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+  	<!-- The remove tag -->
+	<tag>
+		<name>remove</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlRemove</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			remove the specified object from the pageContext
+		</description>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>scope</name>
+			<required>false</required>
+		</attribute>
+	</tag>
+
+  	<!-- The return tag -->
+	<tag>
+		<name>return</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlReturn</tag-class>
+		<body-content>empty</body-content>
+		<description>
+			Skip the rest of the page
+		</description>
+	</tag>
+
+  	<!-- The useCookie tag -->
+	<tag>
+		<name>useCookie</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlUseCookie</tag-class>
+		<tei-class>oracle.jsp.jml.tagext.JmlUseTEI</tei-class>
+		<body-content>empty</body-content>
+		<description>
+			create a jml variable and initialize it to a cookie value
+		</description>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>scope</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>cookie</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
+  	<!-- The useForm tag -->
+	<tag>
+		<name>useForm</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlUseForm</tag-class>
+		<tei-class>oracle.jsp.jml.tagext.JmlUseTEI</tei-class>
+		<body-content>empty</body-content>
+		<description>
+			create a jml variable and initialize it to a parameter value
+		</description>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>scope</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>param</name>
+			<required>true</required>
+		</attribute>
+	</tag>
+
+  	<!-- The useVariable tag -->
+	<tag>
+		<name>useVariable</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlUseVariable</tag-class>
+		<tei-class>oracle.jsp.jml.tagext.JmlUseTEI</tei-class>
+		<body-content>empty</body-content>
+		<description>
+			create a jml variable and initialize it to a parameter value
+		</description>
+		<attribute>
+			<name>id</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>scope</name>
+			<required>false</required>
+		</attribute>
+		<attribute>
+			<name>type</name>
+			<required>true</required>
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+  	<!-- The when tag -->
+	<tag>
+		<name>when</name>
+		<tag-class>oracle.jsp.jml.tagext.JmlWhen</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			one part of a choose block, see choose
+		</description>
+		<attribute>
+			<name>condition</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+	<!-- The checkPageScope tag -->
+	<tag>
+		<name>checkPageScope</name>
+                <tag-class>oracle.jsp.jml.tagext.CheckPageScopeListenerTag</tag-class>
+		<body-content>JSP</body-content>
+		<description>
+			to provide the notification of logic any 
+			JspScopeListener stored in page scope
+			This tag is not needed for OracleJSP on Apache/JServ
+			or OC4J.
+		</description>
+	</tag>
+
+</taglib>
+

@@ -1,0 +1,82 @@
+package iabs;
+
+import java.sql.*;
+import javax.servlet.http.*;
+import java.math.BigDecimal;
+
+public class DBConnection implements HttpSessionBindingListener {
+  Connection connection = null;
+  String userName;
+  String userPassword;
+  String url;
+  String err="";
+
+//----------------------------------------------------------------------
+  //set user name
+  public void setUserName(String name) {
+      this.userName = name;
+  }
+  //get user name
+  public String getUserName() {
+      return this.userName;
+  }
+//----------------------------------------------------------------------
+  //set user Password
+  public void setUserPassword(String password) {
+      this.userPassword = password;
+  }
+  //get user Password
+  public String getUserPassword() {
+      return this.userPassword;
+  }
+//----------------------------------------------------------------------
+  // set url
+  public void setUrl(String url) {
+      this.url = url;
+  }
+  // get url
+  public String getUrl() {
+      return this.url;
+  }
+//----------------------------------------------------------------------
+  //get connection
+  public Connection getConnection() {
+      if (connection != null)
+          return connection;
+      else
+          return initConnection();
+  }
+  //----------------------------------------------------------------------
+  public Connection initConnection() {
+    try {
+      DriverManager.registerDriver(new sun.jdbc.odbc.JdbcOdbcDriver());
+      connection = (Connection) DriverManager.getConnection(url, userName, userPassword);
+    }  catch (SQLException exc) {
+      //System.out.println("Exception: " + exc);
+      this.err=exc.toString;
+    }
+    return connection;
+  }
+//----------------------------------------------------------------------
+  //Event Listeners
+  // valueBound
+  public void valueBound(HttpSessionBindingEvent event) {
+      // do nothing
+  }
+  // valueUnbound
+  public synchronized void valueUnbound(HttpSessionBindingEvent event) {
+      if(connection != null) {
+          try {
+                  connection.close();
+              }
+          catch (SQLException exc) {
+
+              }
+      }
+  }
+//----------------------------------------------------------------------
+  public String getErr() {
+    return this.err;
+  }
+//----------------------------------------------------------------------
+}

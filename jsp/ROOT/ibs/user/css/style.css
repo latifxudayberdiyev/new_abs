@@ -1,0 +1,829 @@
+/* ==========================================
+   CROBS Banking System - Menu & Navigation
+   Screenshot ranglariga moslashtirilgan
+   ========================================== */
+
+/* ==========================================
+   MENU STYLES
+   ========================================== */
+span.tab {
+	line-height: 32px;
+}
+
+.b {
+	button-border: 1px solid var(--color-stroke);
+}
+
+td {
+	vertical-align: middle;
+}
+
+#lang {
+	margin-top: -5px;
+}
+
+.hide {
+	display: none;
+}
+
+code {
+	cursor: pointer;
+}
+
+/* ==========================================
+   SELECTOR
+   ========================================== */
+.selector {
+	position: absolute;
+	padding: 8px 12px;
+	background: var(--color-white);
+	z-index: 101;
+	color: var(--color-black);
+	border-radius: 8px;
+	border: 1px solid var(--color-stroke);
+	box-shadow: var(--shadow-lg);
+}
+
+#user_sel label {
+	display: block;
+	margin: 0px;
+	padding: 4px;
+	font-size: 13px;
+	text-align: left;
+	color: var(--color-black);
+}
+
+#user_sel br {
+	display: none;
+}
+
+.selector a {
+	display: block;
+	margin-bottom: 4px;
+	text-decoration: none;
+	color: var(--color-black);
+	padding: 4px 8px;
+	border-radius: 6px;
+	transition: all 0.2s ease;
+}
+
+.selector a:hover {
+	background-color: var(--color-mercury);
+	color: var(--color-secondary);
+}
+
+/* ==========================================
+   OVERLAY
+   ========================================== */
+.showhide {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	width: 100%;
+	background: rgba(44, 62, 80, 0.3);
+	height: 100%;
+	display: none;
+	backdrop-filter: blur(4px);
+}
+
+.show_message {
+	position: absolute;
+}
+
+.button {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	z-index: 1;
+}
+
+/* ==========================================
+   SIDEBAR BUTTONS
+   ========================================== */
+.side-bar-btn {
+	border: 0px !important;
+	border-left: 2px solid var(--color-white) !important;
+	cursor: pointer;
+	background: var(--color-white) !important;
+	margin: 0px;
+	padding: 0px;
+	margin-bottom: -1px;
+	transition: all 0.2s ease;
+}
+
+.side-bar-btn:hover,
+.side-bar-btn.active {
+	background: var(--sidebar-bg) !important;
+	border-color: var(--color-secondary) !important;
+}
+
+.side-bar-btn-ping {
+	border: 0px;
+	cursor: pointer;
+	width: 48px;
+	height: 48px;
+	margin: 8px;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.side-bar-btn-ping:hover {
+	background-color: var(--color-mercury);
+}
+
+.img-style {
+	width: 24px;
+	height: 24px;
+	margin: 12px 8px;
+	padding: 0px;
+	vertical-align: middle;
+}
+
+/* ==========================================
+   NAVIGATION
+   ========================================== */
+.navigation {
+	background-color: var(--color-white);
+	margin-left: 0px;
+	vertical-align: top;
+}
+
+.navigation-top {
+	background-color: var(--sidebar-bg);
+	border-right: 1px solid var(--color-stroke);
+	border-top: 1px solid var(--color-stroke);
+}
+
+/* ==========================================
+   SIDENAV
+   ========================================== */
+.sidenav {
+	z-index: 100;
+	height: 100%;
+	width: 0px;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	background-color: var(--color-white);
+	overflow-x: hidden;
+	overflow: auto;
+	transition: width 0.3s ease;
+	box-shadow: var(--shadow-lg);
+}
+
+#content {
+	z-index: 99;
+	background-color: var(--color-background);
+	position: absolute;
+	width: 99%;
+	height: 96%;
+}
+
+/* ==========================================
+   MENU ITEMS
+   ========================================== */
+.move {
+	cursor: pointer;
+	background-color: var(--color-white-smoke);
+}
+
+.txt,
+.txt1 {
+	cursor: pointer;
+	margin-top: 4px;
+	padding: 10px 8px;
+	font: normal 14px var(--main-font);
+	text-align: left;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.txt:hover {
+	background-color: var(--color-mercury);
+}
+
+.txt1 {
+	background-color: var(--sidebar-active);
+	color: var(--color-white);
+}
+
+.icon {
+	width: 20px;
+	height: 20px;
+	margin: 2px 0;
+	background: transparent;
+	margin-left: 3px;
+	cursor: pointer;
+	position: absolute;
+	top: 8px;
+	right: 8px;
+	transition: all 0.2s ease;
+}
+
+.icon:hover {
+	opacity: 0.7;
+}
+
+.icon_free {
+	display: none;
+}
+
+#tree,
+#reports {
+	background: var(--color-white);
+	width: 100%;
+	height: 93%;
+	overflow: auto;
+	z-index: 1;
+}
+
+.nav {
+	display: none;
+}
+
+/* ==========================================
+   SEARCH FORM
+   ========================================== */
+#searchForm {
+	margin: 8px 12px;
+	text-align: center;
+	top: 0;
+}
+
+/* ==========================================
+   PIN CONTENT
+   ========================================== */
+#pinContent table {
+	margin: auto;
+}
+
+#pinContent {
+	background: var(--color-background);
+	width: 100%;
+	height: 99%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	padding: 16px;
+	overflow: auto;
+	text-align: center;
+	z-index: 99;
+}
+
+.pinned {
+	position: absolute;
+	top: 8px;
+	right: 12px;
+	display: block;
+	color: var(--color-secondary);
+	padding: 8px;
+	vertical-align: middle;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.pinned:hover {
+	color: var(--color-primary);
+}
+
+.unpinned {
+	position: absolute;
+	top: 8px;
+	right: 12px;
+	display: block;
+	color: var(--color-gray-light);
+	padding: 8px;
+	vertical-align: middle;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.unpinned:hover {
+	color: var(--color-gray);
+}
+
+.pin-style {
+	margin: 12px 0px;
+}
+
+.td-pn p {
+	cursor: pointer;
+	padding: 0px;
+	margin: 0px;
+}
+
+.txt-pin {
+	font-size: 14px;
+	cursor: pointer;
+	font-style: normal;
+	width: 100%;
+	height: 40px;
+	line-height: 20px;
+	overflow: hidden;
+	color: var(--color-black);
+}
+
+.td-pn {
+	text-align: center;
+	width: 180px !important;
+	vertical-align: middle;
+	background-color: var(--color-white);
+	margin: 0px;
+	padding: 16px 12px;
+	cursor: pointer;
+	border-radius: 12px;
+	border: 1px solid var(--color-stroke);
+	transition: all 0.2s ease;
+}
+
+.td-pn:hover {
+	border-color: var(--color-secondary);
+	box-shadow: var(--shadow-md);
+}
+
+.td-unp {
+	background-color: var(--sidebar-bg);
+	text-align: center;
+	padding: 0 auto;
+	color: var(--color-gray);
+	font-size: 14px;
+}
+
+.currency {
+	font-size: 13px;
+	color: var(--color-black);
+	font-weight: 600;
+}
+
+/* ==========================================
+   24X7 OPERDAY STYLES
+   ========================================== */
+.change_operday {
+	cursor: pointer;
+	vertical-align: top;
+	z-index: 101;
+}
+
+.list_operdays {
+	position: absolute;
+	z-index: 102;
+	right: 120px;
+	top: 12px;
+	background-color: var(--color-white);
+	padding: 8px;
+	overflow: auto;
+	color: var(--color-black) !important;
+	border-radius: 8px;
+	border: 1px solid var(--color-stroke);
+	box-shadow: var(--shadow-lg);
+}
+
+.hoverOperdays {
+	background-color: var(--color-secondary);
+	color: var(--color-white) !important;
+	cursor: pointer;
+}
+
+.list_operdays td,
+.list_operdays th {
+	font-size: 13px;
+	color: var(--color-black) !important;
+	padding: 6px 8px;
+}
+
+.check_opday {
+	width: 16px;
+	height: 16px;
+}
+
+.ico_24x7 {
+	width: 40px;
+	height: 40px;
+	vertical-align: top;
+	background: transparent;
+	cursor: pointer;
+	padding: 8px 12px;
+	z-index: 3;
+	border-radius: 8px;
+	transition: all 0.2s ease;
+}
+
+.ico_24x7:hover {
+	background-color: var(--color-mercury);
+}
+
+/* ==========================================
+   PIN & MENU ICONS
+   ========================================== */
+.turnPin {
+	font-size: 20px;
+	margin-left: 8px;
+	color: var(--color-gray-light);
+	cursor: pointer;
+	vertical-align: middle;
+	transition: color 0.2s ease;
+}
+
+.turnPin:hover {
+	color: var(--color-secondary);
+}
+
+.openAllMenuItem {
+	font-size: 16px;
+	margin-left: 8px;
+	color: var(--color-secondary);
+	font-weight: 600;
+	vertical-align: middle;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.openAllMenuItem:hover {
+	color: var(--color-primary);
+}
+
+.searchIcon {
+	font-size: 16px;
+	margin-left: 8px;
+	color: var(--color-secondary);
+}
+
+/* ==========================================
+   SEARCH INPUT STYLES
+   ========================================== */
+#keyword_menu_content {
+	width: 53%;
+}
+
+#keyword_report_content {
+	width: 62%;
+}
+
+#searchForm input {
+	padding: 8px 32px 8px 12px;
+	height: 40px;
+	vertical-align: middle;
+	border: 1px solid var(--color-stroke) !important;
+	border-radius: 8px;
+	font-size: 14px;
+	font-family: var(--main-font);
+	transition: all 0.2s ease;
+}
+
+#searchForm input:hover {
+	border-color: var(--color-gray-light) !important;
+}
+
+#searchForm input:focus {
+	background: var(--color-white) !important;
+	border: 1px solid var(--color-secondary) !important;
+	box-shadow: 0 0 0 3px var(--color-blue10);
+	outline: none;
+}
+
+.reset_search {
+	cursor: pointer;
+	margin-left: 8px;
+	font-size: 18px;
+	color: var(--color-gray);
+	transition: color 0.2s ease;
+}
+
+.reset_search:hover {
+	color: var(--color-secondary);
+}
+
+.highlighted {
+	background-color: var(--color-yellow10);
+	color: var(--color-black);
+	font-weight: 600;
+}
+
+.srch {
+	font-size: 11px;
+	color: var(--color-gray) !important;
+	text-decoration: underline;
+}
+
+/* ==========================================
+   LIST STYLES
+   ========================================== */
+ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+ul,
+li {
+	list-style: none;
+}
+
+#tree,
+#reports {
+	overflow-x: auto !important;
+	margin-left: 15px;
+}
+
+/* ==========================================
+   SIDENAV LIST ITEMS
+   ========================================== */
+#mySidenav li {
+	position: relative;
+	font-size: 13px;
+	padding: 2px 0;
+}
+
+#mySidenav li.open,
+#mySidenav li.onhover {
+	background-color: var(--color-mercury);
+}
+
+#mySidenav li label {
+	width: 93%;
+	cursor: pointer;
+	padding: 8px 12px;
+	transition: all 0.2s ease;
+}
+
+#mySidenav li label:hover {
+	color: var(--color-secondary);
+}
+
+#mySidenav li ul {
+	background-color: rgba(245, 247, 250, 0.5);
+}
+
+#mySidenav li li ul {
+	background-color: rgba(240, 242, 245, 0.5);
+}
+
+#mySidenav li li li ul {
+	background-color: rgba(235, 237, 240, 0.5);
+}
+
+#mySidenav li li li li ul {
+	background-color: rgba(230, 232, 235, 0.5);
+}
+
+#mySidenav li label {
+	padding-left: 12px;
+}
+
+#mySidenav li li label {
+	padding-left: 24px;
+}
+
+#mySidenav li li li label {
+	padding-left: 36px;
+}
+
+#mySidenav li li li li label {
+	padding-left: 48px;
+}
+
+/* ==========================================
+   RIGHT MENU (CURRENCY)
+   ========================================== */
+#rightMenu {
+	position: fixed;
+	top: 0px;
+	right: -320px;
+	width: 300px;
+	background-color: var(--color-white) !important;
+	z-index: 99999;
+	box-shadow: var(--shadow-lg);
+	transition: all .3s ease;
+	height: 100vh;
+	overflow-y: auto;
+}
+
+.isIE #rightMenu {
+	position: absolute;
+	right: 0px;
+	display: none;
+}
+
+#rightMenu.active {
+	right: 0px;
+}
+
+.isIE #rightMenu.active {
+	display: block;
+}
+
+#rightmenu .trm_ico_line {
+	stroke: var(--color-black);
+}
+
+#rightmenu .rightmenu_ico {
+	width: 100%;
+	height: auto;
+	text-align: right;
+	margin-bottom: 12px;
+}
+
+#rightmenu .rightmenu_ico img {
+	width: 24px;
+	height: 24px;
+	background-color: var(--color-mercury);
+	vertical-align: middle;
+	padding: 8px;
+	cursor: pointer;
+	display: inline-block;
+	border-radius: 50%;
+	margin: 12px;
+	transition: all 0.2s ease;
+}
+
+#rightmenu .rightmenu_ico img:hover {
+	background-color: var(--color-blue10);
+	color: var(--color-secondary);
+}
+
+#trm_ico .trm_ico {
+	padding: 12px 8px;
+	cursor: pointer;
+}
+
+#rightMenu .ekix {
+	margin-bottom: 16px;
+}
+
+#rightMenu .ekix p b {
+	display: inline-block;
+	width: 49.8%;
+}
+
+#rightMenu .valyuta,
+#rightMenu .ekix {
+	background-color: var(--color-white-smoke);
+	color: var(--color-secondary);
+	padding: 12px 0px;
+	border-top: 1px solid var(--color-stroke);
+	border-bottom: 1px solid var(--color-stroke);
+}
+
+#rightMenu .valyuta p,
+#rightMenu .ekix p {
+	margin: 0px 24px 8px 24px;
+	color: var(--color-black);
+	font-size: 13px;
+}
+
+#rightMenu .valyuta p b,
+#rightMenu .ekix p b {
+	color: var(--color-secondary);
+	font-weight: 600;
+}
+
+#rightMenu p {
+	margin-left: 24px;
+	margin-right: 24px;
+	font-size: 13px;
+	color: var(--color-black);
+}
+
+#rightMenu p span {
+	display: inline-block;
+	max-width: 32.5%;
+	width: 32.5%;
+}
+
+.valyuta_list {
+	padding: 8px 0;
+}
+
+.valyuta_list p {
+	border-bottom: 1px solid var(--color-stroke);
+	padding-bottom: 8px;
+	margin-bottom: 8px;
+}
+
+#rightMenu .opentime p {
+	border-bottom: 1px solid var(--color-stroke);
+	padding-top: 12px;
+	padding-bottom: 12px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	text-align: right;
+}
+
+#rightMenu .opentime p b {
+	float: left;
+	font-weight: 600;
+}
+
+/* ==========================================
+   LOGO
+   ========================================== */
+.mainlogo {
+	font-family: var(--main-font);
+	font-weight: 700;
+	font-size: 20px;
+	color: var(--color-white);
+	text-align: left;
+	cursor: pointer;
+}
+
+.mainlogo i {
+	font-family: 'Times New Roman', serif;
+	color: var(--color-yellow);
+	font-style: normal;
+	margin-right: -4px;
+}
+
+/* ==========================================
+   MESSAGE & USER INFO
+   ========================================== */
+#msg {
+	padding: 0 8px;
+	text-align: left;
+}
+
+#user_sel {
+	text-align: left;
+}
+
+#employee {
+	display: inline-block;
+	text-align: left;
+}
+
+#employee span {
+	display: block;
+	font-size: 12px;
+}
+
+#opentime span {
+	margin-right: 16px;
+	font-size: 12px;
+}
+
+#banner_tr code#user {
+	color: var(--color-yellow);
+	font-weight: 600;
+}
+
+#formcode {
+	padding: 6px 12px;
+	margin-right: 8px;
+	background-color: var(--color-green);
+	color: var(--color-white);
+	border-radius: 16px;
+	font-weight: 600;
+	font-size: 12px;
+}
+
+#formTitle {
+	max-width: 250px;
+	display: inline;
+	font-weight: 600;
+}
+
+#banner_tr td,
+#banner_tr th {
+	color: var(--color-black);
+}
+
+/* ==========================================
+   ADDITIONAL UTILITIES
+   ========================================== */
+.no-select {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.smooth-transition {
+	transition: all 0.3s ease;
+}
+
+/* ==========================================
+   RESPONSIVE STYLES
+   ========================================== */
+@media screen and (max-width: 768px) {
+	#rightMenu {
+		width: 100%;
+		right: -100%;
+	}
+
+	.td-pn {
+		width: 140px !important;
+		padding: 12px 8px;
+	}
+
+	#keyword_menu_content,
+	#keyword_report_content {
+		width: 90%;
+	}
+}
+
+/* ==========================================
+   END OF MENU STYLESHEET
+   ========================================== */

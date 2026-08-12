@@ -1,0 +1,2185 @@
+package dm;
+import java.util.Vector;
+import iabs.oraDBConnection;
+import java.sql.*;
+
+public class FormN {
+  private Vector formStorehouse=new Vector();
+  private int i=0;
+  private int j=0;            // номер поля
+  private String form;        // номер формы
+  private String step="null"; // шаг формы
+  private int    iStep;       // шаг формы
+  private String err;         // ошибка
+  private String isHead="-1";
+  private String isFloor="-1";
+  private String isBanner="-1";
+  private String formSize;
+
+  public FormN() {
+  }
+
+  // определение новой формы
+  public int setTableName(String formName,String title,String tableName,
+      String sqlField, String sqlFrom, String sqlCondC, String sqlCondV,
+      String sqlOrder, String page, String countPage, String options,
+      String htmlInsert, String htmlEdit, String htmlFilter, String htmlDelete,
+      String htmlUpdate, String sequensName, String htmlExit, String htmlFloor,
+      int arraySize) {
+    j=0;
+    Form fm=new Form();
+    fm.setFormName(formName);
+    fm.setTableName(tableName);
+    fm.setTitle(title);
+    fm.setSqlField(sqlField);
+    fm.setSqlFrom(sqlFrom);
+    fm.setSqlCondC(sqlCondC);
+    fm.setSqlCondV(sqlCondV);
+    fm.setSqlOrder(sqlOrder);
+    fm.setPage(page);
+    fm.setCountPage(countPage);
+    fm.setOptions(options);
+    fm.setHtmlInsert(htmlInsert);
+    fm.setHtmlEdit(htmlEdit);
+    fm.setHtmlFilter(htmlFilter);
+    fm.setHtmlDelete(htmlDelete);
+    fm.setHtmlUpdate(htmlUpdate);
+    fm.setSequensName(sequensName);
+    fm.setHtmlExit(htmlExit);
+    fm.setHtmlFloor(htmlFloor);
+    fm.setAField(arraySize);
+    this.form=String.valueOf(i);
+    formStorehouse.addElement(fm);
+    i=i+1;
+    return(i-1);
+  }
+//==========================================================
+  // определение нового поля
+  public int setField(String sForm, String fieldName, String fieldDisplay,
+    int fieldSize, int fieldWidth, boolean visible,
+    String fieldType, String fieldTypeEdit, String fieldSqlLokup,
+    String fieldTypeFilter) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    formV.aField[j]= new Field(fieldName,fieldDisplay,fieldSize,
+    fieldWidth, visible, fieldType, fieldTypeEdit, fieldSqlLokup, fieldTypeFilter);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+    j++;
+    return(j-1);
+  }
+  public int setField(int iForm, String fieldName, String fieldDisplay,
+    int fieldSize, int fieldWidth, boolean visible,
+    String fieldType, String fieldTypeEdit, String fieldSqlLokup,
+    String fieldTypeFilter) {
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    formV.aField[j]= new Field(fieldName,fieldDisplay, fieldSize,
+    fieldWidth, visible, fieldType, fieldTypeEdit, fieldSqlLokup, fieldTypeFilter);
+    formStorehouse.setElementAt(formV,iForm);
+    j++;
+    return(j-1);
+  }
+  // с начальным значением поля
+  public int setField(int iForm, String fieldName, String fieldDisplay,
+    int fieldSize, int fieldWidth, boolean visible,
+    String fieldType, String fieldTypeEdit, String fieldSqlLokup,
+    String fieldTypeFilter, String sValue) {
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    formV.aField[j]= new Field(fieldName,fieldDisplay, fieldSize,
+      fieldWidth, visible, fieldType, fieldTypeEdit, fieldSqlLokup,
+      fieldTypeFilter, sValue);
+    formStorehouse.setElementAt(formV,iForm);
+    j++;
+    return(j-1);
+  }
+  // добавление параметров редактирования поля
+  public void checkField(String sForm, int k, String pattern,
+    String minVal, String maxVal, String minLen, String error,
+    String prim) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    field.checkField(pattern, minVal, maxVal, minLen, error, prim);
+  }
+  // добавление параметров редактирования поля
+  public void checkField(int iForm, int k, String pattern,
+    String minVal, String maxVal, String minLen, String error,
+    String prim) {
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    field.checkField(pattern, minVal, maxVal, minLen, error, prim);
+  }
+  // добавление параметров редактирования поля
+  public void checkField(String sForm, String fieldName, String pattern,
+    String minVal, String maxVal, String minLen, String error,
+    String prim) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(fieldName)) {
+        field.checkField(pattern, minVal, maxVal, minLen, error, prim);
+        break;
+      }
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+//==========================================================
+  // получение количества полей
+  public int getCountFields(String sForm){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    return(formV.aField.length);
+  }
+
+  // получение количества полей
+  public int getCountFields(int iForm){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    return(formV.aField.length);
+  }
+//==========================================================
+  // получение отображаемой длины всех полей для GRID
+  public int getFieldsWidth(String sForm){
+    int fieldsL=0;
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldVisible()) {
+        fieldsL=fieldsL+field.getFieldWidth();
+      }
+    }
+    return(fieldsL);
+  }
+
+//====================================================
+  // получение длины поля по имени поля
+  public int getFieldWidth(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldWidth());
+      }
+    }
+    return(0);
+  }
+  // получение длины поля по номеру поля
+  public int getFieldWidth(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldWidth());
+  }
+//====================================================
+  // получение имени поля для заголовка по номеру поля
+  public String getFieldDisplay(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldDisplay());
+  }
+  public String getFieldDisplay(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldDisplay());
+  }
+  // получение заголовка GRID (по имени поля)
+  public String getFieldDisplay(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldDisplay());
+      }
+    }
+    return(null);
+  }
+//====================================================
+  // установка Init значения поля по имени поля
+  public void setFieldValueInit(String sForm, String sName, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldValueInit(sValue);
+        break;
+      }
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка Init значения поля по номеру поля
+  public void setFieldValueInit(String sForm, int iK, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[iK];
+    field.setFieldValueInit(sValue);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка Init значения поля по номеру поля
+  public void setFieldValueInit(int iForm, int iK, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[iK];
+    field.setFieldValueInit(sValue);
+    formStorehouse.setElementAt(formV,iForm);
+  }
+  // получение Init значения поля по номеру поля
+  public String getFieldValueInit(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueInit());
+  }
+  public String getFieldValueInit(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueInit());
+  }
+  // получение Init значения поля (по имени поля)
+  public String getFieldValueInit(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueInit());
+      }
+    }
+    return(null);
+  }
+//====================================================
+  // установка Old значения поля по имени поля
+  public void setFieldValueOld(String sForm, String sName, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldValueOld(sValue);
+        break;
+      }
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка Old значения поля по номеру поля
+  public void setFieldValueOld(String sForm, int iK, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[iK];
+    field.setFieldValueOld(sValue);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // получение Old значения поля по номеру поля
+  public String getFieldValueOld(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueOld());
+  }
+  public String getFieldValueOld(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueOld());
+  }
+  // получение Old значения поля (по имени поля)
+  public String getFieldValueOld(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueOld());
+      }
+    }
+    return(null);
+  }
+  // получение значения поля Old для SQL-запроса (по номеру поля)
+  public String getFieldValueOldAsSql(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueOldAsSql());
+  }
+  public String getFieldValueOldAsSql(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueOldAsSql());
+  }
+  // получение значения поля Old для SQL-запроса (по имени поля)
+  public String getFieldValueOldAsSql(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueOldAsSql());
+      }
+    }
+    return(null);
+  }
+  // получение значения поля Old как double (по # формы и имени поля)
+  public double getFieldValueOldAsDouble(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueOldAsDouble());
+      }
+    }
+    return(0);
+  }
+  // получение Old Not Null значения поля по номеру поля
+  public String getFieldValueOldNotNull(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueOldNotNull());
+      }
+    }
+    return("");
+  }
+//====================================================
+  // установка CUR значения поля по имени поля
+  public void setFieldValueCur(String sForm, String sName, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldValueCur(sValue);
+        break;
+      }
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка CUR значения поля по номеру поля
+  public void setFieldValueCur(String sForm, int iK, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[iK];
+    field.setFieldValueCur(sValue);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // получение CUR значения поля по номеру поля
+  public String getFieldValueCur(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueCur());
+  }
+  public String getFieldValueCur(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueCur());
+  }
+  // получение CUR значения поля (по имени поля)
+  public String getFieldValueCur(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueCur());
+      }
+    }
+    return(null);
+  }
+  // получение значения поля CUR для SQL-запроса (по номеру поля)
+  public String getFieldValueCurAsSql(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueCurAsSql());
+  }
+  public String getFieldValueCurAsSql(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueCurAsSql());
+  }
+  // получение значения поля CUR для SQL-запроса (по имени поля)
+  public String getFieldValueCurAsSql(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueCurAsSql());
+      }
+    }
+    return(null);
+  }
+  // Перекачка в ValueCur из ValueOld
+  public void setValueCurFromValueOld(String sForm){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      field.setFieldValueCur(field.getFieldValueOld());
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // Перекачка в ValueCur из ValueInit
+  public void setValueCurFromValueInit(String sForm){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      field.setFieldValueCur(field.getFieldValueInit());
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // Перекачка в ValueCur из ValueNew
+  public void setValueCurFromValueNew(String sForm){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      field.setFieldValueCur(field.getFieldValueNew());
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+//====================================================
+  // установка New значения поля по имени поля
+  public void setFieldValueNew(String sForm, String sName, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldValueNew(sValue);
+        break;
+      }
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка New значения поля по номеру поля
+  public void setFieldValueNew(String sForm, int iK, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[iK];
+    field.setFieldValueNew(sValue);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // получение New значения поля по номеру поля
+  public String getFieldValueNew(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueNew());
+  }
+  public String getFieldValueNew(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueNew());
+  }
+  // получение New значения поля (по имени поля)
+  public String getFieldValueNew(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueNew());
+      }
+    }
+    return(null);
+  }
+  // получение значения поля для SQL-запроса (по номеру поля)
+  public String getFieldValueNewAsSql(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueNewAsSql());
+  }
+  public String getFieldValueNewAsSql(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldValueNewAsSql());
+  }
+  // получение значения поля для SQL-запроса (по имени поля)
+  public String getFieldValueNewAsSql(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueNewAsSql());
+      }
+    }
+    return(null);
+  }
+  // получение значения поля New как double (по # формы и имени поля)
+  public double getFieldValueNewAsDouble(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueNewAsDouble());
+      }
+    }
+    return(0);
+  }
+//====================================================
+  // установка псевдонима таблицы для поля (по номеру формы,поля)
+  public void setFieldAlias(int iForm, int iK, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[iK];
+    field.setFieldAlias(sValue);
+    formStorehouse.setElementAt(formV,iForm);
+  }
+  // получение значения псевдонима таблицы для поля по номеру поля
+  public String getFieldAlias(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldAlias());
+  }
+  public String getFieldAlias(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldAlias());
+  }
+  // получение псевдонима таблицы для поля (по имени поля)
+  public String getFieldAlias(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldAlias());
+      }
+    }
+    return(null);
+  }
+//====================================================
+  // установка видимости поля в GRID (для всех полей)
+  public void setFieldsVisible(String sForm, boolean bVisible) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      field.setFieldVisible(bVisible);
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка видимости поля в GRID (по имени поля)
+  public void setFieldVisible(String sForm, String sName, boolean bVisible){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldVisible(bVisible);
+        break;
+      }
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // получение видимости поля в GRID (по имени поля)
+  public boolean getFieldVisible(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldVisible());
+      }
+    }
+    return(false);
+  }
+  // получение видимости поля в GRID (по номеру поля)
+  public boolean getFieldVisible(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldVisible());
+  }
+//====================================================
+  // установка типа редактирования поля (для всех полей)
+  public void setFieldsTypeEdit(String sForm, String sTypeEdit) {
+    if (sTypeEdit==null) {sTypeEdit="";} 
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      field.setFieldTypeEdit(sTypeEdit);
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка типа редактирования поля (по № поля)
+  public void setFieldTypeEdit(String sForm, int k, String sTypeEdit) {
+    if (sTypeEdit==null) {sTypeEdit="";}
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    field.setFieldTypeEdit(sTypeEdit);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка типа редактирования поля (по имени поля)
+  public void setFieldTypeEdit(String sForm, String sName, String sTypeEdit) {
+    if (sTypeEdit==null) {sTypeEdit="";}
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldTypeEdit(sTypeEdit);
+        break;
+      }
+    }
+  }
+  // получение типа редактирования поля (по имени поля)
+  public String getFieldTypeEdit(String sForm, String sName) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldTypeEdit());
+      }
+    }
+    return("");
+  }
+  // получения типа редактирования поля (по # поля)
+  public String getFieldTypeEdit(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldTypeEdit());
+  }
+//====================================================
+  // установка типа поля (по № поля)
+  public void setFieldType(String sForm, int k, String sType) {
+    if (sType==null) {sType="";}
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    field.setFieldType(sType);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка типа поля (по имени поля)
+  public void setFieldType(String sForm, String sName, String sType) {
+    if (sType==null) {sType="";}
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    int k;
+    for (k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldType(sType);
+        break;
+      }
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // получение типа поля (по имени поля)
+  public String getFieldType(String sForm, String sName) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldType());
+      }
+    }
+    return("");
+  }
+  // получения типа поля (по # поля)
+  public String getFieldType(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldType());
+  }
+//====================================================
+  // установка Size поля (по № поля)
+  public void setFieldSize(String sForm, int k, int iSize) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    field.setFieldSize(iSize);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка Size поля (по имени поля)
+  public void setFieldSize(String sForm, String sName, int iSize) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldSize(iSize);
+        break;
+      }
+    }
+  }
+  // получение Size поля (по имени поля)
+  public int getFieldSize(String sForm, String sName) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldSize());
+      }
+    }
+    return(0);
+  }
+  // получения Size поля (по # поля)
+  public int getFieldSize(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldSize());
+  }
+//====================================================
+  // установка Width поля (по № поля)
+  public void setFieldWidth(String sForm, int k, int iSize) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    field.setFieldWidth(iSize);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка Width поля (по имени поля)
+  public void setFieldWidth(String sForm, String sName, int iSize) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldWidth(iSize);
+        formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+        break;
+      }
+    }
+  }
+/*  // получение Width поля (по имени поля)
+  public String getFieldWidth(String sForm, String sName) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldWidth());
+      }
+    }
+    return("");
+  }*/
+  // получения Width поля (по # поля)
+/*  public String getFieldWidth(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldWidth());
+  }*/
+//====================================================
+  // установка типа фильтрования поля (по # поля)
+  public void setFieldTypeFilter(String sForm, String sName, String sValue) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldTypeFilter(sValue);
+        formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+        break;
+      }
+    }
+  }
+  // получения типа фильтрования поля (по # поля)
+  public String getFieldTypeFilter(int iForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldTypeFilter());
+  }
+  public String getFieldTypeFilter(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldTypeFilter());
+  }
+//====================================================
+  // получение номера поля (по имени поля)
+  public int getFieldNumber(String sForm, String sName) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(k);
+      }
+    }
+    return(0);
+  }
+
+  // получение размера поля (по # поля)
+/*  public int getFieldSize(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldSize());
+  }*/
+
+//====================================================
+  // получение Script проверки поля
+  public String getTestScript(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+	  return(formV.getPathData()+"CheckFormApp('"+
+      field.getFieldName()+"','"+
+      field.getFieldDisplay()+"',"+field.getFieldPattern()+","+
+      field.getFieldMinVal()+","+field.getFieldMaxVal()+","+
+      field.getFieldMinLen()+","+field.getFieldMaxLen()+","+
+      field.getFieldError()+","+field.getFieldPrim()+");");
+  }
+  public String getTestScript(int iForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[nF];
+	  return(formV.getPathData()+"CheckFormApp('"+
+      field.getFieldName()+"','"+
+      field.getFieldDisplay()+"',"+field.getFieldPattern()+","+
+      field.getFieldMinVal()+","+field.getFieldMaxVal()+","+
+      field.getFieldMinLen()+","+field.getFieldMaxLen()+","+
+      field.getFieldError()+","+field.getFieldPrim()+");");
+  }
+  public String getTestScript(int iForm, int nF, int range) {
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[nF];
+	  return(formV.getPathData()+"CheckFormApp('"+
+      field.getFieldName()+range+"','"+
+      field.getFieldDisplay()+"',"+field.getFieldPattern()+","+
+      field.getFieldMinVal()+","+field.getFieldMaxVal()+","+
+      field.getFieldMinLen()+","+field.getFieldMaxLen()+","+
+      field.getFieldError()+","+field.getFieldPrim()+");");
+  }
+  public String getTestScript(String sForm, String sName) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    int k;
+    for (k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        break;
+      }
+    }
+	  return(formV.getPathData()+"CheckFormApp('"+
+      field.getFieldName()+"','"+
+      field.getFieldDisplay()+"',"+field.getFieldPattern()+","+
+      field.getFieldMinVal()+","+field.getFieldMaxVal()+","+
+      field.getFieldMinLen()+","+field.getFieldMaxLen()+","+
+      field.getFieldError()+","+field.getFieldPrim()+");");
+  }
+//====================================================
+  // установка SQL-запроса выбора из справочника (по имени поля)
+  public void setFieldSqlLokup(String sForm, String sName,String sSqlLokup) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    int k;
+    for (k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        break;
+      }
+    }
+    field.setFieldSqlLokup(sSqlLokup);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // получение SQL-запроса выбора из справочника (по # поля)
+  public String getFieldSqlLokup(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldSqlLokup());
+  }
+//====================================================
+  // получение имени поля (по # поля)
+  public String getFieldName(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldName());
+  }
+  public String getFieldName(int iForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldName());
+  }
+  // получения типа поля (по # поля)
+/*  public String getFieldType(String sForm, int nF) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[nF];
+    return(field.getFieldType());
+  }*/
+
+  // установка максимального значения поля (по имени поля)
+  public void setFieldMaxVal(String sForm, String sName, String sMaxVal){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldMaxVal(sMaxVal);
+        break;
+      }
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+
+  // получение номера формы (по имени формы)
+  public String getNumberForm(String sName) {
+    Form formV;
+    for (int k=0; k<formStorehouse.size();k++) {
+      formV=(Form)formStorehouse.elementAt(k);
+      if (formV.getFormName().equals(sName)) {
+        return(String.valueOf(k));
+      }
+    }
+    return("null");
+  }
+
+  // получение имени формы (по номеру формы)
+  public String getFormName(int iForm) {
+    Form formV;
+    formV=(Form)formStorehouse.elementAt(iForm);
+    return(formV.getFormName());
+  }
+//------------------------------------------------------------
+  // установка опций
+  public void setOptions(String sFormN,String sOptions){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setOptions(sOptions);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение опций
+  public String getOptions(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getOptions());
+  }
+//------------------------------------------------------------
+  // установка метаданных
+  public void setMeta(String sFormN, String sMeta){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setMeta(sMeta);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение метаданных
+  public String getMeta(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getMeta());
+  }
+//------------------------------------------------------------
+  // установка пути к фрейму DATA
+  public void setPathData(String sFormN,String sPath){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setPathData(sPath);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение пути к фрейму DATA
+  public String getPathData(String sTitle){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sTitle));
+    return(formV.getPathData());
+  }
+//------------------------------------------------------------
+  // установка заголовка
+  public void setTitle(String sFormN,String sTitle){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setTitle(sTitle);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение заголовка
+  public String getTitle(String sTitle){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sTitle));
+    return(formV.getTitle());
+  }
+//------------------------------------------------------------
+
+  // установка JSP для выхода
+  public void setHtmlExit(String sFormN,String sHtml){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setHtmlExit(sHtml);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+
+  // получение JSP для выхода
+  public String getHtmlExit(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getHtmlExit());
+  }
+
+  // получение процедуры фильтра
+  public String getHtmlFilter(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getHtmlFilter());
+  }
+
+  // получение процедуры добавления
+  public String getHtmlInsert(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getHtmlInsert());
+  }
+
+  // получение процедуры корректировки
+  public String getHtmlEdit(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getHtmlEdit());
+  }
+
+  // получение процедуры удаления
+  public String getHtmlDelete(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getHtmlDelete());
+  }
+
+  // установка процедуры обновления записи
+  public void setHtmlUpdate(String sFormN, String sCondC){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setHtmlUpdate(sCondC);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение процедуры обновления записи
+  public String getHtmlUpdate(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getHtmlUpdate());
+  }
+
+  // установка JSP для пола
+  public void setHtmlFloor(String sFormN, String sCondC){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setHtmlFloor(sCondC);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение JSP для пола
+  public String getHtmlFloor(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getHtmlFloor());
+  }
+//------------------------------------------------------------------------
+  // установка Баннера
+  public void setHtmlBanner(String sFormN, String sCondC){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setHtmlBanner(sCondC);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение Баннера
+  public String getHtmlBanner(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getHtmlBanner());
+  }
+
+  // установка размера Баннера
+  public void setBannerSize(String sFormN, String sCondC){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setSizeBanner(sCondC);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение размера Баннера
+  public String getBannerSize(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getSizeBanner());
+  }
+//------------------------------------------------------------------------
+  // установка JSP Печати
+  public void setHtmlPrint(String sFormN, String sCondC){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setHtmlPrint(sCondC);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение JSP Печати
+  public String getHtmlPrint(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    String st="javascript:parent.data.loadFramesR('','0,*','50,*','*,0','','',"+
+      "'../dm/ReportHead.jsp?form="+this.form+"',"+
+      getS(formV.getHtmlPrint()+"?form="+this.form)+",'');";
+    return(st);
+  }
+//------------------------------------------------------------------------
+  // установка постоянного фильтра
+  public void setCondC(String sFormN, String sCondC){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.setSqlCondC(sCondC);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение постоянного фильтра
+  public String getCondC(String sFormN) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getSqlCondC());
+  }
+  // установка временного фильтра
+  public void setCondV(String sFormN, String sCondV){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    if (sCondV.equals("")) {
+      formV.setSqlCondV(null);
+    } else {
+      formV.setSqlCondV(sCondV);
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение временного фильтра
+  public String getCondV(String sFormN) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.getSqlCondV());
+  }
+//------------------------------------------------------------------------
+  // получение I
+  public String getI(){
+    return(String.valueOf(i-1));
+  }
+
+  // получение sql-запроса на просмотр таблицы
+  public String getSql(String sForm) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    StringBuffer cSql=new StringBuffer("Select "+
+    formV.getSqlField()+" FROM "+formV.getSqlFrom());
+    boolean isWhere=false;
+    // постоянное условие
+    if (formV.getSqlCondC()!=null) {
+      cSql.append(" Where ("+formV.getSqlCondC()+")");
+      isWhere=true;
+    }
+    // условие пользователя
+    if (formV.getSqlCondV()!=null) {
+      if (isWhere) {
+        cSql.append(" And ("+formV.getSqlCondV()+")");}
+      else {
+        cSql.append(" Where "+formV.getSqlCondV());
+      }
+    }
+    // порядок следования
+    if (formV.getSqlOrder()!=null) {
+        cSql.append(" Order By "+formV.getSqlOrder());
+    }
+    // добавление страниц
+    if (formV.getPage()!="0") {
+      cSql.insert(0,"Select * from (SELECT abcdefg.*,ceil(rownum/"+
+        formV.getCountPage()+") page From (");
+      cSql.append(") abcdefg) Where Page="+formV.getPage());
+    }
+    return(cSql.toString());
+  }
+
+  // получение sql-запроса на печать таблицы
+  public String getSqlE(String sForm) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    StringBuffer cSql=new StringBuffer("Select "+
+    formV.sqlField+" FROM "+formV.sqlFrom);
+    boolean isWhere=false;
+    // постоянное условие
+    if (formV.sqlCondC!=null) {
+      cSql.append(" Where ("+formV.sqlCondC+")");
+      isWhere=true;
+    }
+    // условие пользователя
+    if (formV.sqlCondV!=null) {
+      if (isWhere) {
+        cSql.append(" And ("+formV.sqlCondV+")");}
+      else {
+        cSql.append(" Where "+formV.sqlCondV);
+      }
+    }
+    // порядок следования
+    if (formV.sqlOrder!=null) {
+        cSql.append(" Order By "+formV.sqlOrder);
+    }
+    return(cSql.toString());
+  }
+
+  // sql-запрос на получение количества записей в таблице
+  public String getSqlCount(String sFormN) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    StringBuffer cSql=new StringBuffer("SELECT Count(*) FROM "+formV.sqlFrom);
+    boolean isWhere=false;
+    if (formV.sqlCondC!=null) {
+      cSql.append(" Where ("+formV.sqlCondC+")");
+      isWhere=true;
+    }
+    if (formV.sqlCondV!=null) {
+      if (isWhere) {
+        cSql.append(" And ("+formV.sqlCondV+")");}
+      else {
+        cSql.append(" Where "+formV.sqlCondV);
+      }
+    }
+    return(cSql.toString());
+  }
+
+  // sql-удаления записи
+  public String getSqlDel(String sFormN, String sKey) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    String cSql;
+    String keyField=formV.sqlField.substring(0,formV.sqlField.indexOf(","));
+    if (keyField.indexOf(" ")!=-1) {
+      keyField=keyField.substring(0,keyField.indexOf(" "));
+    }
+    if (keyField.indexOf(".")>-1) {
+      cSql="DELETE FROM "+formV.tableName+" WHERE "+keyField.substring(keyField.indexOf(".")+1)+"="+sKey;
+    } else {
+      cSql="DELETE FROM "+formV.tableName+" WHERE "+keyField+"="+sKey;
+    }
+    return(cSql);
+  }
+
+  // sql-запрос для локализации записи(редактируемые поля)
+  public String getSqlLocal(String sFormN, String sKey) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    StringBuffer cSql=new StringBuffer("");
+    StringBuffer zpt=new StringBuffer("");
+    String KeyField="";
+    cSql.append("SELECT ");
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (k==0) {
+        KeyField=field.getFieldName();
+        if (field.getFieldType().equals("string")) {
+          sKey=this.getS(sKey);
+        }
+      }
+      if ( (field.getFieldTypeEdit().equals("")==false)
+           //&& (field.getFieldTypeEdit().equals("sequens")==false) 
+           && (field.getFieldTypeEdit().equals("none")==false) )
+      {
+        if (field.getFieldType().equals("date")) {
+          cSql.append(zpt+"To_Char("+field.getFieldName()+",'dd.mm.yyyy') as \""+field.getFieldName()+"\"");
+        } else {
+          cSql.append(zpt+field.getFieldName()+" ");
+        }
+        zpt=new StringBuffer(",");
+      }
+    }
+    cSql.append(" FROM "+formV.tableName+" WHERE "+KeyField+"="+sKey);
+    return(cSql.toString());
+  }
+
+  // sql-запрос для локализации записи(редактируемые поля) без WHERE
+  public String getSqlLocal2(String sFormN) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    StringBuffer cSql=new StringBuffer("");
+    StringBuffer zpt=new StringBuffer("");
+    String KeyField="";
+    cSql.append("SELECT ");
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (k==0) {
+        KeyField=field.getFieldName();
+      }
+      if ( (field.getFieldTypeEdit().equals("")==false)
+           && (field.getFieldTypeEdit().equals("sequens")==false) ) {
+        if (field.getFieldType().equals("date")) {
+          cSql.append(zpt+"To_Char("+field.getFieldName()+",'dd.mm.yyyy') as \""+field.getFieldName()+"\"");
+        } else {
+          cSql.append(zpt+field.getFieldName()+" ");
+        }
+        zpt=new StringBuffer(",");
+      }
+    }
+    cSql.append(" FROM "+formV.tableName);
+    return(cSql.toString());
+  }
+
+  public String getSqlUpdate(String sFormN, String sKey, String sName) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    String cSql="UPDATE "+formV.tableName+" SET NAME='"+sName+
+    "' WHERE "+formV.sqlField.substring(0,formV.sqlField.indexOf(" "))+"="+sKey;
+    return(cSql);
+  }
+
+  // количество записей на странице
+  public String getCountPage(String sFormN) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.countPage);
+  }
+
+  // следующая(предыдущая) страница
+  public void nextPage(String sFormN, int iStep){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    if (iStep>0){
+      if (Integer.parseInt(formV.countPage)==iStep){
+        formV.page=String.valueOf(Integer.parseInt(formV.page)+1);
+        formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+      }
+    } else if (Integer.parseInt(formV.page)>0){
+      if (Integer.parseInt(formV.page)!=1){
+        formV.page=String.valueOf(Integer.parseInt(formV.page)-1);
+        formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+      }
+    }
+  }
+
+  // установка перечня таблиц выбора
+  public void setSqlFrom(String sFormN, String sFrom){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.sqlFrom=sFrom;
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+
+  // установка перечня полей
+  public void setSqlField(String sFormN, String sField){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.sqlField=sField;
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+
+  // получение имени генератора
+  public String getSequensName(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.sequensName);
+  }
+
+  public void setForm(String sFormN)  {
+    this.form=sFormN;
+  }
+
+  public String getForm()  {
+    return(this.form);
+  }
+
+  public void setStep(String sStep)  {
+    this.step=sStep;
+  }
+
+  public String getStep()  {
+    return(this.step);
+  }
+
+  public void setStepI(int iStep)  {
+    this.iStep=iStep;
+  }
+
+  public int getStepI()  {
+    return(this.iStep);
+  }
+
+  public String getS(String s)  {
+    return("'"+s+"'");
+  }
+  public String getSS(String s)  {
+    return("\""+s+"\"");
+  }
+
+  // установка имени таблицы
+  public void setTableName(String sFormN, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.tableName=sValue;
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение имени таблицы
+  public String getTableName(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.tableName);
+  }
+
+  // установка номера листа
+  public void setPage(String sFormN, String sPage){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.page=sPage;
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение номера листа
+  public String getPage(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.page);
+  }
+
+  // получение размера заголовка
+  public String getHeadSize(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    int iSize=56;
+    if (formV.options.indexOf("L")!=-1) {
+      iSize=iSize+19;
+    }
+    if (formV.options.indexOf("2")!=-1) {
+      iSize=iSize+9;
+    }
+    if (formV.options.indexOf("3")!=-1) {
+      iSize=iSize+18;
+    }
+    if ((formV.options.indexOf("D")!=-1)||(formV.options.indexOf("E")!=-1)||
+        (formV.options.indexOf("I")!=-1)||(formV.options.indexOf("F")!=-1)||
+        (formV.options.indexOf("Q")!=-1)||
+        (formV.page.equals("0")==false)) {
+      iSize=iSize+23;
+    }
+    return(String.valueOf(iSize)+",*");
+  }
+
+  // получение размера грида
+  public String getGridSize(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    if (formV.options.indexOf("f")!=-1) {
+      return("80%,*");
+    } else {
+      return("*,0");
+    }
+  }
+
+  // получение количества форм
+  public int getCountForm(){
+    return(this.i);
+  }
+
+  // установка ORDER
+  public void setSqlOrder(String sFormN, String sFrom){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.sqlOrder=sFrom;
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение ORDER
+  public String getSqlOrder(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.sqlOrder);
+  }
+
+  // установка SQL-запроса для IFrame
+  public void setSqlIFrame(String sFormN, String sFrom){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.sqlIFrame=sFrom;
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  public void setSqlIFrame(int sFormN, String sFrom){
+    Form formV=(Form)formStorehouse.elementAt(sFormN);
+    formV.sqlIFrame=sFrom;
+    formStorehouse.setElementAt(formV,sFormN);
+  }
+  // получение SQL-запроса для IFrame
+  public String getSqlIFrame(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.sqlIFrame);
+  }
+
+  // установка порядка Сортировки
+  public void setTableSort(String sFormN, String sSort){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.tableSort=sSort;
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение порядка Сортировки
+  public String getTableSort(String sFormN){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    return(formV.tableSort);
+  }
+//-------------------------------------------------------------------------
+  // отображение полей для Edit.jsp по шаблону
+  public String getStringEdit(iabs.oraDBConnection rDBConn, String sForm,
+    String isNew,String sPattern)
+  {
+    this.err="";
+    Connection conn = rDBConn.getConnection();
+    int i;
+    String fieldName;
+    String sES="",cSql,sErr="",sValue="",st="",sp1="",sp2="", sKey="";
+    //FormN myFormN=(FormN)formStorehouse.elementAt(Integer.parseInt(sForm));
+    //FormN myFormN=new FormN();
+    if (sPattern.equals("")) {
+      int Col_Count = this.getCountFields(sForm);
+      for (i=0; i<Col_Count;i++) {
+        sPattern=sPattern+this.getFieldName(sForm,i)+";";
+      }
+    }
+    while(sPattern.length()>0) {
+      fieldName=sPattern.substring(0,sPattern.indexOf(";"));
+      sPattern=sPattern.substring(sPattern.indexOf(";")+1);
+      i=this.getFieldNumber(sForm,fieldName);
+      if ( (this.getFieldTypeEdit(sForm,i).equals("")==false)&&
+         (this.getFieldTypeEdit(sForm,i).equals("none")==false) )
+      {
+        // заголовок
+        sES=sES+"<TR>"+"\n";
+        sES=sES+"<TD>"+"\n";
+        if ( (this.getFieldTypeEdit(sForm,i).equals("sequens")==false)&&
+             (this.getFieldTypeEdit(sForm,i).equals("hidden")==false) )
+        {
+          sES=sES+this.getFieldDisplay(sForm,i)+"\n";
+        }
+        sES=sES+"</TD>"+"\n";
+        sES=sES+"<TD>"+"\n";
+
+        // SELECT
+        if (this.getFieldTypeEdit(sForm,i).equals("select")) {
+          cSql=this.getFieldSqlLokup(sForm,i);
+          sES=sES+"<SELECT class='spisok' name="+this.getFieldName(sForm,i)+">"+"\n";
+          try {
+            Statement stmt9 = conn.createStatement();
+            ResultSet QR1 = null;
+            QR1 = stmt9.executeQuery(cSql);
+            while(QR1.next()) {
+              sES=sES+"<Option value="+QR1.getString(1)+">"+QR1.getString(2)+"\n";
+            }
+            if (QR1!=null) {QR1.close();}
+            stmt9.close();
+          } catch(Exception e) {
+            sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+          }
+          sES=sES+"</SELECT>"+"\n";
+          sValue=this.getFieldValueCur(sForm,i);
+          if (sValue==null) {sValue="";}
+          sValue=sValue.trim();
+          if ( (sValue.equals(""))&&(this.getFieldType(sForm,i).equals("string")==false) ){
+            sValue="0";
+          }
+          if (this.getFieldType(sForm,i).equals("string")) {
+            sValue=getS(sValue);
+          }
+          sES=sES+"<script>"+"\n";
+          sES=sES+"EditForm."+this.getFieldName(sForm,i)+".value ="+sValue+";"+"\n";
+          sES=sES+"</script>"+"\n";
+          sES=sES+"<script>"+"\n";
+          sES=sES+this.getTestScript(sForm,i)+"\n";
+          sES=sES+"</script>"+"\n";
+
+        // IFRAME
+        } else if (this.getFieldTypeEdit(sForm,i).equals("iframe")) {
+          st="<INPUT class='pole' type='text' name="+this.getFieldName(sForm,i)+
+            " size="+this.getFieldWidth(sForm,i)+
+            " maxlength="+this.getFieldSize(sForm,i)+
+            " onKeyUp='FrameFilter("+
+            this.getNumberForm(this.getFieldSqlLokup(sForm,i))+","+
+            getSS(this.getFieldName(sForm,i))+");'";
+          sValue=this.getFieldValueCur(sForm,i).trim();
+          if (sValue==null) {sValue="";}
+          st=st+" value="+getS(sValue);
+          st=st+">";
+          sES=sES+st;
+          sES=sES+"<script>";
+          sES=sES+this.getTestScript(sForm,i);
+          sES=sES+"</script>";
+          sES=sES+"<INPUT class=pole name=I"+i+" type=button value='...' onclick="+
+            "'javascript:FrameFilterF9("+
+            this.getNumberForm(this.getFieldSqlLokup(sForm,i))+","+
+            getSS(this.getFieldName(sForm,i))+")'>";
+          sES=sES+"</TD>";
+          sES=sES+"<TD>";
+          // визуализация значения
+          if (sValue.equals("")==false) {
+            cSql=this.getSqlIFrame(this.getNumberForm(this.getFieldSqlLokup(sForm,i)));
+            if (cSql.indexOf("Where")>-1) {
+              cSql=cSql+" and "+this.getFieldAlias(this.getNumberForm(this.getFieldSqlLokup(sForm,i)),0)+"="+sValue;
+            } else {
+              cSql=cSql+" Where "+this.getFieldAlias(this.getNumberForm(this.getFieldSqlLokup(sForm,i)),0)+"=";
+              if (this.getFieldType(sForm,i).equals("string")) {
+                cSql=cSql+getS(sValue);
+              } else {
+                cSql=cSql+sValue;
+              }
+            }
+            cSql=cSql+" Order By "+this.getSqlOrder(this.getNumberForm(this.getFieldSqlLokup(sForm,i)));
+            try {
+              Statement stmt = conn.createStatement ();
+              ResultSet QueryResult =null;
+              QueryResult = stmt.executeQuery(cSql);
+              if (QueryResult.next()) {
+                sValue=QueryResult.getString(2);
+              } else {
+                sValue="не найден";
+              }
+              if (QueryResult!=null) {QueryResult.close();}
+              stmt.close();
+            } catch(Exception e) {
+              sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+            }
+          }
+          sES=sES+"<LABEL id="+getS(this.getFieldName(sForm,i)+"2")+">"+sValue+"</LABEL>";
+
+        // INPUT
+        } else if (this.getFieldTypeEdit(sForm,i).equals("input")) {
+          st="<INPUT class='pole' type='text' name="+this.getFieldName(sForm,i)+
+            " size="+this.getFieldWidth(sForm,i)+
+            " maxlength="+this.getFieldSize(sForm,i);
+          sValue=this.getFieldValueCur(sForm,i);
+          if (sValue==null) {sValue="";}
+          sValue=sValue.trim();
+          st=st+" value="+getS(sValue);
+          st=st+">";
+          sES=sES+st+"\n";
+          sES=sES+"<script>"+"\n";
+          sES=sES+this.getTestScript(sForm,i)+"\n";
+          sES=sES+"</script>"+"\n";
+
+        // SAY
+        } else if (this.getFieldTypeEdit(sForm,i).equals("say")) {
+          st="<INPUT class='pole' type='text' name="+this.getFieldName(sForm,i)+
+            " size="+this.getFieldWidth(sForm,i)+
+            " maxlength="+this.getFieldSize(sForm,i)+" readonly";
+          sValue=this.getFieldValueCur(sForm,i);
+          if (sValue==null) {sValue="";}
+          sValue=sValue.trim();
+          st=st+" value="+getS(sValue);
+          st=st+">";
+          sES=sES+st+"\n";
+          /*sES=sES+"<script>"+"\n";
+          sES=sES+this.getTestScript(sForm,i)+"\n";
+          sES=sES+"</script>"+"\n";*/
+
+        // SPISOK
+        } else if (this.getFieldTypeEdit(sForm,i).equals("spisok")) {
+          cSql=this.getFieldSqlLokup(sForm,i);
+          sES=sES+"<SELECT class='spisok' name="+this.getFieldName(sForm,i)+">"+"\n";
+          while(cSql.length()>0) {
+            sp1=cSql.substring(0,cSql.indexOf(" "));
+            sp1.trim();
+            sp2=cSql.substring(cSql.indexOf(" "),cSql.indexOf(";"));
+            sp2.trim();
+            cSql=cSql.substring(cSql.indexOf(";")+1);
+            sES=sES+"<Option value="+sp1+">"+sp2+"\n";
+          }
+          sES=sES+"</SELECT>"+"\n";
+          sValue=this.getFieldValueCur(sForm,i);
+          if (sValue==null) {sValue="";}
+          sValue=sValue.trim();
+          if ( (sValue.equals(""))&&(this.getFieldType(sForm,i).equals("string")==false) ){
+            sValue="0";
+          }
+          sES=sES+"<script>"+"\n";
+          if (this.getFieldType(sForm,i).equals("string")) {
+            sValue=getS(sValue);
+          }
+          sES=sES+"EditForm."+this.getFieldName(sForm,i)+".value ="+sValue+";"+"\n";
+          //sES=sES+"</script>"+"\n";
+          //sES=sES+"<script>"+"\n";
+          sES=sES+this.getTestScript(sForm,i)+"\n";
+          sES=sES+"</script>"+"\n";
+
+        // SEQUENS
+        } else if  (this.getFieldTypeEdit(sForm,i).equals("sequens")) {
+          if (this.getFieldValueCur(sForm,i).equals("")) {
+            // определение ключа
+            String sequens=this.getSequensName(sForm);
+            cSql="SELECT "+sequens+".NEXTVAL FROM DUAL";
+            try {
+              Statement stmt9 = conn.createStatement();
+              ResultSet QueryResult = stmt9.executeQuery(cSql);
+              QueryResult.next();
+              this.setFieldValueCur(sForm,i,QueryResult.getString(1));
+              QueryResult.close();
+              stmt9.close();
+            } catch(Exception e) {
+              sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+            }
+          }
+          sES=sES+"<INPUT name="+this.getFieldName(sForm,i)+" type=hidden class='pole' value="+this.getFieldValueCur(sForm,i)+">"+"\n";
+
+        // HIDDEN
+        } else if  (this.getFieldTypeEdit(sForm,i).equals("hidden")) {
+          sES=sES+"<INPUT name="+this.getFieldName(sForm,i)+" type=hidden class='pole' value="+this.getFieldValueCur(sForm,i)+">"+"\n";
+        }
+
+        sES=sES+"</TD>"+"\n";
+        sES=sES+"</TR>"+"\n";
+      }
+    }
+    this.err=sErr;
+    return(sES);
+  }
+//-------------------------------------------------------------------------
+  // получение значения ключа
+  public String getSequensValue(iabs.oraDBConnection rDBConn, String sForm) {
+    Connection conn = rDBConn.getConnection();
+    String sequens=this.getSequensName(sForm);
+    String cSql="SELECT "+sequens+".NEXTVAL FROM DUAL";
+    String sValue="",sErr="";
+    try {
+      Statement stmt9 = conn.createStatement();
+      ResultSet QueryResult = stmt9.executeQuery(cSql);
+      QueryResult.next();
+      sValue=QueryResult.getString(1);
+      QueryResult.close();
+      stmt9.close();
+    } catch(Exception e) {
+      sErr="Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    this.err=sErr;
+    return(sValue);
+  }
+//-------------------------------------------------------------------------
+/*  // Локализация значений в Value
+  public String setLocalValue(iabs.oraDBConnection rDBConn, String sForm,
+    String sKey, String sSql)
+  {
+    Connection conn = rDBConn.getConnection();
+    FormN myFormN=new FormN();
+    String cSql="",sErr="";
+    if (sSql.equals("")) {
+      cSql=getSqlLocal(sForm,sKey);
+    } else {
+      cSql=sSql;
+    }
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet QueryResult = stmt.executeQuery(cSql);
+      ResultSetMetaData MetaData = QueryResult.getMetaData();
+      int Col_Count = MetaData.getColumnCount();
+      String sValue="";
+      while(QueryResult.next()) {
+        for (int j=1; j<= Col_Count; j++)
+        {
+          myFormN.setFieldValueCur(sForm,MetaData.getColumnName(j),QueryResult.getString(j));
+        }
+      }
+      QueryResult.close();
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    this.err=sErr;
+    return(sErr);
+  }*/
+  // Локализация значений в ValueOld
+  public String setLocalValueOld(iabs.oraDBConnection rDBConn, String sForm,
+    String sKey, String sSql)
+  {
+    Connection conn = rDBConn.getConnection();
+    //FormN myFormN=(FormN)formStorehouse.elementAt(Integer.parseInt(sForm));
+    //FormN myFormN=new FormN();
+    String cSql="",sErr="";
+    if (sSql.equals("")) {
+      cSql=this.getSqlLocal(sForm,sKey);
+    } else {
+      cSql=sSql;
+    }
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet QueryResult = stmt.executeQuery(cSql);
+      ResultSetMetaData MetaData = QueryResult.getMetaData();
+      int Col_Count = MetaData.getColumnCount();
+      String sValue="";
+      while(QueryResult.next()) {
+        for (int j=1; j<= Col_Count; j++)
+        {
+          this.setFieldValueOld(sForm,MetaData.getColumnName(j),QueryResult.getString(j));
+        }
+      }
+      QueryResult.close();
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    //sErr=cSql;
+    this.err=sErr;
+    return(sErr);
+  }
+  // Локализация значений в ValueCur
+  public String setLocalValueCur(iabs.oraDBConnection rDBConn, String sForm,
+    String sKey, String sSql)
+  {
+    Connection conn = rDBConn.getConnection();
+    //FormN myFormN=(FormN)formStorehouse.elementAt(Integer.parseInt(sForm));
+    //FormN myFormN=new FormN();
+    String cSql="",sErr="";
+    if (sSql.equals("")) {
+      cSql=getSqlLocal(sForm,sKey);
+    } else {
+      cSql=sSql;
+    }
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet QueryResult = stmt.executeQuery(cSql);
+      ResultSetMetaData MetaData = QueryResult.getMetaData();
+      int Col_Count = MetaData.getColumnCount();
+      String sValue="";
+      while(QueryResult.next()) {
+        for (int j=1; j<= Col_Count; j++)
+        {
+          this.setFieldValueCur(sForm,MetaData.getColumnName(j),QueryResult.getString(j));
+        }
+      }
+      QueryResult.close();
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    this.err=sErr;
+    return(sErr);
+  }
+  // Локализация значений в ValueNew
+  public String setLocalValueNew(iabs.oraDBConnection rDBConn, String sForm,
+    String sKey, String sSql)
+  {
+    Connection conn = rDBConn.getConnection();
+    //FormN myFormN=(FormN)formStorehouse.elementAt(Integer.parseInt(sForm));
+    //FormN myFormN=new FormN();
+    String cSql="",sErr="";
+    if (sSql.equals("")) {
+      cSql=getSqlLocal(sForm,sKey);
+    } else {
+      cSql=sSql;
+    }
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet QueryResult = stmt.executeQuery(cSql);
+      ResultSetMetaData MetaData = QueryResult.getMetaData();
+      int Col_Count = MetaData.getColumnCount();
+      String sValue="";
+      while(QueryResult.next()) {
+        for (int j=1; j<= Col_Count; j++)
+        {
+          this.setFieldValueNew(sForm,MetaData.getColumnName(j),QueryResult.getString(j));
+        }
+      }
+      QueryResult.close();
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    this.err=sErr;
+    return(sErr);
+  }
+//-------------------------------------------------------------------------
+  public String getErr() {
+    return(this.err);
+  }
+//-------------------------------------------------------------------------
+  // получение отображаемого значения поля по имени поля
+  public String getFormatSumm(String sForm,String sName, String sValue) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        if (field.getFieldScale()==-1) {
+          return(sValue);
+        } else {
+          return(Constants.format_soum(sValue,field.getFieldScale()));
+        }
+      }
+    }
+    return("");
+  }
+  // получение отображаемого значения поля по № поля
+  public String getFormatSumm(String sForm, int k, String sValue) {
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    if (field.getFieldScale()==-1) {
+      return(sValue);
+    } else {
+      return(Constants.format_soum(sValue,field.getFieldScale()));
+    }
+  }
+//====================================================
+  // установка Scale поля по имени поля
+  public void setFieldScale(String sForm, String sName, int sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldScale(sValue);
+        break;
+      }
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка Scale поля по номеру поля
+  public void setFieldScale(String sForm, int iK, int sValue){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[iK];
+    field.setFieldScale(sValue);
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // установка Scale поля по номеру поля
+  public void setFieldScale(int iForm, int iK, int sValue){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[iK];
+    field.setFieldScale(sValue);
+    formStorehouse.setElementAt(formV,iForm);
+  }
+  // получение Scale поля по номеру поля
+  public int getFieldScale(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldScale());
+  }
+  public int getFieldScale(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldScale());
+  }
+  // получение Scale поля (по имени поля)
+  public int getFieldScale(String sForm, String sName){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    for (int k=0; k<formV.aField.length;k++) {
+      field=formV.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldScale());
+      }
+    }
+    return(0);
+  }
+//====================================================
+  // Получение ключа из Sequens'a
+  public String getKeyFromSequens(iabs.oraDBConnection rDBConn, String sForm) {
+    Connection conn = rDBConn.getConnection();
+    //FormN fm=(FormN)formStorehouse.elementAt(Integer.parseInt(sForm));
+    //FormN fm=new FormN();
+    String cSql="SELECT "+this.getSequensName(sForm)+".NEXTVAL FROM DUAL";
+    String sKey="",sErr="";
+    try {
+      Statement stmt = conn.createStatement();
+      ResultSet QR = null;
+      QR = stmt.executeQuery(cSql);
+      if (QR.next()) {
+        sKey=QR.getString(1);
+      }
+      if (QR!=null) {QR.close();}
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+    }
+    this.err=sErr;
+    return(sKey);
+  }
+//====================================================
+  public String execProc(iabs.oraDBConnection rDBConn, String cSql){
+    String sErr="";
+    Connection conn = rDBConn.getConnection();
+    CallableStatement cs = null;
+    try
+    {
+      cs = conn.prepareCall("{ call DM_EXEC(?,?) }");
+      cs.setString(1, cSql);
+      cs.registerOutParameter(2,java.sql.Types.VARCHAR);
+      cs.execute();
+      sErr=cs.getString(2);
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка при выполнении процедуры "+e.toString();
+    }
+    try
+    {
+      cs.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка при выполнении процедуры "+e.toString();
+    }
+    if (sErr==null) {sErr="";}
+    return(sErr);
+  }
+//====================================================
+  public String execProc(iabs.oraDBConnection rDBConn, String sForm, String cSql){
+    //FormN fm=(FormN)formStorehouse.elementAt(Integer.parseInt(sForm));
+    //FormN fm=new FormN();
+    //fm=(FormN)formStorehouse.elementAt(Integer.parseInt(sForm));
+    String sOption=this.getOptions(sForm);
+    String sErr="";
+    Connection conn = rDBConn.getConnection();
+    if (sOption.indexOf("P")!=-1) {
+      CallableStatement cs = null;
+      try
+      {
+        cs = conn.prepareCall("{ call DM_EXEC(?,?) }");
+        cs.setString(1, cSql);
+        cs.registerOutParameter(2,java.sql.Types.VARCHAR);
+        cs.execute();
+        sErr=cs.getString(2);
+      } catch(Exception e) {
+        sErr="Ошибка в запросе "+cSql+" "+e.toString();
+        //sErr=sErr+"Ошибка при выполнении процедуры "+e.toString();
+      }
+      try
+      {
+        cs.close();
+      } catch(Exception e) {
+        sErr=sErr+"Ошибка при выполнении процедуры "+e.toString();
+      }
+    } else {
+      try {
+        Statement stmt = conn.createStatement ();
+        stmt.executeUpdate(cSql);
+        stmt.close();
+      } catch(Exception e) {
+        sErr="Ошибка в запросе "+cSql+" "+e.toString();
+      }
+    }
+    if (sErr==null) {sErr="";}
+    return(sErr);
+  }
+//--------------------------------------------------------------------
+  // очистка класса
+  public void setEmptyForm(){
+    formStorehouse.clear();
+  }
+//--------------------------------------------------------------------
+/*  // получение номера формы (по имени формы)
+  public void setEmptyForm(){
+    Form formV;
+    for (int k=0; k<formStorehouse.size();k++) {
+      formV=(Form)formStorehouse.elementAt(k);
+      if (formV.formName.equals(sName)) {
+        return(String.valueOf(k));
+      }
+    }
+    formStorehouse.clear()
+    return("null");
+  }*/
+//--------------------------------------------------------------------
+  // Добавление параметра в опции
+  public void OptionsAddParameter(String sForm, String sParam){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    if (formV.options.indexOf(sParam)==-1) {
+      formV.options=formV.options+sParam;
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+  // Удаление параметра из опций
+  public void OptionsSubParameter(String sForm, String sParam){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    int i=formV.options.indexOf(sParam);
+    if (i!=-1) {
+      formV.options=formV.options.substring(0,i)+formV.options.substring(i+1);
+    }
+    formStorehouse.setElementAt(formV,Integer.parseInt(sForm));
+  }
+//--------------------------------------------------------------------
+// установка процедуры обновления добавления
+  public void setHtmlInsert(String sFormN, String sCondC){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.htmlInsert=sCondC;
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+
+ // установка процедуры обновления корректировки
+  public void setHtmlEdit(String sFormN, String sCondC){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sFormN));
+    formV.htmlEdit=sCondC;
+    formStorehouse.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+//--------------------------------------------------------------------
+// установка
+  public void setIsHead(String sFormN){
+    isHead=sFormN;
+  }
+  public void setIsFloor(String sFormN){
+    isFloor=sFormN;
+  }
+  public void setIsBanner(String sFormN){
+    isBanner=sFormN;
+  }
+
+// чтение
+  public boolean isHead(String sFormN){
+    if (isHead.equals(sFormN)) {
+      return(false);
+    } else {
+      return(true);
+    }
+  }
+  public boolean isFloor(String sFormN){
+    if (isFloor.equals(sFormN)) {
+      return(false);
+    } else {
+      return(true);
+    }
+  }
+  public boolean isBanner(String sFormN){
+    if (isBanner.equals(sFormN)) {
+      return(false);
+    } else {
+      return(true);
+    }
+  }
+//--------------------------------------------------------------------
+//==========================================================
+  // отображение шапки отчета
+  public String getStringHead(iabs.oraDBConnection rDBConn, String sForm) {
+    Form myFormN=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    String Size=Constants.getS(myFormN.formSize);
+    Field field=new Field();
+    String sEH="";
+    sEH=sEH+"<tr><td colspan="+Size+"><hr></td></tr>";
+    sEH=sEH+"<tr align='center' style='font-size: 10pt'>";
+    Connection conn = rDBConn.getConnection();
+    String isNew="new";
+    int i;
+    String fieldName;
+    String cSql,sErr="",sValue="",st="",sp1="",sp2="", sKey="";
+    int fieldL;
+    int Col_Count = myFormN.aField.length;
+    for (i=0; i<Col_Count;i++) {
+      field=myFormN.aField[i];
+      if (field.getFieldVisible()==true) {
+        fieldName=field.getFieldName();
+        fieldL=field.getFieldWidth();
+        sEH=sEH+"<td width="+fieldL+"%"+"<b>"+
+          field.getFieldDisplay()+"</b></td>";
+      }
+    }
+    sEH=sEH+"</tr>";
+    sEH=sEH+"<tr><td colspan="+Size+"><hr></td></tr>";
+    return(sEH);
+  }
+
+  // отображение шапки для Excel
+  public String getStringHeadE(iabs.oraDBConnection rDBConn, String sForm) {
+    Form myFormN=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    String sEH="";
+    Connection conn = rDBConn.getConnection();
+    int i;
+    String fieldName;
+    String cSql,sErr="",sValue="",st="",sp1="",sp2="", sKey="";
+    String zpt="";
+    int Col_Count = myFormN.aField.length;
+    Field field=new Field();
+    for (i=0; i<Col_Count;i++) {
+      field=myFormN.aField[i];
+      if (field.getFieldVisible()==true) {
+        sEH=sEH+zpt+"\""+field.getFieldDisplay()+"\"";
+        zpt=",";
+      }
+    }
+    return(sEH);
+  }
+//==========================================================
+  // установка размера формы по номеру формы
+  public void setFormSize(int iForm, String sValue){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    formV.formSize=sValue;
+    formStorehouse.setElementAt(formV,iForm);
+  }
+  // получение размера формы по номеру формы
+  public String getFormSize(String iForm){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(iForm));
+    return(formV.formSize);
+  }
+//====================================================
+  // получение Align
+  public String getFieldAlign(int iForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(iForm);
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldAlign());
+  }
+  public String getFieldAlign(String sForm, int k){
+    Form formV=(Form)formStorehouse.elementAt(Integer.parseInt(sForm));
+    Field field=new Field();
+    field=formV.aField[k];
+    return(field.getFieldAlign());
+  }
+//====================================================
+}
+
+

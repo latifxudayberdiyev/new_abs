@@ -1,0 +1,77 @@
+package dm;
+
+import java.sql.*;
+import iabs.oraDBConnection;
+
+public class Supplier {
+  private String name;
+  private String adres;
+  private String telephone;
+  private String pc;
+  private String pcOplata;
+  private String pcPoluch;
+  private String inn;
+  private String mfo;
+//====================================================
+  public Supplier()  {
+  }
+//====================================================
+  public void setSupplier(iabs.oraDBConnection rDBConn, String sKey)  {
+    String sErr="",sValue="";
+    Connection conn = rDBConn.getConnection();
+    try {
+      String cSql="select name,adres,telephone,pc,pc_poluch,pc_oplata,inn,mfo from DM_Supplier where code="+sKey;
+      Statement stmt = conn.createStatement();
+      ResultSet QR = stmt.executeQuery(cSql);
+      if (QR.next()) {
+        this.name=QR.getString("NAME");
+        this.adres=QR.getString("ADRES");
+        this.telephone=QR.getString("TELEPHONE");
+        this.pc=QR.getString("PC");
+        this.pcOplata=QR.getString("PC_OPLATA");
+        this.pcPoluch=QR.getString("PC_POLUCH");
+        this.inn=QR.getString("INN");
+        this.mfo=QR.getString("MFO");
+      }
+      if (QR!=null) {QR.close();}
+      stmt.close();
+    } catch(Exception e) {
+      sErr=sErr+"Ошибка при определении контрагента "+e.toString();
+    }
+    //this.err=sErr;
+  }
+//====================================================
+  public String getName()  {
+    return(this.name);
+  }
+//====================================================
+  public String getAdres()  {
+    return(this.adres);
+  }
+//====================================================
+  public String getTelephone()  {
+    return(this.telephone);
+  }
+//====================================================
+  public String getPC()  {
+    return(this.pc);
+  }
+//====================================================
+  public String getPcOplata()  {
+    return(this.pcOplata);
+  }
+//====================================================
+  public String getPcPoluch()  {
+    return(this.pcPoluch);
+  }
+//====================================================
+  public String getInn()  {
+    return(this.inn);
+  }
+//====================================================
+//====================================================
+  public String getMfo()  {
+    return(this.mfo);
+  }
+//====================================================
+}

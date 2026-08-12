@@ -1,0 +1,8 @@
+<!-- 
+test-policy.cpd 
+-->
+
+<cachePolicy scope="application">
+<expirationPolicy expirationType="TTL" TTL="25" timeInaDay="00:10:00" 
+writeThrough="true" />
+</cachePolicy>

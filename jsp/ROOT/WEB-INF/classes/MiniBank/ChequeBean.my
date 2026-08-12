@@ -1,0 +1,306 @@
+package MiniBank;
+import java.util.*;
+import java.io.*;
+import java.sql.*;
+
+public class ChequeBean {
+//private Connection conn; //соединение с базой
+private String Document_Number;
+private String Document_Date;
+private String Account_From_Name;
+private String Account_From;
+private String Bank_From_Code;
+// кредит получателя
+private String Bank_To_Code; //Код отделения банка
+private String Issue_Date; //Дата выдачи чека
+private String Last_Name; // Фамилия чекодателя
+private String First_Name; // Имя чекодателя
+private String Patronymic; // Отчество чекодателя
+private String Number; // номер чека
+private String Series; // серия чека
+private String Document_Series; // серия документа
+private String Until; // до какого действителен чек
+private String Trans_id; //тип операции (для чека, плат.поручения, инкассо)
+private String Title_label; //вид платёжного документа (поручение, требование)
+private String Bank_To_Name; //Наименование банка
+private String Account_To;   //Счёт получателя
+private String Client_From_INN; // ИНН плательщика
+private String Client_To_INN; // ИНН получателя
+private String Account_To_Name; // Наименование получателя
+private String Summa_Pay; // Сумма в сумах (целая часть)
+private String Summa_Pay_Tiyn; // Сумма в сумах (копеечная часть)
+private String Document_Purpose_Code; // Назначение платежа
+private String Account_Saldo; // Остаток на счёте
+private String Document_Purpose_Text; // Назначение платежа
+private Hashtable errors;
+
+/*
+public String ConvIso(String s)
+{
+        try
+        {
+		if (s!=null && s!="")
+		{
+	                s = new String(s.getBytes("ISO-8859-1"),"Cp1251");
+		}
+        } catch (UnsupportedEncodingException e)
+        {       
+                return e.toString();
+        }
+        return s;
+}
+*/
+
+public boolean validate(Connection conn) {
+boolean allOk=true;
+
+return allOk;
+}
+
+public String getErrorMsg(String s) {
+String errorMsg =(String)errors.get(s.trim());
+//return (errorMsg == null) ? "":ConvIso(errorMsg);
+return (errorMsg == null) ? "":errorMsg;
+}
+
+
+//public void init(Connection _conn)
+//{
+//        conn=_conn;
+//}
+
+public ChequeBean() {
+First_Name="";
+Last_Name="";
+Patronymic="";
+Issue_Date="";
+Number="";
+Series=""; 
+Document_Series="";
+Until=""; 
+
+Title_label="";
+Trans_id="";
+Account_From_Name="";
+Account_From="";
+Bank_To_Code="";
+Bank_From_Code="";
+Bank_To_Name="";
+Account_To="";
+Client_To_INN="";
+Client_From_INN="";
+Account_To_Name="";
+Summa_Pay="";
+Summa_Pay_Tiyn="";
+Document_Purpose_Code="";
+Document_Purpose_Text="";
+Account_Saldo="";
+errors = new Hashtable();
+}
+
+public String getBank_To_Code() {
+return Bank_To_Code;
+}
+
+public String getBank_From_Code() {
+return Bank_From_Code;
+}
+
+public String getDocument_Number() {
+return Document_Number;
+}
+
+public String getAccount_To_Name() {
+//return ConvIso(Account_To_Name);
+return Account_To_Name;
+}
+
+public String getBank_To_Name() {
+return Bank_To_Name;
+}
+
+public String getAccount_To() {
+return Account_To;
+}
+
+public String getSumma_Pay() {
+return Summa_Pay;
+}
+
+public String getSumma_Pay_Tiyn() {
+return Summa_Pay_Tiyn;
+}
+
+public String getDocument_Purpose_Code() {
+return Document_Purpose_Code;
+}
+
+public String getClient_To_INN() {
+return Client_To_INN;
+}
+
+public String getClient_From_INN() {
+return Client_From_INN;
+}
+
+public String getAccount_From_Name() {
+//return ConvIso(Account_From_Name);
+return Account_From_Name;
+}
+
+public String getAccount_From() {
+return Account_From;
+}
+
+public String getDocument_Purpose_Text() {
+//return ConvIso(Document_Purpose_Text);
+return Document_Purpose_Text;
+}
+
+public String getAccount_Saldo() {
+return Account_Saldo;
+}
+
+public String getTitle_label() {
+return Title_label;
+}
+
+public String getTrans_id() {
+return Trans_id;
+}
+
+public String getIssue_Date() {
+return Issue_Date;
+}
+
+public String getLast_Name() {
+return Last_Name;
+}
+
+public String getFirst_Name() {
+return First_Name;
+}
+
+public String getPatronymic() {
+return Patronymic;
+}
+
+public String getNumber() {
+return Number;
+}
+
+public String getUntil() {
+return Until;
+}
+
+public String getDocument_Series() {
+return Document_Series;
+}
+
+public void setDocument_Number(String _Document_Number) {
+Document_Number =_Document_Number;
+}
+
+public void setBank_To_Code(String _Bank_To_Code) {
+Bank_To_Code =_Bank_To_Code;
+}
+
+public void setBank_From_Code(String _Bank_From_Code) {
+Bank_From_Code =_Bank_From_Code;
+}
+
+public void setBank_To_Name(String _Bank_To_Name) {
+Bank_To_Name =_Bank_To_Name;
+}
+
+public void setAccount_To(String _Account_To) {
+Account_To =_Account_To;
+}
+
+public void setAccount_To_Name(String _Account_To_Name) {
+Account_To_Name =_Account_To_Name;
+}
+
+public void setSumma_Pay(String _Summa_Pay) {
+Summa_Pay=_Summa_Pay;
+}
+
+public void setSumma_Pay_Tiyn(String _Summa_Pay_Tiyn) {
+Summa_Pay_Tiyn = _Summa_Pay_Tiyn;
+}
+
+public void  setDocument_Purpose_Code(String _Document_Purpose_Code) {
+Document_Purpose_Code=_Document_Purpose_Code;
+}
+
+public void  setClient_To_INN(String _Client_To_INN) {
+Client_To_INN=_Client_To_INN;
+}
+
+public void  setClient_From_INN(String _Client_From_INN) {
+Client_From_INN=_Client_From_INN;
+}
+
+public void  setAccount_From_Name(String _Account_From_Name) {
+Account_From_Name=_Account_From_Name;
+}
+
+public void  setAccount_From(String _Account_From) {
+Account_From=_Account_From;
+}
+
+public void  setDocument_Purpose_Text(String _Document_Purpose_Text) {
+Document_Purpose_Text=_Document_Purpose_Text;
+}
+
+public void  setAccount_Saldo(String _Account_Saldo) {
+Account_Saldo=_Account_Saldo;
+}
+
+public void  setTitle_label(String _Title_label) {
+Title_label=_Title_label;
+}
+
+public void  setTrans_id(String _Trans_id) {
+Trans_id=_Trans_id;
+}
+
+public void  setIssue_Date(String _Issue_Date) {
+Issue_Date=_Issue_Date;
+}
+
+public void  setLast_Name(String _Last_Name) {
+Last_Name=_Last_Name;
+}
+
+public void  setFirst_Name(String _First_Name) {
+First_Name=_First_Name;
+}
+
+public void  setPatronymic(String _Patronymic) {
+Patronymic=_Patronymic;
+}
+
+public void  setNumber(String _Number) {
+Number=_Number;
+}
+
+public void  setSeries(String _Series) {
+Series=_Series;
+}
+
+public void  setDocument_Series(String _Document_Series) {
+Document_Series=_Document_Series;
+}
+
+
+
+public void  setUntil(String _Until) {
+Until=_Until;
+}
+
+public void setErrors(String key, String msg) {
+errors.put(key,msg);
+}
+
+}

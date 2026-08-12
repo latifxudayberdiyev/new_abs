@@ -1,0 +1,34 @@
+<html>
+<body>
+<div id=cnt>
+	<script>
+		function sign(l) {
+			var s = null;
+			try {
+				s = new ActiveXObject("ASClient.ASClientControl");
+			} catch (e) {
+				throw new Error("Driver topilmadi");
+			}
+			if (s == null) {
+				throw new Error("ActiveX yuklanmadi");
+			}
+			s.Init();
+			s.IncludeOption = 2;
+			var r = s.SignMessageCodepage(l, 1251);
+			if (r == null || r.length == 0) {
+				throw new Error("AS Client:" + s.ErrorMsg);
+			}
+			return r;
+		}
+
+		var txt = "Hello World!!!";
+		try {
+			document.write("<p>Text:<b>" + txt + "</b></p><p>CRP:<b>" + sign(txt) + "</b></p>");
+		} catch (e) {
+			alert(e.message)
+		}
+	</script>
+</div>
+</body>
+
+</html>

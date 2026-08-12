@@ -1,0 +1,1429 @@
+package dm;
+import java.util.Vector;
+import iabs.oraDBConnection;
+import java.sql.*;
+
+public class Report {
+  public int i=0;
+  public int j=0;            // номер поля
+  public String form;        // номер формы
+  public String formName;    // имя формы
+  public String title;       // заголовок
+  public String sqlField;    // перечень полей
+  public String sqlFrom;     // перечень таблиц выбора
+  public String sqlCondC;    // условие постоянное
+  public String sqlCondV;    // условие пользователя
+  public String sqlOrder;    // порядок сортировки
+  public String options;     // опции
+  public String htmlReport;  // JSP отчета
+  public String htmlExit;    // JSP выхода
+  public FieldR aField[];    // Массив полей(field)
+  public int arraySizeG;     // размер Массива групп
+  public String formSize;    // размер формы
+  public String err;         // ошибка
+  public String style;       // стиль
+//====================================================
+  public Report() {
+    style="style='font-size: 10pt'";
+  }
+  // определение нового отчета
+/*  public int setReport(String formName,String title, String options,
+    String htmlReport, String htmlExit, int arraySize)
+  {
+    j=0;
+    Report fm=new Report();
+    fm.formName=formName;
+    fm.title=title;
+    fm.options=options;
+    fm.htmlReport=htmlReport;
+    fm.htmlExit=htmlExit;
+    fm.aField= new FieldR[arraySize];
+    this.form=String.valueOf(i);
+    reportForm.addElement(fm);
+    i=i+1;
+    return(i-1);
+  }
+  // определение нового отчета
+  public int setReport(String formName,String title, String sqlField,
+    String sqlFrom, String sqlCondC, String sqlCondV, String sqlOrder,
+    String options, String htmlReport, String htmlExit, int arraySize, int IarraySizeG)
+  {
+    j=0;
+    Report fm=new Report();
+    fm.formName=formName;
+    fm.title=title;
+    fm.sqlField=sqlField;
+    fm.sqlFrom=sqlFrom;
+    fm.sqlCondC=sqlCondC;
+    fm.sqlCondV=sqlCondV;
+    fm.sqlOrder=sqlOrder;
+    fm.options=options;
+    fm.htmlReport=htmlReport;
+    fm.htmlExit=htmlExit;
+    fm.aField= new FieldR[arraySize];
+    fm.arraySizeG=IarraySizeG;
+    this.form=String.valueOf(i);
+    reportForm.addElement(fm);
+    i=i+1;
+    return(i-1);
+  }
+//====================================================
+  // определение нового поля
+  public int setField(String sForm, String fieldName, String fieldDisplay,
+    int fieldSize, int fieldWidth, boolean visible,
+    String fieldType, String fieldTypeEdit, String fieldSqlLokup,
+    String fieldTypeFilter) {
+    Report formV=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    formV.aField[j]= new FieldR(fieldName,fieldDisplay,fieldSize,
+    fieldWidth, visible, fieldType, fieldTypeEdit, fieldSqlLokup, fieldTypeFilter);
+    reportForm.setElementAt(formV,Integer.parseInt(sForm));
+    j++;
+    return(j-1);
+  }
+  public int setField(int iForm, String fieldName, String fieldDisplay,
+    int fieldSize, int fieldWidth, boolean visible,
+    String fieldType, String fieldTypeEdit, String fieldSqlLokup,
+    String fieldTypeFilter) {
+    Report formV=(Report)reportForm.elementAt(iForm);
+    formV.aField[j]= new FieldR(fieldName,fieldDisplay, fieldSize,
+    fieldWidth, visible, fieldType, fieldTypeEdit, fieldSqlLokup, fieldTypeFilter);
+    reportForm.setElementAt(formV,iForm);
+    j++;
+    return(j-1);
+  }
+  // определение нового поля fieldGroup,fieldSubTotal
+  public int setField(int iForm, String fieldName, String fieldDisplay,
+    int fieldSize, int fieldWidth, boolean visible,
+    String fieldType, String fieldTypeEdit, String fieldSqlLokup,
+    String fieldTypeFilter,boolean fieldGroup,boolean fieldSubTotal) {
+    Report formV=(Report)reportForm.elementAt(iForm);
+    formV.aField[j]= new FieldR(fieldName,fieldDisplay, fieldSize,
+    fieldWidth, visible, fieldType, fieldTypeEdit, fieldSqlLokup,
+    fieldTypeFilter,fieldGroup,fieldSubTotal);
+    reportForm.setElementAt(formV,iForm);
+    j++;
+    return(j-1);
+  }
+  // определение нового поля fieldGroup,fieldSubTotal,fieldAlign
+  public int setField(int iForm, String fieldName, String fieldDisplay,
+    int fieldSize, int fieldWidth, boolean visible,
+    String fieldType, String fieldTypeEdit, String fieldSqlLokup,
+    String fieldTypeFilter,boolean fieldGroup,boolean fieldSubTotal,
+    String fieldAlign)
+{
+    Report formV=(Report)reportForm.elementAt(iForm);
+    formV.aField[j]= new FieldR(fieldName,fieldDisplay, fieldSize,
+    fieldWidth, visible, fieldType, fieldTypeEdit, fieldSqlLokup,
+    fieldTypeFilter,fieldGroup,fieldSubTotal,fieldAlign,formV.arraySizeG);
+    reportForm.setElementAt(formV,iForm);
+    j++;
+    return(j-1);
+  }
+  // добавление параметров редактирования поля
+  public void checkField(String sForm, int k, String pattern,
+    String minVal, String maxVal, String minLen, String error,
+    String prim) {
+    Report formV=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=formV.aField[k];
+    field.checkField(pattern, minVal, maxVal, minLen, error, prim);
+  }
+  // добавление параметров редактирования поля
+  public void checkField(int iForm, int k, String pattern,
+    String minVal, String maxVal, String minLen, String error,
+    String prim) {
+    Report formV=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=formV.aField[k];
+    field.checkField(pattern, minVal, maxVal, minLen, error, prim);
+  }*/
+//==========================================================
+  // получение номера формы (по имени формы)
+/*  public String getNumberForm(String sName) {
+    Report formV;
+    for (int k=0; k<reportForm.size();k++) {
+      formV=(Report)reportForm.elementAt(k);
+      if (formV.formName.equals(sName)) {
+        return(String.valueOf(k));
+      }
+    }
+    return("null");
+  }
+
+  // получение имени формы (по номеру формы)
+  public String getFormName(int iForm) {
+    Report formV;
+    formV=(Report)reportForm.elementAt(iForm);
+    return(formV.formName);
+  }*/
+//==========================================================
+  public void setForm(String sFormN)  {
+    this.form=sFormN;
+  }
+  public String getForm()  {
+    return(this.form);
+  }
+//==========================================================
+  // установка заголовка
+  public void setTitle(String sFormN,String sTitle){
+    //Report formV=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    this.title=sTitle;
+    //reportForm.setElementAt(formV,Integer.parseInt(sFormN));
+  }
+  // получение заголовка
+  public String getTitle(String sTitle){
+    //Report formV=(Report)reportForm.elementAt(Integer.parseInt(sTitle));
+    return(this.title);
+  }
+//==========================================================
+  // установка стиля
+  public void setStyle(String sValue){
+    this.style=sValue;
+  }
+  // получение стиля
+  public String getStyle(){
+    return(this.style);
+  }
+//==========================================================
+  // установка JSP для выхода
+  public void setHtmlExit(String sFormN,String sHtml){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    this.htmlExit=sHtml;
+    //reportForm.setElementAt(this,Integer.parseInt(sFormN));
+  }
+  // получение JSP для выхода
+  public String getHtmlExit(String sFormN){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    return(this.htmlExit);
+  }
+//==========================================================
+  // установка JSP отчета
+  public void setHtmlReport(String sFormN,String sHtml){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    this.htmlReport=sHtml;
+    //reportForm.setElementAt(this,Integer.parseInt(sFormN));
+  }
+  // получение JSP отчета
+  public String getHtmlReport(String sFormN){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    return(this.htmlReport);
+  }
+//==========================================================
+  // отображение полей для Edit.jsp по шаблону
+  public String getStringEdit(iabs.oraDBConnection rDBConn, String sForm) {
+    Connection conn = rDBConn.getConnection();
+    String isNew="new";
+    int i;
+    String fieldName;
+    String sES="",cSql,sErr="",sValue="",st="",sp1="",sp2="", sKey="";
+    Report myFormN=new Report();
+    String sPattern="";
+    int Col_Count = myFormN.getCountFields(sForm);
+    for (i=0; i<Col_Count;i++) {
+      sPattern=sPattern+myFormN.getFieldName(sForm,i)+";";
+    }
+    while(sPattern.length()>0) {
+      fieldName=sPattern.substring(0,sPattern.indexOf(";"));
+      sPattern=sPattern.substring(sPattern.indexOf(";")+1);
+      i=myFormN.getFieldNumber(sForm,fieldName);
+      if ( (myFormN.getFieldTypeFilter(sForm,i).equals("")==false)&&
+         (myFormN.getFieldTypeFilter(sForm,i).equals("none")==false) )
+      {
+        // заголовок
+        sES=sES+"<TR>"+"\n";
+        sES=sES+"<TD>"+"\n";
+        if (myFormN.getFieldTypeEdit(sForm,i).equals("sequens")==false) {
+          sES=sES+myFormN.getFieldDisplay(sForm,i)+"\n";
+        }
+        sES=sES+"</TD>"+"\n";
+        sES=sES+"<TD>"+"\n";
+
+        // SELECT
+        if (myFormN.getFieldTypeEdit(sForm,i).equals("select")) {
+          cSql=myFormN.getFieldSqlLokup(sForm,i);
+          sES=sES+"<SELECT class='spisok' name="+myFormN.getFieldName(sForm,i)+">"+"\n";
+          try {
+            Statement stmt9 = conn.createStatement();
+            ResultSet QR1 = null;
+            QR1 = stmt9.executeQuery(cSql);
+            while(QR1.next()) {
+              sES=sES+"<Option value="+QR1.getString(1)+">"+QR1.getString(2)+"\n";
+            }
+            QR1.close();
+            stmt9.close();
+          } catch(Exception e) {
+            sErr=sErr+"Ошибка в запросе "+cSql+" "+e.toString();
+          }
+          sES=sES+"</SELECT>"+"\n";
+          //if (isNew.equals("edit")) {
+            sValue=myFormN.getFieldValue(sForm,i).trim();
+            if (myFormN.getFieldType(sForm,i).equals("string")) {
+              sValue=getS(sValue);
+            }
+            sES=sES+"<script>"+"\n";
+            sES=sES+"EditForm."+myFormN.getFieldName(sForm,i)+".value ="+sValue+";"+"\n";
+            sES=sES+"</script>"+"\n";
+          //}
+          sES=sES+"<script>"+"\n";
+          sES=sES+myFormN.getTestScript(sForm,i)+"\n";
+          sES=sES+"</script>"+"\n";
+
+        // INPUT
+        } else if (myFormN.getFieldTypeEdit(sForm,i).equals("input")) {
+          st="<INPUT class='pole' type='text' name="+myFormN.getFieldName(sForm,i)+
+            " size="+myFormN.getFieldWidth(sForm,i)+
+            " maxlength="+myFormN.getFieldSize(sForm,i);
+            sValue=myFormN.getFieldValue(sForm,i);
+            if (sValue==null) {sValue="";
+            } else {sValue=sValue.trim();}
+            st=st+" value="+getS(sValue);
+          st=st+">";
+          sES=sES+st+"\n";
+          sES=sES+"<script>"+"\n";
+          sES=sES+myFormN.getTestScript(sForm,i)+"\n";
+          sES=sES+"</script>"+"\n";
+
+        // SPISOK
+        } else if (myFormN.getFieldTypeEdit(sForm,i).equals("spisok")) {
+          cSql=myFormN.getFieldSqlLokup(sForm,i);
+          sES=sES+"<SELECT class='spisok' name="+myFormN.getFieldName(sForm,i)+">"+"\n";
+          while(cSql.length()>0) {
+            sp1=cSql.substring(0,cSql.indexOf(" "));
+            sp1=sp1.trim();
+            sp2=cSql.substring(cSql.indexOf(" "),cSql.indexOf(";"));
+            sp2=sp2.trim();
+            cSql=cSql.substring(cSql.indexOf(";")+1);
+            sES=sES+"<Option value="+sp1+">"+sp2+"\n";
+          }
+          sES=sES+"</SELECT>"+"\n";
+          if (isNew.equals("edit")) {
+            sValue=myFormN.getFieldValue(sForm,i).trim();
+            sES=sES+"<script>"+"\n";
+            if (myFormN.getFieldType(sForm,i).equals("string")) {
+              sValue=getS(sValue);
+            }
+            sES=sES+"EditForm."+myFormN.getFieldName(sForm,i)+".value ="+sValue+";"+"\n";
+            sES=sES+"</script>"+"\n";
+          }
+          sES=sES+"<script>"+"\n";
+          sES=sES+myFormN.getTestScript(sForm,i)+"\n";
+          sES=sES+"</script>"+"\n";
+
+        }
+        sES=sES+"</TD>"+"\n";
+        sES=sES+"</TR>"+"\n";
+      }
+    }
+    return(sES);
+  }
+//==========================================================
+  // получение количества полей
+  public int getCountFields(String sForm){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    return(this.aField.length);
+  }
+//==========================================================
+  // получение имени поля (по # поля)
+  public String getFieldName(String sForm, int nF) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+    return(field.getFieldName());
+  }
+  public String getFieldName(int iForm, int nF) {
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+    return(field.getFieldName());
+  }
+//====================================================
+  // получение номера поля (по имени поля)
+  public int getFieldNumber(String sForm, String sName) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(k);
+      }
+    }
+    return(0);
+  }
+//====================================================
+  // установка типа редактирования поля (для всех полей)
+  public void setFieldsTypeEdit(String sForm, String sTypeEdit) {
+    if (sTypeEdit==null) {sTypeEdit="";}
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      field.setFieldTypeEdit(sTypeEdit);
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка типа редактирования поля (по № поля)
+  public void setFieldTypeEdit(String sForm, int k, String sTypeEdit) {
+    if (sTypeEdit==null) {sTypeEdit="";}
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    field.setFieldTypeEdit(sTypeEdit);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка типа редактирования поля (по имени поля)
+  public void setFieldTypeEdit(String sForm, String sName, String sTypeEdit) {
+    if (sTypeEdit==null) {sTypeEdit="";}
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldTypeEdit(sTypeEdit);
+        break;
+      }
+    }
+  }
+  // получение типа редактирования поля (по имени поля)
+  public String getFieldTypeEdit(String sForm, String sName) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldTypeEdit());
+      }
+    }
+    return("");
+  }
+  // получения типа редактирования поля (по # поля)
+  public String getFieldTypeEdit(String sForm, int nF) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+    return(field.getFieldTypeEdit());
+  }
+//====================================================
+  // получение имени поля для заголовка по номеру поля
+  public String getFieldDisplay(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldDisplay());
+  }
+  public String getFieldDisplay(int iForm, int k){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldDisplay());
+  }
+  // получение заголовка GRID (по имени поля)
+  public String getFieldDisplay(String sForm, String sName){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldDisplay());
+      }
+    }
+    return(null);
+  }
+//====================================================
+  // установка SQL-запроса выбора из справочника (по имени поля)
+  public void setFieldSqlLokup(String sForm, String sName,String sSqlLokup) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    int k;
+    for (k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        break;
+      }
+    }
+    field.setFieldSqlLokup(sSqlLokup);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // получение SQL-запроса выбора из справочника (по # поля)
+  public String getFieldSqlLokup(String sForm, int nF) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+    return(field.getFieldSqlLokup());
+  }
+//====================================================
+  // установка значения поля по имени поля
+  public void setFieldValue(String sForm, String sName, String sValue){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldValue(sValue);
+        break;
+      }
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка значения поля по номеру поля
+  public void setFieldValue(String sForm, int iK, String sValue){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[iK];
+    field.setFieldValue(sValue);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // получение значения поля по номеру поля
+  public String getFieldValue(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldValue());
+  }
+  public String getFieldValue(int iForm, int k){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldValue());
+  }
+  // получение значения поля (по имени поля)
+  public String getFieldValue(String sForm, String sName){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValue());
+      }
+    }
+    return(null);
+  }
+  // получение значения поля (по имени формы и имени поля)
+/*  public String getFieldValue2(String sForm, String sName){
+    Report this=null;
+    for (int k=0; k<reportForm.size();k++) {
+      this=(Report)reportForm.elementAt(k);
+      if (this.form.equals(sForm)) {
+        break;
+      }
+    }
+    FieldR field=new FieldR();
+    for (int l=0; l<this.aField.length;l++) {
+      field=this.aField[l];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValue());
+      }
+    }
+    return("");
+  }
+  // получение значения поля как double (по имени формы и имени поля)
+  public double getFieldValueAsDouble(String sForm, String sName){
+    Report this=null;
+    for (int k=0; k<reportForm.size();k++) {
+      this=(Report)reportForm.elementAt(k);
+      if (this.form.equals(sForm)) {
+        break;
+      }
+    }
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        if ( (field.getFieldValue().equals(""))||(field.getFieldValue()==null) )  {
+          return(0);
+        } else {
+          return(new Double(field.getFieldValue()).doubleValue());
+        }
+      }
+    }
+    return(0);
+  }*/
+//====================================================
+  // установка Init значения поля по имени поля
+  public void setFieldValueInit(String sForm, String sName, String sValue){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldValueInit(sValue);
+        break;
+      }
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка Init значения поля по номеру поля
+  public void setFieldValueInit(String sForm, int iK, String sValue){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[iK];
+    field.setFieldValueInit(sValue);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // получение Init значения поля по номеру поля
+  public String getFieldValueInit(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldValueInit());
+  }
+  public String getFieldValueInit(int iForm, int k){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldValueInit());
+  }
+  // получение Init значения поля (по имени поля)
+  public String getFieldValueInit(String sForm, String sName){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueInit());
+      }
+    }
+    return(null);
+  }
+//====================================================
+  // установка New значения поля по имени поля
+  public void setFieldValueNew(String sForm, String sName, String sValue){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldValueNew(sValue);
+        break;
+      }
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка New значения поля по номеру поля
+  public void setFieldValueNew(String sForm, int iK, String sValue){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[iK];
+    field.setFieldValueNew(sValue);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // получение New значения поля по номеру поля
+  public String getFieldValueNew(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldValueNew());
+  }
+  public String getFieldValueNew(int iForm, int k){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldValueNew());
+  }
+  // получение New значения поля (по имени поля)
+  public String getFieldValueNew(String sForm, String sName){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldValueNew());
+      }
+    }
+    return(null);
+  }
+  // Перекачка в Value из ValueNew
+  public void setValueFromValueNew(String sForm){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      field.setFieldValue(field.getFieldValueNew());
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // Перекачка в Value из ValueInit
+  public void setValueFromValueInit(String sForm){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      field.setFieldValue(field.getFieldValueInit());
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+//====================================================
+  // установка типа поля (по № поля)
+  public void setFieldType(String sForm, int k, String sType) {
+    if (sType==null) {sType="";}
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    field.setFieldType(sType);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка типа поля (по имени поля)
+  public void setFieldType(String sForm, String sName, String sType) {
+    if (sType==null) {sType="";}
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldType(sType);
+        break;
+      }
+    }
+  }
+  // получение типа поля (по имени поля)
+  public String getFieldType(String sForm, String sName) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldType());
+      }
+    }
+    return("");
+  }
+  // получения типа поля (по # поля)
+  public String getFieldType(String sForm, int nF) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+    return(field.getFieldType());
+  }
+//====================================================
+  public static String getS(String s)  {
+    return("'"+s+"'");
+  }
+  public static String getSS(String s)  {
+    return("\""+s+"\"");
+  }
+//====================================================
+  // получение Script проверки поля
+  public String getTestScript(String sForm, int nF) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+	  return("parent.data.CheckFormApp('"+
+      field.getFieldName()+"','"+
+      field.getFieldDisplay()+"',"+field.getFieldPattern()+","+
+      field.getFieldMinVal()+","+field.getFieldMaxVal()+","+
+      field.getFieldMinLen()+","+field.getFieldMaxLen()+","+
+      field.getFieldError()+","+field.getFieldPrim()+");");
+  }
+  public String getTestScript(int iForm, int nF) {
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+	  return("parent.data.CheckFormApp('"+
+      field.getFieldName()+"','"+
+      field.getFieldDisplay()+"',"+field.getFieldPattern()+","+
+      field.getFieldMinVal()+","+field.getFieldMaxVal()+","+
+      field.getFieldMinLen()+","+field.getFieldMaxLen()+","+
+      field.getFieldError()+","+field.getFieldPrim()+");");
+  }
+  public String getTestScript(int iForm, int nF, int range) {
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+	  return("parent.data.CheckFormApp('"+
+      field.getFieldName()+range+"','"+
+      field.getFieldDisplay()+"',"+field.getFieldPattern()+","+
+      field.getFieldMinVal()+","+field.getFieldMaxVal()+","+
+      field.getFieldMinLen()+","+field.getFieldMaxLen()+","+
+      field.getFieldError()+","+field.getFieldPrim()+");");
+  }
+  public String getTestScript(String sForm, String sName) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    int k;
+    for (k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        break;
+      }
+    }
+	  return("parent.data.CheckFormApp('"+
+      field.getFieldName()+"','"+
+      field.getFieldDisplay()+"',"+field.getFieldPattern()+","+
+      field.getFieldMinVal()+","+field.getFieldMaxVal()+","+
+      field.getFieldMinLen()+","+field.getFieldMaxLen()+","+
+      field.getFieldError()+","+field.getFieldPrim()+");");
+  }
+//====================================================
+  // получение длины поля по имени поля
+  public int getFieldWidth(String sForm, String sName){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldWidth());
+      }
+    }
+    return(0);
+  }
+
+  // получение длины поля по номеру поля
+  public int getFieldWidth(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldWidth());
+  }
+//====================================================
+  // установка Size поля (по № поля)
+  public void setFieldSize(String sForm, int k, int iSize) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    field.setFieldSize(iSize);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка Size поля (по имени поля)
+  public void setFieldSize(String sForm, String sName, int iSize) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldSize(iSize);
+        break;
+      }
+    }
+  }
+  // получение Size поля (по имени поля)
+  public int getFieldSize(String sForm, String sName) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldSize());
+      }
+    }
+    return(0);
+  }
+  // получения Size поля (по # поля)
+  public int getFieldSize(String sForm, int nF) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+    return(field.getFieldSize());
+  }
+//====================================================
+  // установка опций
+  public void setOptions(String sFormN,String sOptions){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    this.options=sOptions;
+    //reportForm.setElementAt(this,Integer.parseInt(sFormN));
+  }
+  // получение опций
+  public String getOptions(String sFormN){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    return(this.options);
+  }
+//------------------------------------------------------------
+  // получение sql-запроса на просмотр таблицы
+  public String getSql(String sForm) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    StringBuffer cSql=new StringBuffer("Select "+
+    this.sqlField+" FROM "+this.sqlFrom);
+    boolean isWhere=false;
+    // постоянное условие
+    if (this.sqlCondC!=null) {
+      cSql.append(" Where ("+this.sqlCondC+")");
+      isWhere=true;
+    }
+    // условие пользователя
+    if (this.sqlCondV!=null) {
+      if (isWhere) {
+        cSql.append(" And ("+this.sqlCondV+")");}
+      else {
+        cSql.append(" Where "+this.sqlCondV);
+      }
+    }
+    // порядок следования
+    if (this.sqlOrder!=null) {
+        cSql.append(" Order By "+this.sqlOrder);
+    }
+    return(cSql.toString());
+  }
+//------------------------------------------------------------
+  // установка постоянного фильтра
+  public void setCondC(String sFormN, String sCondC){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    this.sqlCondC=sCondC;
+    //reportForm.setElementAt(this,Integer.parseInt(sFormN));
+  }
+  // получение постоянного фильтра
+  public String getCondC(String sFormN) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    return(this.sqlCondC);
+  }
+  // установка временного фильтра
+  public void setCondV(String sFormN, String sCondV){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    if (sCondV.equals("")) {
+      this.sqlCondV=null;
+    } else {
+      this.sqlCondV=sCondV;
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sFormN));
+  }
+  // получение временного фильтра
+  public String getCondV(String sFormN) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sFormN));
+    return(this.sqlCondV);
+  }
+//==========================================================
+  // отображение шапки отчета
+  public String getStringHead(iabs.oraDBConnection rDBConn, String sForm) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    String Size=Constants.getS(this.getFormSize(sForm));
+    String sEH="";
+    sEH=sEH+"<tr "+this.style+"><td colspan="+Size+"><hr></td></tr>";
+    sEH=sEH+"<tr align='center'"+this.style+">";
+    Connection conn = rDBConn.getConnection();
+    String isNew="new";
+    int i;
+    String fieldName;
+    String cSql,sErr="",sValue="",st="",sp1="",sp2="", sKey="";
+
+    Report myFormN=new Report();
+    String sPattern="";
+    int Col_Count = myFormN.getCountFields(sForm);
+    int All_Length=myFormN.getFieldsWidth(sForm);
+    int fieldL;
+    for (i=0; i<Col_Count;i++) {
+      if (myFormN.getFieldVisible(sForm,i)==true) {
+        sPattern=sPattern+myFormN.getFieldName(sForm,i)+";";
+      }
+    }
+
+
+/*
+  int All_Length=myFormN.getFieldsWidth(sForm);
+  int fieldL;
+  out.println("<TR></TR>");
+  while(QueryResult.next()) {
+    out.println("<TR id="+QueryResult.getString(1)+">");
+    for (j=1; j<= Col_Count; j++) {
+      if (myFormN.getFieldVisible(sForm,MetaData.getColumnName(j))) {
+        fieldL=myFormN.getFieldWidth(sForm,MetaData.getColumnName(j))*100;
+        fieldL=fieldL/All_Length;
+        out.println("<TD class='clsTDGrid' width="+fieldL+"%"+">");
+        sValue=QueryResult.getString(j);
+        if (sValue==null) {sValue="&nbsp";}
+        out.println(sValue);
+        out.println("</TD>");
+      }
+    }
+
+*/
+
+    while(sPattern.length()>0) {
+      fieldName=sPattern.substring(0,sPattern.indexOf(";"));
+      sPattern=sPattern.substring(sPattern.indexOf(";")+1);
+      i=myFormN.getFieldNumber(sForm,fieldName);
+      fieldL=myFormN.getFieldWidth(sForm,fieldName)*100;
+      fieldL=fieldL/All_Length;
+      sEH=sEH+"<td width="+fieldL+"%"+"<b>"+
+        myFormN.getFieldDisplay(sForm,i)+"</b></td>";
+    }
+    sEH=sEH+"</tr>";
+    sEH=sEH+"<tr "+this.style+"><td colspan="+Size+"><hr></td></tr>";
+    return(sEH);
+  }
+
+  // отображение шапки отчета для Excel
+  public String getStringHeadE(iabs.oraDBConnection rDBConn, String sForm) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    String sEH="";
+    Connection conn = rDBConn.getConnection();
+    String isNew="new";
+    int i;
+    String fieldName;
+    String cSql,sErr="",sValue="",st="",sp1="",sp2="", sKey="";
+
+    Report myFormN=new Report();
+    String sPattern="";
+    int Col_Count = myFormN.getCountFields(sForm);
+    for (i=0; i<Col_Count;i++) {
+      if (myFormN.getFieldVisible(sForm,i)==true) {
+        sPattern=sPattern+myFormN.getFieldName(sForm,i)+";";
+      }
+    }
+    String zpt="";
+    while(sPattern.length()>0) {
+      fieldName=sPattern.substring(0,sPattern.indexOf(";"));
+      sPattern=sPattern.substring(sPattern.indexOf(";")+1);
+      i=myFormN.getFieldNumber(sForm,fieldName);
+      sEH=sEH+zpt+"\""+myFormN.getFieldDisplay(sForm,i)+"\"";
+      zpt=",";
+    }
+    return(sEH);
+  }
+//==========================================================
+  // установка видимости поля в GRID (для всех полей)
+  public void setFieldsVisible(String sForm, boolean bVisible) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      field.setFieldVisible(bVisible);
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка видимости поля в GRID (по имени поля)
+  public void setFieldVisible(String sForm, String sName, boolean bVisible){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldVisible(bVisible);
+        break;
+      }
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // получение видимfости поля в GRID (по имени поля)
+  public boolean getFieldVisible(String sForm, String sName){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldVisible());
+      }
+    }
+    return(false);
+  }
+  // получение видимости поля в GRID (по номеру поля)
+  public boolean getFieldVisible(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldVisible());
+  }
+//====================================================
+  // начальные значения для GROUP
+  public void setValueGroup(String sForm) {
+    int i;
+    String fieldName;
+    String sValue="",st="",sp1="",sp2="", sKey="";
+
+    Report myFormN=new Report();
+    String sPattern="";
+    int Col_Count = myFormN.getCountFields(sForm);
+    for (i=0; i<Col_Count;i++) {
+      if (myFormN.getFieldGroup(sForm,i)==true) {
+        sPattern=sPattern+myFormN.getFieldName(sForm,i)+";";
+      }
+    }
+    while(sPattern.length()>0) {
+      fieldName=sPattern.substring(0,sPattern.indexOf(";"));
+      sPattern=sPattern.substring(sPattern.indexOf(";")+1);
+      i=myFormN.getFieldNumber(sForm,fieldName);
+      myFormN.setFieldValue(sForm,fieldName,"null");
+    }
+  }
+//====================================================
+  // получение GROUP поля в GRID (по имени поля)
+  public boolean getFieldGroup(String sForm, String sName){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldGroup());
+      }
+    }
+    return(false);
+  }
+  // получение GROUP поля в GRID (по номеру поля)
+  public boolean getFieldGroup(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldGroup());
+  }
+//====================================================
+  // установка типа фильтрования поля (по # поля)
+  public void setFieldTypeFilter(String sForm, String sName, String sValue) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldTypeFilter(sValue);
+        //reportForm.setElementAt(this,Integer.parseInt(sForm));
+        break;
+      }
+    }
+  }
+  // получение типа редактирования поля (по имени поля)
+  public String getFieldTypeFilter(String sForm, String sName) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldTypeFilter());
+      }
+    }
+    return("");
+  }
+  // получения типа редактирования поля (по # поля)
+  public String getFieldTypeFilter(String sForm, int nF) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+    return(field.getFieldTypeFilter());
+  }
+//====================================================
+  // установка сумм для всех полей
+/*  public void setFieldSummaAll(String sForm, double dSumma) {
+    Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      field.setFieldSumma(dSumma);
+    }
+    reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }*/
+//====================================================
+  // установка сумм ГРУПП для всех полей
+  public void setFieldSummaAllGroup(String sForm, double dSumma) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      field.setFieldSummaGroup(dSumma);
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка сумм ГРУПП для k-го поля
+  public void setFieldSummaGroup(String sForm, double dSumma, int i, int j) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[i];
+    field.setFieldSummaGroup(dSumma,j);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // добавление суммы ГРУПП
+  public void setFieldAddSumma(String sForm, int nF, String sSumma) {
+    double dSumma=new Double(sSumma).doubleValue();
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+    field.setFieldAddSumma(dSumma);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+//====================================================
+  public String getFieldChkSayText(iabs.oraDBConnection rDBConn, String sForm, int nF, String sValue) {
+    String sEH="",cSql;
+    int i;
+    String fieldName;
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[nF];
+    cSql=field.getFieldChkSay();
+    if (cSql==null) {cSql="";}
+    if (cSql.equals("")) {
+      return(sValue);
+    } else {
+      if (cSql.indexOf("Where")!=-1) {
+        cSql=cSql+" and "+field.getFieldAlias()+"=";
+      } else {
+        cSql=cSql+" Where "+field.getFieldAlias()+"=";
+      }
+      if (field.getFieldType().equals("string")) {
+       cSql=cSql+Constants.getS(sValue);
+      } else {
+       cSql=cSql+sValue;
+      }
+      Connection conn = rDBConn.getConnection();
+      try {
+        Statement stmt9 = conn.createStatement();
+        ResultSet QR1 = stmt9.executeQuery(cSql);
+        while(QR1.next()) {
+          sEH=QR1.getString(1);
+        }
+        QR1.close();
+        stmt9.close();
+      } catch(Exception e) {
+        this.err="Ошибка в запросе "+cSql+" "+e.toString();
+        sEH=this.err;
+      }
+    }
+    return(sEH);
+  }
+//====================================================
+  // установка псевдонима поля для поля (по номеру формы,поля)
+  public void setFieldAlias(int iForm, int iK, String sValue){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[iK];
+    field.setFieldAlias(sValue);
+    //reportForm.setElementAt(this,iForm);
+  }
+  // получение значения псевдонима таблицы для поля по номеру поля
+  public String getFieldAlias(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldAlias());
+  }
+  public String getFieldAlias(int iForm, int k){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldAlias());
+  }
+  // получение псевдонима таблицы для поля (по имени поля)
+  public String getFieldAlias(String sForm, String sName){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldAlias());
+      }
+    }
+    return(null);
+  }
+//==========================================================
+  // получение отображаемой длины всех полей для GRID
+  public int getFieldsWidth(String sForm){
+    int fieldsL=0;
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldVisible()) {
+        fieldsL=fieldsL+field.getFieldWidth();
+      }
+    }
+    return(fieldsL);
+  }
+//====================================================
+  // установка ChkSay
+  public void setFieldChkSay(int iForm, int k, String ss) {
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    field.setFieldChkSay(ss);
+    //reportForm.setElementAt(this,iForm);
+  }
+  // получение ChkSay
+  public String getFieldChkSay(int iForm, int k){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldChkSay());
+  }
+//====================================================
+  // получение Align
+  public String getFieldAlign(int iForm, int k){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldAlign());
+  }
+  public String getFieldAlign(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldAlign());
+  }
+//====================================================
+  // установка итогов группы
+  public void setFieldSummaGroup(String sForm, int k, String sTypeEdit) {
+    if (sTypeEdit==null) {sTypeEdit="";}
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    field.setFieldTypeEdit(sTypeEdit);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // получение итогов как строков.
+  /*public String getFieldSumma(String iForm, int k){
+    Report this=(Report)reportForm.elementAt(Integer.parseInt(iForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldSumma());
+  }*/
+  // получение итогов группы как строков.
+  public String getFieldSummaGroup(String iForm, int i, int j){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(iForm));
+    FieldR field=new FieldR();
+    field=this.aField[i];
+    return(field.getFieldSummaGroup(j));
+  }
+
+/*  // получение SubTotal
+  public String getFieldSummaAsString(int iForm, int k){
+    Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldSummaAsString());
+  }*/
+//====================================================
+  // получение SubTotal
+  public boolean getFieldSubTotal(int iForm, int k){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldSubTotal());
+  }
+  public boolean getFieldSubTotal(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldSubTotal());
+  }
+//====================================================
+  // проверка допустимости подитогов по всем полям
+  public boolean getFieldSubTotalA(String sForm) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      if (field.getFieldSubTotal()) {
+        return(true);
+      }
+    }
+    return(false);
+  }
+//====================================================
+  public int getCountGroup(String sForm){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    return(this.arraySizeG);
+  }
+//====================================================
+  // установка Scale поля по имени поля
+  public void setFieldScale(String sForm, String sName, int sValue){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        field.setFieldScale(sValue);
+        break;
+      }
+    }
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка Scale поля по номеру поля
+  public void setFieldScale(String sForm, int iK, int sValue){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[iK];
+    field.setFieldScale(sValue);
+    //reportForm.setElementAt(this,Integer.parseInt(sForm));
+  }
+  // установка Scale поля по номеру поля
+  public void setFieldScale(int iForm, int iK, int sValue){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[iK];
+    field.setFieldScale(sValue);
+    //reportForm.setElementAt(this,iForm);
+  }
+  // получение Scale поля по номеру поля
+  public int getFieldScale(String sForm, int k){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldScale());
+  }
+  public int getFieldScale(int iForm, int k){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    return(field.getFieldScale());
+  }
+  // получение значения поля (по имени поля)
+  public int getFieldScale(String sForm, String sName){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        return(field.getFieldScale());
+      }
+    }
+    return(0);
+  }
+//====================================================
+  // установка размера формы по номеру формы
+  public void setFormSize(int iForm, String sValue){
+    //Report this=(Report)reportForm.elementAt(iForm);
+    this.formSize=sValue;
+    //reportForm.setElementAt(this,iForm);
+  }
+  // получение размера формы по номеру формы
+  public String getFormSize(String iForm){
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(iForm));
+    return(this.formSize);
+  }
+//====================================================
+  // получение отображаемого значения поля по имени поля
+  public String getFormatSumm(String sForm,String sName, String sValue) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        if (field.getFieldScale()==-1) {
+          return(sValue);
+        } else {
+          return(Constants.format_soum(sValue,field.getFieldScale()));
+        }
+      }
+    }
+    return("");
+  }
+  // получение отображаемого значения поля по имени поля (Excel)
+  public String getFormatSummE(String sForm,String sName, String sValue) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    for (int k=0; k<this.aField.length;k++) {
+      field=this.aField[k];
+      if (field.getFieldName().equals(sName)) {
+        if (field.getFieldScale()==-1) {
+          return(sValue);
+        } else {
+          return(Constants.format_soumE(sValue,field.getFieldScale()));
+        }
+      }
+    }
+    return("");
+  }
+  // получение отображаемого значения поля по № поля
+  public String getFormatSumm(String sForm, int k, String sValue) {
+    //Report this=(Report)reportForm.elementAt(Integer.parseInt(sForm));
+    FieldR field=new FieldR();
+    field=this.aField[k];
+    if (field.getFieldScale()==-1) {
+      return(sValue);
+    } else {
+      return(Constants.format_soum(sValue,field.getFieldScale()));
+    }
+  }
+  // получение отображаемого значения поля по № поля (Excel)
+  public String getFormatSummE(String sForm, int k, String sValue) {
+    return(sValue);
+  }
+//====================================================
+  // получение отображаемого значения поля по № поля (Excel)
+/*  public String getFormatSummE(String sForm, int k, String sValue) {
+    return(sValue);
+  }*/
+
+}
+
+

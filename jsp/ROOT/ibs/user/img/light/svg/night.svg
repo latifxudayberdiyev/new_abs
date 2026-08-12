@@ -1,0 +1,36 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 16 16">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+
+      .cls-2 {
+        clip-path: url(#clip-path);
+      }
+
+      .cls-3 {
+        fill: #2e2e3a;
+      }
+
+      .cls-4 {
+        fill-opacity: 0.24;
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <clipPath id="clip-path">
+      <rect class="cls-1" width="16" height="16"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="7.73" y1="16" x2="7.73" y2="4" gradientTransform="matrix(1, 0, 0, -1, 0, 18)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1"/>
+    </linearGradient>
+  </defs>
+  <title>night</title>
+  <g class="cls-2">
+    <g>
+      <path class="cls-3" d="M7.85,3a5,5,0,1,1-4.59,7.71A5.84,5.84,0,0,0,7.42,7.18,8.56,8.56,0,0,0,7.85,3Zm5.61,5a6,6,0,0,0-6-6H7.25a.54.54,0,0,0-.38.19.49.49,0,0,0-.1.41,7.87,7.87,0,0,1-.28,4.22A5.11,5.11,0,0,1,2.41,9.9a.5.5,0,0,0-.36.26.49.49,0,0,0,0,.44A6,6,0,0,0,13.46,8Z"/>
+      <path class="cls-4" d="M7.85,3a5,5,0,1,1-4.59,7.71A5.84,5.84,0,0,0,7.42,7.18,8.56,8.56,0,0,0,7.85,3Zm5.61,5a6,6,0,0,0-6-6H7.25a.54.54,0,0,0-.38.19.49.49,0,0,0-.1.41,7.87,7.87,0,0,1-.28,4.22A5.11,5.11,0,0,1,2.41,9.9a.5.5,0,0,0-.36.26.49.49,0,0,0,0,.44A6,6,0,0,0,13.46,8Z"/>
+    </g>
+  </g>
+</svg>

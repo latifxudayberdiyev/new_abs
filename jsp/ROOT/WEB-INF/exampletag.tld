@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib
+        PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+	"http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<!-- a tab library descriptor -->
+
+<taglib>
+  <!-- after this the default space is
+	"http://java.sun.com/j2ee/dtds/jsptaglibrary_1_2.dtd"
+   -->
+
+  <tlibversion>1.0</tlibversion>
+  <jspversion>1.1</jspversion>
+  <shortname>simple</shortname>
+<!--
+  there should be no <urn></urn> here
+-->
+  <info>
+	A simple tab library for the examples
+  </info>
+
+  <!-- example tag -->
+  <!-- for loop -->
+  <tag>
+    <name>loop</name>
+    <tagclass>examples.ExampleLoopTag</tagclass>
+    <teiclass>examples.ExampleLoopTagTEI</teiclass>
+    <bodycontent>JSP</bodycontent>
+    <info>for loop</info>
+    <attribute>
+	<name>index</name>
+	<required>true</required>
+    </attribute>
+    <attribute>
+	<name>count</name>
+	<required>true</required>
+        <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+</taglib>

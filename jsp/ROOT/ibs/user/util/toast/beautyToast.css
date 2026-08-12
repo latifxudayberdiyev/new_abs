@@ -1,0 +1,341 @@
+:root {
+	--beautyToast-regular: 400;
+	--beautyToast-bold: 700;
+	--beautyToast-body: var(--size-14);
+	--beautyToast-title: var(--size-24);
+	--beautyToast-image: var(--size-24);
+	--beautyToast-success-color: var(--color-green);
+	--beautyToast-error-color: var(--color-red);
+	--beautyToast-info-color: var(--color-blue);
+	--beautyToast-warning-color: var(--color-yellow);
+	--beautyToast-bg-color: #FDFDFD;
+	--beautyToast-text-color: #4E4E4E;
+	--beautyToast-progress-color: #D3D6D2;
+	--beautyToast-close-color: #4E4E4E;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.beautyToast button {
+	border: none;
+}
+
+.beautyToast-dark {
+	--beautyToast-bg-color: #464646;
+	--beautyToast-text-color: #D7D7D7;
+	--beautyToast-progress-color: #7D7D7D;
+	--beautyToast-close-color: #D3CECE;
+}
+
+.beautyToast, .beautyToast-body, .beautyToast-title-group {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.beautyToast-wrapper {
+	position: fixed;
+	display: flex;
+	align-items: flex-end;
+	flex-direction: column;
+	top: var(--size-15);
+	right: var(--size-15);
+	margin-left: var(--size-15);
+	gap: var(--size-10);
+	overflow-y: auto !important;
+	max-height: calc(100vh - var(--size-30));
+	z-index: 100;
+}
+
+.beautyToast {
+	display: none;
+	justify-content: space-between;
+	gap: var(--size-15);
+	font-family: var(--main-font);
+	font-size: var(--beautyToast-body);
+	padding: var(--size-15);
+	padding-right: var(--size-10);
+	padding-bottom: var(--size-12);
+	box-shadow: 0 var(--size-4) var(--size-15) rgba(0, 0, 0, 0.15);
+	box-shadow: var(--size-2) var(--size-3) var(--size-6) calc(-1 * var(--size-1)) rgba(0, 0, 0, 0.1);
+	border-radius: var(--size-5) !important;
+	opacity: 0;
+	pointer-events: none;
+	transition: all .3s ease-in-out;
+	transform: translateX(var(--size-50));
+	-webkit-border-radius: var(--size-4);
+	-moz-border-radius: var(--size-4);
+	-ms-border-radius: var(--size-4);
+	-o-border-radius: var(--size-4);
+	-webkit-transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+	-ms-transition: all .3s ease-in-out;
+	-o-transition: all .3s ease-in-out;
+	-webkit-transform: translateX(var(--size-50));
+	-moz-transform: translateX(var(--size-50));
+	-ms-transform: translateX(var(--size-50));
+	-o-transform: translateX(var(--size-50));
+}
+
+.beautyToast.no-close {
+	padding-right: var(--size-35);
+}
+
+.beautyToast.show {
+	display: flex;
+	opacity: 1;
+	pointer-events: fill;
+	transform: translateX(0);
+	-webkit-transform: translateX(0);
+	-moz-transform: translateX(0);
+	-ms-transform: translateX(0);
+	-o-transform: translateX(0);
+}
+
+.beautyToast .beautyToast-topbar {
+	position: absolute;
+	width: 100%;
+	height: var(--size-5);
+	top: 0;
+	left: 0;
+	border-top-left-radius: var(--size-5);
+	border-top-right-radius: var(--size-5);
+}
+
+.beautyToast.beautyToast-success {
+	background-color: var(--color-green10);
+}
+
+.beautyToast.beautyToast-error {
+	background-color: var(--color-red10);
+}
+
+.beautyToast.beautyToast-info {
+	background-color: var(--color-blue10);
+}
+
+.beautyToast.beautyToast-warning {
+	background-color: var(--color-yellow10);
+}
+
+.beautyToast-success .beautyToast-topbar {
+	background-color: var(--beautyToast-success-color);
+}
+
+.beautyToast-error .beautyToast-topbar {
+	background-color: var(--beautyToast-error-color);
+}
+
+.beautyToast-info .beautyToast-topbar {
+	background-color: var(--beautyToast-info-color);
+}
+
+.beautyToast-warning .beautyToast-topbar {
+	background-color: var(--beautyToast-warning-color);
+}
+
+.beautyToast-success {
+	color: var(--beautyToast-success-color)
+}
+
+.beautyToast-error {
+	color: var(--beautyToast-error-color)
+}
+
+.beautyToast-info {
+	color: var(--beautyToast-info-color)
+}
+
+.beautyToast-warning {
+	color: var(--beautyToast-warning-color)
+}
+
+.beautyToast-body {
+	gap: 20px;
+}
+
+.beautyToast-title-group {
+	gap: 10px;
+	font-weight: var(--beautyToast-bold);
+}
+
+.beautyToast-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all .3s ease-in-out;
+	-webkit-transition: all .3s ease-in-out;
+	-moz-transition: all .3s ease-in-out;
+	-ms-transition: all .3s ease-in-out;
+	-o-transition: all .3s ease-in-out;
+	transform: rotate(45deg) scale(0.5);
+	-webkit-transform: rotate(45deg) scale(0.5);
+	-moz-transform: rotate(45deg) scale(0.5);
+	-ms-transform: rotate(45deg) scale(0.5);
+	-o-transform: rotate(45deg) scale(0.5);
+}
+
+.beautyToast.animate-child .beautyToast-icon {
+	transform: rotate(0) scale(1);
+	-webkit-transform: rotate(0) scale(1);
+	-moz-transform: rotate(0) scale(1);
+	-ms-transform: rotate(0) scale(1);
+	-o-transform: rotate(0) scale(1);
+}
+
+.beautyToast-icon.image {
+	width: var(--beautyToast-image);
+	height: var(--beautyToast-image);
+	background-size: contain;
+	background-position: center center;
+}
+
+.beautyToast-icon img, .beautyToast-icon svg {
+	width: var(--beautyToast-image) !important;
+	height: var(--beautyToast-image) !important;
+}
+
+.beautyToast-icon i {
+	font-size: var(--beautyToast-image);
+}
+
+.beautyToast-title {
+	display: none;
+	font-size: var(--beautyToast-title);
+	transition: all .3s ease-out;
+	transform: translateX(var(--size-10));
+	opacity: 0;
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-ms-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	-webkit-transform: translateX(var(--size-10));
+	-moz-transform: translateX(var(--size-10));
+	-ms-transform: translateX(var(--size-10));
+	-o-transform: translateX(var(--size-10));
+}
+
+.beautyToast.animate-child .beautyToast-title {
+	opacity: 1;
+	transform: translateX(0);
+	-webkit-transform: translateX(0);
+	-moz-transform: translateX(0);
+	-ms-transform: translateX(0);
+	-o-transform: translateX(0);
+}
+
+.beautyToast-text {
+	color: var(--beautyToast-text-color);
+	width: var(--rem-20);
+	text-align: justify;
+	transition: all .3s ease-out;
+	transform: translateX(var(--size-10));
+	opacity: 0;
+	-webkit-transition: all .3s ease-out;
+	-moz-transition: all .3s ease-out;
+	-ms-transition: all .3s ease-out;
+	-o-transition: all .3s ease-out;
+	-webkit-transform: translateX(var(--size-10));
+	-moz-transform: translateX(var(--size-10));
+	-ms-transform: translateX(var(--size-10));
+	-o-transform: translateX(var(--size-10));
+}
+
+.beautyToast.animate-child .beautyToast-text {
+	opacity: 1;
+	transform: translateX(0);
+	-webkit-transform: translateX(0);
+	-moz-transform: translateX(0);
+	-ms-transform: translateX(0);
+	-o-transform: translateX(0);
+}
+
+.beautyToast-text > .detailBtn {
+	background-color: transparent !important;
+	text-decoration: underline;
+	font-weight: 600 !important;
+}
+
+.beautyToast-success .detailBtn {
+	color: var(--beautyToast-success-color) !important;
+}
+
+.beautyToast-error .detailBtn {
+	color: var(--beautyToast-error-color) !important;
+}
+
+.beautyToast-info .detailBtn {
+	color: var(--beautyToast-info-color) !important;
+}
+
+.beautyToast-warning .detailBtn {
+	color: var(--beautyToast-warning-color) !important;
+}
+
+.beautyToast-close {
+	color: var(--beautyToast-close-color);
+	font-size: var(--beautyToast-title);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--size-20);
+	height: var(--size-20);
+	background-color: transparent;
+	border-radius: var(--size-5);
+	-webkit-border-radius: var(--size-5);
+	-moz-border-radius: var(--size-5);
+	-ms-border-radius: var(--size-5);
+	-o-border-radius: var(--size-5);
+	transition: all .15s linear;
+	-webkit-transition: all .15s linear;
+	-moz-transition: all .15s linear;
+	-ms-transition: all .15s linear;
+	-o-transition: all .15s linear;
+}
+
+.beautyToast-close:hover {
+	opacity: 0.75;
+	cursor: pointer;
+}
+
+.beautyToast-success .beautyToast-close {
+	color: var(--color-green) !important;
+}
+
+.beautyToast-error .beautyToast-close {
+	color: var(--color-red) !important;
+}
+
+.beautyToast-info .beautyToast-close {
+	color: var(--color-blue) !important;
+}
+
+.beautyToast-warning .beautyToast-close {
+	color: var(--color-yellow) !important;
+}
+
+.beautyToast-progress {
+	display: none;
+	position: absolute;
+	height: var(--size-3);
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: var(--beautyToast-progress-color);
+	transition: all .15s linear;
+	-webkit-transition: all .15s linear;
+	-moz-transition: all .15s linear;
+	-ms-transition: all .15s linear;
+	-o-transition: all .15s linear;
+}
+
+@media (max-width: 476px) {
+	:root {
+		--beautyToast-body: var(--size-12);
+		--beautyToast-title: var(--size-14);
+		--beautyToast-image: var(--size-25);
+	}
+}

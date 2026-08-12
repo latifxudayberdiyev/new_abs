@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<ojsp-config>
+  <web-cache>
+      <url>http://dlsun3009.us.oracle.com:4001</url>
+      <username>administrator</username>
+      <password>administrator</password>
+  </web-cache>
+</ojsp-config>

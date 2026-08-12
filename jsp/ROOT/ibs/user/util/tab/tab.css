@@ -1,0 +1,64 @@
+.tab-pane {
+	width: 100%;
+	position: relative
+}
+
+.dynamic-tab-pane-control .tab-row .tab {
+	background-color: #fff;
+	background-color: var(--color-white);
+	border: 1px solid #E5E5E5;
+	border: var(--size-1) solid var(--color-mercury);
+	border-right: 0;
+	display: inline;
+	padding: 6px 12px;
+	padding: var(--size-6) var(--size-12);
+	font-size: 12px;
+	font-size: var(--size-12);
+	font-weight: 400;
+	float: left;
+	cursor: pointer;
+	position: relative;
+	margin: 0;
+	z-index: 3;
+}
+
+.dynamic-tab-pane-control .tab-row .selected {
+	background-color: #fff;
+	background-color: var(--color-white);
+	border-bottom: 0;
+	z-index: 5;
+}
+
+.dynamic-tab-pane-control .tab-page {
+	position: relative;
+	top: -2px;
+	top: calc(-1 * var(--size-2));
+	font-size: 12px;
+	font-size: var(--size-12);
+	border: 1px solid #E5E5E5;
+	border: var(--size-1) solid var(--color-mercury);
+	border-radius: var(--size-4);
+    border-top-left-radius: 0;
+	clear: both;
+	z-index: 2;
+}
+
+textarea#label {
+	width: 100%;
+	border: none !important
+}
+
+.dynamic-tab-pane-control .tab-row {
+	width: 100%;
+	white-space: nowrap;
+	z-index: 4;
+}
+.dynamic-tab-pane-control .tab-row .tab:first-child {
+	border-top-left-radius: 4px;
+	border-top-left-radius: var(--size-4);
+}
+.dynamic-tab-pane-control .tab-row .tab:last-child {
+	border-right: 1px solid #E5E5E5;
+	border-right: var(--size-1) solid var(--color-mercury) !important;
+	border-top-right-radius: var(--size-4);
+}

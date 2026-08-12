@@ -1,0 +1,258 @@
+body {
+	font: 12px/18px Lucida Sans, sans-serif;
+	background: #6389A8;
+	padding: 0;
+	margin: 0;
+}
+
+.box ul {
+	list-style-type: none;
+}
+
+.box li {
+	float: left;
+}
+
+.box {
+	/*background:#fefefe;
+	border: 1px solid #C3D4DB;*/
+	border-top: 1px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.15) 0 0 1px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.15) 0 0 1px;
+	box-shadow: rgba(0, 0, 0, 0.15) 0 0 1px;
+	color: #444;
+	font: normal 12px/14px Arial, Helvetica, Sans-serif;
+	margin: 0 auto 30px;
+	overflow: hidden;
+	width: 334px;
+}
+
+.box-head, .box-footer, .box-body {
+	margin: 0;
+	padding: 0;
+}
+
+.box-head .left {
+	width: 5px;
+	height: 30px;
+	background: url(../img/logon-bg.png) no-repeat;
+}
+
+.box-head .right {
+	width: 5px;
+	height: 30px;
+	background: url(../img/logon-bg.png) -5px 0 no-repeat;
+}
+
+.box-head .middle {
+	background-color: #eff4f7;
+	width: 314px;
+	height: 22px;
+	padding-top: 8px;
+	padding-right: 10px;
+}
+
+.box-footer .left {
+	width: 5px;
+	height: 50px;
+	background: url(../img/logon-bg.png) 0 -30px no-repeat;
+}
+
+.box-footer .right {
+	width: 5px;
+	height: 50px;
+	background: url(../img/logon-bg.png) -5px -30px no-repeat;
+}
+
+.box-footer .middle {
+	background-color: #eff4f7;
+	width: 324px;
+	height: 40px;
+	padding-top: 10px;
+	text-align: center;
+}
+
+.box-body .left {
+	width: 5px;
+	height: 115px;
+	border-top: 1px solid #bfd7e5;
+	border-bottom: 1px solid #dde0e8;
+	background: url(../img/logon-body-bg.png);
+}
+
+.box-body .right {
+	width: 5px;
+	height: 115px;
+	border-top: 1px solid #bfd7e5;
+	border-bottom: 1px solid #dde0e8;
+	background: url(../img/logon-body-bg.png) -5px 0;
+}
+
+.box-body .middle {
+	width: 304px;
+	height: 100px;
+	border-top: 1px solid #b5cedd;
+	border-bottom: 1px solid #b5cedd;
+	background: #fefefe;
+	padding-top: 15px;
+	padding-left: 20px;
+}
+
+.box-head div {
+	width: 92%;
+	float: right;
+	cursor: pointer;
+	text-align: right;
+}
+
+.caret {
+	display: inline-block;
+	width: 10px;
+	height: 5px;
+	margin-top: -2px;
+	margin-left: 2px;
+	vertical-align: top;
+	font-size: 12pt;
+}
+
+small {
+	font-size: 12px;
+	color: #A9A9A9;
+}
+
+current-language {
+	font-size: 13px;
+	color: #000000;
+}
+
+.box-body label {
+	display: block;
+	font: 14px/22px Arial, Helvetica, Sans-serif;
+	margin: 10px 0 0 6px;
+}
+
+.box-input {
+	width: 274px;
+	height: 28px;
+	border: 6px solid #EFF4F7;
+}
+
+.box-input input {
+	border: 1px solid #b5cedd;
+	width: 257px;
+	height: 16px;
+	padding: 5px 5px 5px 10px;
+	font-weight: bold;
+}
+
+.box-input select {
+	float: left;
+	border: 1px solid #b5cedd;
+	width: 50%;
+	height: 30px;
+	padding: 5px 5px 5px 10px;
+	font-weight: bold;
+}
+
+.box input[type=text]:focus,
+.box input[type=password]:focus {
+	border: 1px solid #b5cedd;
+	color: #333;
+}
+
+#loginHolder, #passwordHolder {
+	display: none;
+}
+
+.btnLogin {
+	background-color: #eff4f7;
+	background: url(../img/logon-button.png);
+	cursor: pointer;
+	padding: 11px 16px;
+	font: bold 14px Arial, Helvetica, Sans-serif;
+	color: #fff;
+	margin-left: 12px;
+	padding: 7px 21px;
+	border: none;
+	width: 155px;
+	height: 32px;
+}
+
+.btnLogin:hover {
+	background: url(../img/logon-button.png) 0 -32px;
+}
+
+ul#selector {
+	display: none;
+	position: absolute;
+	top: 25px;
+	right: 10px;
+	padding: 0px;
+	width: 150px;
+	background-color: #fff;
+	border: 1px solid #dde0e8;
+}
+
+ul#selector li {
+	float: none;
+	height: 25px;
+	text-align: left;
+	line-height: 30px;
+	padding-left: 25px;
+	cursor: pointer;
+}
+
+ul#selector li:hover {
+	background-color: #ccc;
+}
+
+ul#selector li#ru {
+	background: url(../img/rus.png) 0 7px no-repeat;
+}
+
+ul#selector li#uzc {
+	background: url(../img/uzc.png) 0 7px no-repeat;
+}
+
+ul#selector li#uzl {
+	background: url(../img/uzl.png) 0 7px no-repeat;
+}
+
+ul#selector li#en {
+	background: url(../img/eng.png) 0 7px no-repeat;
+}
+
+#currentLang {
+	width: 130px;
+}
+
+.copy {
+	position: absolute;
+	height: 11pt;
+	bottom: 15px;
+	left: 45px;
+	color: #EFF4F6;
+	font: bold 10pt Arial;
+}
+
+.help {
+	position: absolute;
+	height: 11pt;
+	bottom: 15px;
+	right: 45px;
+	color: #EFF4F6;
+	font: bold 10pt Arial;
+	cursor: help;
+}
+
+#loginLabel, #passwordLabel {
+
+}
+
+.fb_logo {
+	background: url(../img/logo.png) no-repeat;
+	padding-left: 14px;
+}

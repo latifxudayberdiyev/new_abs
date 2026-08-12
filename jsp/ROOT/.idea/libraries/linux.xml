@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="linux">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/ibs/user/soft/iabs-client/linux/iABS7-Client-v1.1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/ibs/user/soft/iabs-client/linux/iabs-client-ws.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

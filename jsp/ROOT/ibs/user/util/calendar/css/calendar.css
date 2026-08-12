@@ -1,0 +1,144 @@
+.calendar-wrapper {
+    position: relative;
+}
+
+#ibs-calendar {
+    position: absolute;
+    top: 25px;
+    width: 165px;
+}
+
+/****** browser ie ********/
+.calendar-ie-browser {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    display: none;
+}
+
+.calendar-ie-browser #day:link, .calendar-ie-browser #day:visited, .calendar-ie-browser #day:active {
+    text-decoration: none;
+    color: black;
+}
+
+.calendar-ie-browser #day:hover {
+    text-decoration: none;
+    color: yellow;
+    background: #008B8B;
+}
+
+.calendar-ie-browser #actDay {
+    text-decoration: none;
+    color: blue;
+    background: #ffffcc;
+}
+
+.calendar-ie-browser #weekEnd {
+    text-decoration: none;
+    color: black;
+    background: #99ccff;
+}
+
+.calendar-ie-browser #toDay {
+    text-decoration: none;
+    color: black;
+    background: white;
+}
+
+/***** browser cross ******/
+
+.calendar-cross-browser {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    display: none;
+    width: 165px;
+}
+
+.calendar-cross-browser table {
+    width: 100%;
+    border: 0;
+    border-radius: 4px;
+    border-radius: var(--size-4);
+    background-color: #E5E5E5;
+    background-color: var(--color-white);
+}
+
+.calendar-cross-browser > table {
+    border: 1px solid #ccc;
+    border: var(--size-1) solid var(--color-mercury);
+}
+
+.calendar-cross-browser .calendar-body {
+    /* border: 1px solid #dcdcdc; */
+}
+
+.calendar-cross-browser .calendar-body thead {
+    cursor: default;
+    text-align: center;
+}
+
+.calendar-cross-browser .calendar-body thead input {
+}
+
+.calendar-cross-browser .calendar-body tbody {
+    text-decoration: none;
+    color: black;
+}
+
+.calendar-cross-browser #day:link, .calendar-cross-browser #day:visited, .calendar-cross-browser #day:active {
+    text-decoration: none;
+    color: black;
+}
+
+.calendar-cross-browser #day:hover {
+    text-decoration: none;
+    color: #fff;
+    background-color: #4785EF;
+    cursor: pointer;
+}
+
+.calendar-cross-browser #actDay {
+    text-decoration: none;
+    color: white;
+    background-color: #568BBF;
+}
+
+.calendar-cross-browser #weekEnd {
+    text-decoration: none;
+    color: red;
+}
+
+.calendar-cross-browser #toDay {
+    text-decoration: none;
+    color: black;
+    background-color: white;
+}
+
+img.cbutton {
+    cursor: pointer;
+}
+
+.calendar-dark-theme #toDay {
+    color: white;
+    background-color: #568BBF;
+}
+
+.calendar-dark-theme #day:link, .calendar-dark-theme #day:visited, .calendar-dark-theme #day:active {
+    color: white !important;
+}
+
+.calendar-dark-theme .calendar-body tbody {
+    text-decoration: none;
+    color: white;
+}
+
+.calendar-dark-theme, .calendar-light-theme {
+    top: 45px !important;
+}
+
+@supports (--css: variables) {
+    .calendar-cross-browser {
+        width: auto !important
+    }
+}

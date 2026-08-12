@@ -1,0 +1,127 @@
+<html>
+<head>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="js/jquery-ui-1.12.0.js"></script>
+	<!-- Latest compiled JavaScript -->
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+				aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title">Modal title</h4>
+		</div>
+		<div class="modal-body">
+			<form role="form">
+				<ul class="nav nav-tabs">
+					<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+					<li><a data-toggle="tab" href="#menu1">Menu 1</a></li>
+					<li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+					<li><a data-toggle="tab" href="#menu3">Menu 3</a></li>
+				</ul>
+				<div class="tab-content">
+					<div id="home" class="tab-pane fade in active">
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input type="email" class="form-control " id="email" placeholder="Введите email">
+							<p class="help-block">Пример строки с подсказкой</p>
+						</div>
+						<div class="form-group">
+							<label for="pass">Пароль</label>
+							<input type="password" class="form-control" id="pass" placeholder="Пароль">
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox"> Чекбокс</label>
+						</div>
+						<div class="form-group">
+							<label for="comment">Comment:</label>
+							<textarea class="form-control" rows="5" id="comment"></textarea>
+						</div>
+
+					</div>
+					<div id="menu1" class="tab-pane fade">
+						<label class="radio-inline"><input type="radio" name="optradio">Option 1</label>
+						<label class="radio-inline"><input type="radio" name="optradio">Option 2</label>
+						<label class="radio-inline"><input type="radio" name="optradio">Option 3</label>
+
+						<div class="form-group">
+							<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+							<div class="input-group">
+								<div class="input-group-addon">$</div>
+								<input type="text" class="form-control" id="exampleInputAmount" placeholder="Amount">
+								<div class="input-group-addon">.00</div>
+							</div>
+						</div>
+					</div>
+					<div id="menu2" class="tab-pane fade">
+						<select class="c-select">
+							<option selected>Open this select menu</option>
+							<option value="1">One</option>
+							<option value="2">Two</option>
+							<option value="3">Three</option>
+						</select>
+						<div class="row">
+							<div class="col-lg-6">
+								<div class="input-group">
+      <span class="input-group-addon">
+        <input type="checkbox" aria-label="...">
+      </span>
+									<input type="text" class="form-control" aria-label="...">
+								</div><!-- /input-group -->
+							</div><!-- /.col-lg-6 -->
+							<div class="col-lg-6">
+								<div class="input-group">
+      <span class="input-group-addon">
+        <input type="radio" aria-label="...">
+      </span>
+									<input type="text" class="form-control" aria-label="...">
+								</div><!-- /input-group -->
+							</div><!-- /.col-lg-6 -->
+						</div><!-- /.row -->
+
+						<div class="checkbox">
+							<label><input type="checkbox" value="">Option 1</label>
+						</div>
+						<div class="checkbox">
+							<label><input type="checkbox" value="">Option 2</label>
+						</div>
+						<div class="checkbox disabled">
+							<label><input type="checkbox" value="" disabled>Option 3</label>
+						</div>
+					</div>
+					<div id="menu3" class="tab-pane fade">
+						<h3>Menu 3</h3>
+						<p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+					</div>
+				</div>
+
+
+				<script>
+					$(document).ready(function () {
+						$(".nav-tabs a").click(function () {
+							$(this).tab('show');
+						});
+						$('.nav-tabs a').on('shown.bs.tab', function (event) {
+							var x = $(event.target).text();         // active tab
+							var y = $(event.relatedTarget).text();  // previous tab
+							$(".act span").text(x);
+							$(".prev span").text(y);
+						});
+					});
+				</script>
+
+
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary">Save changes</button>
+		</div>
+	</div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->
+</body>
+</html>
