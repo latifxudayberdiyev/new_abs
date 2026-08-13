@@ -1,0 +1,23 @@
+CREATE OR REPLACE VIEW ACC_ACCOUNT_TYPE_CLIENTS_V AS
+SELECT c.ACCOUNT_TYPE_CLIENT_ID,
+       c.ACCOUNT_TYPE_ID,
+       c.CLIENT_TYPE,
+       DECODE(c.CLIENT_TYPE,
+              'C',
+              'Клиент',
+              'B',
+              'Bank',
+              c.CLIENT_TYPE) AS CLIENT_TYPE_NAME,
+       c.STATE,
+       (SELECT NAME FROM R_STATE_V WHERE CODE = c.STATE) AS STATE_NAME,
+       c.CODE_COA,
+       NVL(c.CURRENCY_CODE, '*') AS CURRENCY_CODE,
+       c.CREATED_ON,
+       c.CREATED_BY,
+       c.MODIFIED_ON,
+       c.MODIFIED_BY,
+       c.account_term_type,
+       c.subject_type
+  FROM ACC_ACCOUNT_TYPE_CLIENTS c
+ WHERE c.ACCOUNT_TYPE_ID =
+       CORE.USER_SESSION.GET_NUMBER('acc_account_type_id');
